@@ -18,7 +18,7 @@ export function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
-            href="/#products"
+            href="/products/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
             Products
@@ -28,12 +28,6 @@ export function Header() {
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
             Contact
-          </Link>
-          <Link
-            href="/system-check/"
-            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
-          >
-            System Check
           </Link>
           <Link
             href="/auth/login/"
