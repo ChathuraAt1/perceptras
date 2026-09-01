@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 
 interface ContainerProps {
   children: ReactNode;
+  id?: string;
   className?: string;
   borders?: {
     left?: boolean;
@@ -14,9 +15,10 @@ interface ContainerProps {
   };
 }
 
-export function Container({ children, className, borders }: ContainerProps) {
+export function Container({ children, id, className, borders }: ContainerProps) {
   return (
     <div
+      id={id}
       className={cn(
         'mx-auto w-full max-w-7xl px-6 md:px-8',
         borders?.left && 'border-l border-border',
@@ -35,6 +37,7 @@ export function Container({ children, className, borders }: ContainerProps) {
 
 interface SectionProps {
   children: ReactNode;
+  id?: string;
   className?: string;
   borders?: {
     top?: boolean;
@@ -42,9 +45,10 @@ interface SectionProps {
   };
 }
 
-export function Section({ children, className, borders }: SectionProps) {
+export function Section({ children, id, className, borders }: SectionProps) {
   return (
     <section
+      id={id}
       className={cn(
         'py-16 md:py-24',
         borders?.top && 'border-t border-border',

@@ -3,19 +3,19 @@
 import { useState } from 'react';
 import { Section, Container } from '@/components/layout/section-container';
 import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
-import { Display, Heading, MonoTag } from '@/components/ui/typography';
+import { Display, Heading } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { Input, Textarea } from '@/components/ui/input';
 import { useRecaptcha } from '@/lib/recaptcha';
 import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Radio } from 'lucide-react';
 
-const PORTAL_CONTACT_URL = 'https://portal.perceptras.net/contact';
+const PORTAL_CONTACT_URL = 'https://portal.perceptras.net/api/mail/contact';
 
 export default function ContactPage() {
   const { executeRecaptcha } = useRecaptcha();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('Deployment Architecture Inquiry');
+  const [subject, setSubject] = useState('General Inquiry');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -29,32 +29,36 @@ export default function ContactPage() {
 
     try {
       const recaptchaToken = await executeRecaptcha('contact');
+      const combinedMessage = subject ? `[Topic: ${subject}]\n\n${message}` : message;
 
       const response = await fetch(PORTAL_CONTACT_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({
-          name,
-          email,
-          subject,
-          message,
-          recaptchaToken,
+          name: name.trim(),
+          email: email.trim(),
+          message: combinedMessage,
+          recaptcha_token: recaptchaToken || undefined,
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json().catch(() => null);
+
+      if (response.ok && (data?.status === 'success' || data?.code === 200 || response.status === 200)) {
         setStatus('success');
         setName('');
         setEmail('');
         setMessage('');
       } else {
-        const data = await response.json().catch(() => null);
         setStatus('error');
-        setErrorMessage(data?.message || 'Failed to dispatch inquiry. Please try again.');
+        setErrorMessage(data?.message || 'Failed to send message. Please try again.');
       }
     } catch {
       setStatus('error');
-      setErrorMessage('Network connection failure. Portal endpoint unreachable.');
+      setErrorMessage('Unable to connect to server. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -64,16 +68,11 @@ export default function ContactPage() {
     <>
       <Section borders={{ bottom: true }} className="pt-20 md:pt-28">
         <Container>
-          <div className="mb-6">
-            <MonoTag>COMMUNICATIONS // DIRECT INGEST</MonoTag>
-          </div>
           <Display className="max-w-4xl">
-            Perception Engineering
-            <br />
-            Consultation
+            Contact Us
           </Display>
           <p className="font-mono text-sm text-muted max-w-xl mt-6">
-            Connect with our physical AI solutions architects for enterprise cluster sizing, custom hardware-accelerated pipeline integration, and deployment support.
+            Get in touch with our team for questions about the Perceptras platform, custom integration, enterprise licensing, or technical support.
           </p>
         </Container>
       </Section>
@@ -83,16 +82,16 @@ export default function ContactPage() {
           <AsymmetricGrid ratio="60/40" divider>
             <div>
               <Heading index="01" className="mb-6">
-                Transmission Ingest Form
+                Send a Message
               </Heading>
 
               <div className="border border-border p-6 md:p-8 bg-surface">
                 {status === 'success' ? (
                   <div className="space-y-4 text-center py-12">
                     <CheckCircle2 className="h-10 w-10 text-foreground mx-auto stroke-1" />
-                    <p className="font-syne text-lg font-bold uppercase">Transmission Received</p>
+                    <p className="font-syne text-lg font-bold uppercase">Message Sent</p>
                     <p className="font-mono text-xs text-muted max-w-md mx-auto">
-                      Your inquiry has been routed to our systems architecture group. We typically respond within 4 operational hours.
+                      Thank you for reaching out. We will get back to you shortly.
                     </p>
                     <Button
                       variant="outline"
@@ -100,7 +99,7 @@ export default function ContactPage() {
                       onClick={() => setStatus('idle')}
                       className="mt-4"
                     >
-                      Send Another Transmission
+                      Send Another Message
                     </Button>
                   </div>
                 ) : (
@@ -117,7 +116,7 @@ export default function ContactPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Input
                         id="contact-name"
-                        label="Full Name / Handle"
+                        label="Full Name"
                         placeholder="Sarah Connor"
                         required
                         value={name}
@@ -127,7 +126,7 @@ export default function ContactPage() {
                         id="contact-email"
                         type="email"
                         label="Email Address"
-                        placeholder="s.connor@cyberdyne.io"
+                        placeholder="sarah@company.com"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -139,7 +138,7 @@ export default function ContactPage() {
                         htmlFor="subject"
                         className="block font-mono text-[10px] uppercase tracking-widest text-muted"
                       >
-                        Inquiry Vector / Subject
+                        Subject
                       </label>
                       <select
                         id="subject"
@@ -147,31 +146,31 @@ export default function ContactPage() {
                         onChange={(e) => setSubject(e.target.value)}
                         className="w-full rounded-none border border-border bg-surface px-3.5 py-2.5 font-mono text-xs text-foreground focus:border-foreground focus:outline-none focus:ring-1 focus:ring-foreground"
                       >
-                        <option value="Deployment Architecture Inquiry">
-                          Deployment Architecture Inquiry
+                        <option value="General Inquiry">
+                          General Inquiry
                         </option>
-                        <option value="Perceptras Flow Integration (Multi-Stream)">
-                          Perceptras Flow Integration (Multi-Stream)
+                        <option value="Perceptras Flow (Multi-Stream Pipeline)">
+                          Perceptras Flow (Multi-Stream Pipeline)
                         </option>
-                        <option value="Perceptras Accel Optimization (Engine Build)">
-                          Perceptras Accel Optimization (Engine Build)
+                        <option value="Perceptras Accel (Inference Optimization)">
+                          Perceptras Accel (Inference Optimization)
                         </option>
-                        <option value="Perceptras Zone Deployment (Spatial Perception)">
-                          Perceptras Zone Deployment (Spatial Perception)
+                        <option value="Perceptras Zone (Spatial Intelligence)">
+                          Perceptras Zone (Spatial Intelligence)
                         </option>
-                        <option value="Perceptras Grid Cluster Sizing (Multi-Model)">
-                          Perceptras Grid Cluster Sizing (Multi-Model)
+                        <option value="Perceptras Grid (Cluster Orchestration)">
+                          Perceptras Grid (Cluster Orchestration)
                         </option>
-                        <option value="Enterprise License & SLA">
-                          Enterprise License & SLA
+                        <option value="Enterprise Pricing & Demo">
+                          Enterprise Pricing &amp; Demo
                         </option>
                       </select>
                     </div>
 
                     <Textarea
                       id="contact-message"
-                      label="Message / Technical Specifications"
-                      placeholder="Specify camera counts, sensor protocols, compute topology, and expected throughput requirements..."
+                      label="Message"
+                      placeholder="Tell us about your project, camera counts, or specific requirements..."
                       rows={5}
                       required
                       value={message}
@@ -186,7 +185,7 @@ export default function ContactPage() {
                       className="w-full flex items-center justify-center gap-2"
                     >
                       <Send className="h-4 w-4" />
-                      {loading ? 'TRANSMITTING...' : 'DISPATCH INQUIRY'}
+                      {loading ? 'SENDING...' : 'SEND MESSAGE'}
                     </Button>
                   </form>
                 )}
@@ -195,7 +194,7 @@ export default function ContactPage() {
 
             <div className="space-y-8">
               <Heading index="02" className="mb-6">
-                Operations Telemetry
+                Contact Information
               </Heading>
 
               <div className="space-y-6">
@@ -203,14 +202,14 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2 mb-1">
                     <Mail className="h-3.5 w-3.5 text-muted" />
                     <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      Direct Dispatch
+                      Email
                     </p>
                   </div>
                   <p className="font-mono text-sm text-foreground">
                     contact@perceptras.net
                   </p>
                   <p className="font-mono text-xs text-muted mt-0.5">
-                    PGP Key: 0x4F92B88C
+                    General support and business inquiries
                   </p>
                 </div>
 
@@ -218,14 +217,14 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2 mb-1">
                     <Radio className="h-3.5 w-3.5 text-muted" />
                     <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      API Gateway
+                      Portal &amp; Dashboard
                     </p>
                   </div>
                   <p className="font-mono text-sm text-foreground">
                     portal.perceptras.net
                   </p>
                   <p className="font-mono text-xs text-muted mt-0.5">
-                    Latency: &lt; 15ms (Global Anycast)
+                    Account management &amp; telemetry
                   </p>
                 </div>
 
@@ -233,14 +232,14 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2 mb-1">
                     <MapPin className="h-3.5 w-3.5 text-muted" />
                     <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      Infrastructure HQ
+                      Location
                     </p>
                   </div>
                   <p className="font-mono text-sm text-foreground">
-                    Perceptras Research Systems
+                    Perceptras Inc.
                   </p>
                   <p className="font-mono text-xs text-muted mt-0.5">
-                    Physical AI Perception Division
+                    Physical AI Systems Division
                   </p>
                 </div>
               </div>

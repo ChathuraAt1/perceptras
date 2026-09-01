@@ -18,26 +18,38 @@ export function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
+            href="/#products"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            Products
+          </Link>
+          <Link
             href="/contact/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
             Contact
           </Link>
           <Link
-            href="/auth/login/"
+            href="/system-check/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
-            [ Portal Login ]
+            System Check
+          </Link>
+          <Link
+            href="/auth/login/"
+            className="font-mono text-[10px] uppercase tracking-widest text-foreground font-semibold hover:opacity-80 transition-opacity"
+          >
+            Sign In
           </Link>
         </nav>
 
-        {/* Theme toggle & Mobile portal */}
+        {/* Theme toggle & Mobile sign in */}
         <div className="flex items-center gap-4">
           <Link
             href="/auth/login/"
-            className="md:hidden font-mono text-[10px] uppercase text-muted hover:text-foreground"
+            className="md:hidden font-mono text-[10px] uppercase text-foreground font-semibold"
           >
-            [ Login ]
+            Sign In
           </Link>
           <ThemeToggle />
         </div>

@@ -17,13 +17,13 @@ export default function Home() {
       <Section borders={{ bottom: true }} className="pt-24 md:pt-32">
         <Container>
           <div className="flex flex-wrap gap-3 mb-8">
-            <MonoTag>Edge Inference</MonoTag>
+            <MonoTag>Video Pipelines</MonoTag>
             <MonoTag>Sensor Fusion</MonoTag>
-            <MonoTag>Spatial Intelligence</MonoTag>
+            <MonoTag>Edge Inference</MonoTag>
           </div>
 
           <Display className="max-w-5xl">
-            Physical AI
+            Real-Time AI
             <br />
             Perception
             <br />
@@ -31,9 +31,7 @@ export default function Home() {
           </Display>
 
           <p className="font-mono text-sm text-muted max-w-xl mt-8 leading-relaxed">
-            High-performance perception pipelines for autonomous systems.
-            Real-time sensor fusion, edge inference, and spatial intelligence
-            at scale.
+            High-speed video processing and sensor fusion for camera networks, robotics, and smart spaces. Run inference at the edge with ultra-low latency.
           </p>
 
           <div className="flex flex-wrap gap-4 mt-10">
@@ -44,7 +42,7 @@ export default function Home() {
             </Link>
             <Link href="/contact/">
               <Button variant="outline" size="lg">
-                Contact Engineering
+                Contact Us
               </Button>
             </Link>
           </div>
@@ -55,40 +53,40 @@ export default function Home() {
       <Section borders={{ bottom: true }}>
         <Container>
           <Heading index="01" className="mb-10">
-            Performance Telemetry
+            System Performance
           </Heading>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <MetricCard label="Latency" value="1.2" unit="ms" />
             <MetricCard label="Throughput" value="240" unit="FPS" />
-            <MetricCard label="Streams" value="128" unit="CH" />
-            <MetricCard label="Precision" value="FP8" />
+            <MetricCard label="Live Streams" value="128" unit="CH" />
+            <MetricCard label="Quantization" value="FP8" />
           </div>
 
           <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-border">
-            <DataBadge label="GPU Util" value="94%" />
+            <DataBadge label="GPU Load" value="94%" />
             <DataBadge label="Power" value="275W" />
             <DataBadge label="Memory" value="48GB HBM3" />
-            <DataBadge label="Batch" value="Dynamic" />
+            <DataBadge label="Batching" value="Auto" />
           </div>
         </Container>
       </Section>
 
       {/* ── Interactive Systems Showcase ─────────────────────── */}
-      <Section borders={{ bottom: true }}>
+      <Section borders={{ bottom: true }} className="scroll-mt-12" id="products">
         <Container>
           <Heading index="02" className="mb-4">
-            Product Showcase
+            Interactive Products
           </Heading>
           <p className="font-mono text-xs text-muted mb-12 max-w-2xl">
-            Interactive instrumentation and live architectural simulators for the Perceptras perception stack.
+            Explore our core perception modules below. Adjust settings and test live performance.
           </p>
 
           <div className="space-y-16">
             {/* Flow */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <MonoTag>MODULE 01</MonoTag>
+                <MonoTag>01 // VIDEO INGEST</MonoTag>
                 <span className="font-syne text-sm font-bold uppercase">Perceptras Flow</span>
               </div>
               <FlowCanvas />
@@ -97,7 +95,7 @@ export default function Home() {
             {/* Accel */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <MonoTag>MODULE 02</MonoTag>
+                <MonoTag>02 // INFERENCE ENGINE</MonoTag>
                 <span className="font-syne text-sm font-bold uppercase">Perceptras Accel</span>
               </div>
               <AccelBench />
@@ -106,7 +104,7 @@ export default function Home() {
             {/* Zone */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <MonoTag>MODULE 03</MonoTag>
+                <MonoTag>03 // SPATIAL TRACKING</MonoTag>
                 <span className="font-syne text-sm font-bold uppercase">Perceptras Zone</span>
               </div>
               <ZoneIntel />
@@ -115,7 +113,7 @@ export default function Home() {
             {/* Grid */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <MonoTag>MODULE 04</MonoTag>
+                <MonoTag>04 // CLUSTER ROUTER</MonoTag>
                 <span className="font-syne text-sm font-bold uppercase">Perceptras Grid</span>
               </div>
               <GridMatrix />
@@ -128,38 +126,35 @@ export default function Home() {
       <Section borders={{ bottom: true }}>
         <Container>
           <Heading index="03" className="mb-10">
-            Pipeline Architecture
+            How It Works
           </Heading>
 
           <AsymmetricGrid ratio="60/40" divider>
             <div className="space-y-6">
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Ingest & Normalization
+                  1. Video &amp; Sensor Ingest
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
-                  Multi-modal sensor fusion with hardware-accelerated decode.
-                  RTSP, USB3 Vision, and GigE Vision protocols at line rate.
+                  Connect RTSP cameras, USB3 Vision, and GigE sensors with hardware-accelerated decoding.
                 </p>
               </div>
 
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Spatial Inference Engine
+                  2. AI Model Execution
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
-                  Hardware-optimized compiled execution graphs with dynamic batching.
-                  INT8/FP8 quantization for edge perception and robotics.
+                  Run optimized vision models with automatic dynamic batching and INT8/FP8 acceleration.
                 </p>
               </div>
 
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Distributed Telemetry Bus
+                  3. Real-Time Event Streaming
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
-                  Structured metadata, spatial bounding trajectories, and perception analytics exported
-                  via gRPC, Kafka, and MQTT.
+                  Stream structured detections, bounding boxes, and events directly to your apps via gRPC or Kafka.
                 </p>
               </div>
             </div>
@@ -167,10 +162,10 @@ export default function Home() {
             <div className="space-y-6">
               <div className="border border-border p-6 bg-surface">
                 <p className="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">
-                  Target Infrastructure
+                  Deployment Targets
                 </p>
                 <p className="font-mono text-xs text-foreground leading-relaxed">
-                  Engineered for embedded edge perception computers, ruggedized robotics hardware, and multi-node GPU inference clusters with unified container deployment.
+                  Deploy as lightweight containerized workloads on edge devices, robotics computers, or on-premise GPU clusters.
                 </p>
               </div>
             </div>
@@ -182,7 +177,7 @@ export default function Home() {
       <Section borders={{ bottom: true }}>
         <Container>
           <Heading index="04" className="mb-10">
-            Capabilities
+            Core Features
           </Heading>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
@@ -190,17 +185,17 @@ export default function Home() {
               {
                 icon: Eye,
                 title: 'Computer Vision',
-                desc: 'Object detection, segmentation, tracking, and pose estimation across multi-camera arrays.',
+                desc: 'Fast object detection, segmentation, and tracking across multiple camera angles simultaneously.',
               },
               {
                 icon: Radio,
                 title: 'Sensor Fusion',
-                desc: 'Camera, LiDAR, radar, and IMU data fusion with temporal synchronisation and calibration.',
+                desc: 'Synchronize video feeds with LiDAR, radar, and IMU data with sub-millisecond precision.',
               },
               {
                 icon: Cpu,
-                title: 'Edge Compute',
-                desc: 'Optimised inference on edge perception nodes and data-centre GPU clusters with unified deployment.',
+                title: 'Edge Acceleration',
+                desc: 'Optimized to run directly on edge GPUs and servers with minimal memory footprint.',
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div
@@ -224,10 +219,10 @@ export default function Home() {
       <Section className="py-24 md:py-32">
         <Container className="text-center">
           <Display as="h2" className="text-3xl md:text-5xl lg:text-6xl mb-6">
-            Build Perception Systems
+            Ready to Get Started?
           </Display>
           <p className="font-mono text-sm text-muted max-w-lg mx-auto mb-10">
-            Deploy production-grade physical AI perception infrastructure in minutes.
+            Set up your account or reach out to our team for a personalized demo.
           </p>
           <div className="flex justify-center gap-4">
             <Link href="/auth/register/">
@@ -237,7 +232,7 @@ export default function Home() {
             </Link>
             <Link href="/contact/">
               <Button variant="outline" size="lg">
-                Contact Solutions →
+                Contact Us →
               </Button>
             </Link>
           </div>
