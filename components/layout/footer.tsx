@@ -45,46 +45,28 @@ export function Footer() {
             <Link href="/contact/" className="hover:text-foreground transition-colors">
               Contact
             </Link>
-            <Link href="/privacy/" className="hover:text-foreground transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms/" className="hover:text-foreground transition-colors">
-              Terms
-            </Link>
-            <Link href="/cookies/" className="hover:text-foreground transition-colors">
-              Cookies
-            </Link>
-            <Link href="/auth/login/" className="hover:text-foreground transition-colors">
-              Sign In
-            </Link>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-6">
-          <p className="font-mono text-[9px] text-muted">
-            Protected by reCAPTCHA. Google{' '}
-            <a
-              href="https://policies.google.com/privacy"
-              target="_blank"
-              rel="noreferrer"
-              className="underline hover:text-foreground"
-            >
+        {/* Separate Legal & Policy Sub-Bar */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-6 font-mono text-[10px] text-muted">
+          <div className="flex flex-wrap items-center gap-5">
+            <Link href="/privacy/" className="hover:text-foreground underline transition-colors">
               Privacy Policy
-            </a>{' '}
-            and{' '}
-            <a
-              href="https://policies.google.com/terms"
-              target="_blank"
-              rel="noreferrer"
-              className="underline hover:text-foreground"
-            >
+            </Link>
+            <Link href="/terms/" className="hover:text-foreground underline transition-colors">
               Terms of Service
-            </a>{' '}
-            apply.
-          </p>
-          <p className="font-mono text-[10px] text-muted">
-            &copy; {year} Perceptras. All rights reserved.
-          </p>
+            </Link>
+            <Link href="/cookies/" className="hover:text-foreground underline transition-colors">
+              Cookie Policy
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <p>
+              &copy; {year} Perceptras. All rights reserved.
+            </p>
+          </div>
         </div>
       </Container>
     </footer>
