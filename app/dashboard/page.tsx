@@ -11,7 +11,17 @@ import {
   Copy,
   Check,
   ArrowRight,
+  Activity,
+  Server,
 } from 'lucide-react';
+
+const RECENT_EVENTS = [
+  { time: '16:41:02', node: 'Node-US-East-01', level: 'INFO', msg: 'Synchronized 4K stream "Warehouse-Dock-North" via zero-copy DMA' },
+  { time: '16:39:45', node: 'Node-US-East-01', level: 'OPTIMIZE', msg: 'Graph compiled: YOLOv10x-FP8 layer fusion (1.1ms latency)' },
+  { time: '16:38:12', node: 'Robot-Fleet-Zone-A', level: 'ZONE_EVENT', msg: 'AMR_04 crossed Geofence "Fast Transit Corridor" (Speed: 1.8 m/s)' },
+  { time: '16:35:50', node: 'Node-US-East-01', level: 'REID_MATCH', msg: 'Cross-camera entity match: Person_11 [Cam_01 -> Cam_02] 99.4% confidence' },
+  { time: '16:30:19', node: 'Cluster-Grid', level: 'HEALTH_CHECK', msg: 'Heartbeat acknowledged across all 3 nodes. Ping: 0.8ms' },
+];
 
 export default function DashboardOverviewPage() {
   const [copiedKey, setCopiedKey] = useState(false);
@@ -25,47 +35,63 @@ export default function DashboardOverviewPage() {
 
   return (
     <div className="space-y-8 max-w-6xl">
-      {/* Telemetry Metric Cards */}
+      {/* Top Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="border border-border p-5 bg-surface">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted mb-1">
-            Active Streams
-          </p>
+        <div className="border border-border p-5 bg-surface space-y-2">
+          <div className="flex items-center justify-between text-muted">
+            <span className="font-mono text-[10px] uppercase tracking-widest">Active Streams</span>
+            <Video className="h-4 w-4 text-foreground" />
+          </div>
           <div className="flex items-baseline justify-between">
             <span className="font-syne text-3xl font-bold text-foreground">
               4 <span className="font-mono text-sm text-muted">/ 64</span>
             </span>
             <span className="font-mono text-[10px] text-emerald-500 font-bold">NORMAL LOAD</span>
           </div>
+          <div className="w-full bg-border h-1.5 overflow-hidden">
+            <div className="bg-emerald-500 h-full w-[6.25%]" />
+          </div>
         </div>
 
-        <div className="border border-border p-5 bg-surface">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted mb-1">
-            Avg Pipeline Latency
-          </p>
+        <div className="border border-border p-5 bg-surface space-y-2">
+          <div className="flex items-center justify-between text-muted">
+            <span className="font-mono text-[10px] uppercase tracking-widest">Inference Latency</span>
+            <Zap className="h-4 w-4 text-foreground" />
+          </div>
           <div className="flex items-baseline justify-between">
             <span className="font-syne text-3xl font-bold text-foreground">1.1 ms</span>
             <span className="font-mono text-[10px] text-emerald-500 font-bold">ZERO-COPY DMA</span>
           </div>
-        </div>
-
-        <div className="border border-border p-5 bg-surface">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted mb-1">
-            Aggregated Ingest
-          </p>
-          <div className="flex items-baseline justify-between">
-            <span className="font-syne text-3xl font-bold text-foreground">180 FPS</span>
-            <span className="font-mono text-[10px] text-muted">4K / FHD</span>
+          <div className="w-full bg-border h-1.5 overflow-hidden">
+            <div className="bg-foreground h-full w-[22%]" />
           </div>
         </div>
 
-        <div className="border border-border p-5 bg-surface">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-muted mb-1">
-            Connected Edge Nodes
-          </p>
+        <div className="border border-border p-5 bg-surface space-y-2">
+          <div className="flex items-center justify-between text-muted">
+            <span className="font-mono text-[10px] uppercase tracking-widest">Throughput Rate</span>
+            <Activity className="h-4 w-4 text-foreground" />
+          </div>
           <div className="flex items-baseline justify-between">
-            <span className="font-syne text-3xl font-bold text-foreground">2 Online</span>
+            <span className="font-syne text-3xl font-bold text-foreground">180 FPS</span>
+            <span className="font-mono text-[10px] text-muted">AGGREGATE</span>
+          </div>
+          <div className="w-full bg-border h-1.5 overflow-hidden">
+            <div className="bg-emerald-500 h-full w-[75%]" />
+          </div>
+        </div>
+
+        <div className="border border-border p-5 bg-surface space-y-2">
+          <div className="flex items-center justify-between text-muted">
+            <span className="font-mono text-[10px] uppercase tracking-widest">Edge Cluster Nodes</span>
+            <Server className="h-4 w-4 text-foreground" />
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="font-syne text-3xl font-bold text-foreground">3 Online</span>
             <span className="font-mono text-[10px] text-emerald-500 font-bold">100% HEALTHY</span>
+          </div>
+          <div className="w-full bg-border h-1.5 overflow-hidden">
+            <div className="bg-emerald-500 h-full w-full" />
           </div>
         </div>
       </div>
@@ -76,28 +102,64 @@ export default function DashboardOverviewPage() {
           <h3 className="font-syne text-base font-bold uppercase text-foreground">
             Perception Engine Workspaces
           </h3>
-          <span className="font-mono text-xs text-muted">Direct module controls</span>
+          <span className="font-mono text-xs text-muted">Select workspace to configure</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[
-            { href: '/dashboard/flow', name: 'Flow // Ingest', desc: '4 Active Ingest Feeds', icon: Video },
-            { href: '/dashboard/accel', name: 'Accel // Inference', desc: 'INT8/FP8 Quantized', icon: Zap },
-            { href: '/dashboard/zone', name: 'Zone // 3D Spatial', desc: '3 Active Geofences', icon: Compass },
-            { href: '/dashboard/grid', name: 'Grid // Topology', desc: '2 Clustered Nodes', icon: Network },
+            { href: '/dashboard/flow', name: 'Flow // Ingest', desc: '4 Active Streams (RTSP/GigE)', icon: Video },
+            { href: '/dashboard/accel', name: 'Accel // Inference', desc: '4 Compiled INT8/FP8 Models', icon: Zap },
+            { href: '/dashboard/zone', name: 'Zone // 3D Spatial', desc: '3 Active Spatial Geofences', icon: Compass },
+            { href: '/dashboard/grid', name: 'Grid // Clusters', desc: '3 Edge Hardware Nodes', icon: Network },
           ].map((mod) => (
             <Link
               key={mod.href}
               href={mod.href}
-              className="border border-border p-5 bg-surface hover:border-foreground transition-colors text-left space-y-2 group block"
+              className="border border-border p-5 bg-surface hover:border-foreground transition-all text-left space-y-3 group block relative shadow-sm"
             >
               <div className="flex items-center justify-between">
                 <mod.icon className="h-5 w-5 text-foreground" />
-                <ArrowRight className="h-3.5 w-3.5 text-muted group-hover:text-foreground transition-colors" />
+                <ArrowRight className="h-4 w-4 text-muted group-hover:text-foreground transition-transform group-hover:translate-x-1" />
               </div>
-              <h4 className="font-syne text-sm font-bold uppercase text-foreground">{mod.name}</h4>
-              <p className="font-mono text-xs text-muted">{mod.desc}</p>
+              <div>
+                <h4 className="font-syne text-sm font-bold uppercase text-foreground">{mod.name}</h4>
+                <p className="font-mono text-xs text-muted mt-1">{mod.desc}</p>
+              </div>
             </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Live Cluster Event Stream & Audit Log */}
+      <div className="border border-border bg-surface p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-border pb-3">
+          <div className="flex items-center gap-2">
+            <Activity className="h-4 w-4 text-foreground" />
+            <h3 className="font-syne text-sm font-bold uppercase text-foreground">
+              Live Cluster Telemetry & Event Stream
+            </h3>
+          </div>
+          <span className="font-mono text-[10px] text-emerald-500 font-bold uppercase flex items-center gap-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            STREAMING LIVE
+          </span>
+        </div>
+
+        <div className="space-y-2 font-mono text-xs">
+          {RECENT_EVENTS.map((event, idx) => (
+            <div
+              key={idx}
+              className="p-3 bg-surface/50 border border-border flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-foreground/5 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-muted text-[10px]">{event.time}</span>
+                <span className="border border-border px-1.5 py-0.5 text-[9px] font-bold text-foreground bg-surface">
+                  {event.level}
+                </span>
+                <span className="text-foreground">{event.msg}</span>
+              </div>
+              <span className="text-[10px] text-muted shrink-0">{event.node}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -123,7 +185,7 @@ export default function DashboardOverviewPage() {
             {copiedKey ? (
               <>
                 <Check className="h-3.5 w-3.5 text-emerald-500" />
-                <span className="text-emerald-500">Copied</span>
+                <span className="text-emerald-500 font-bold">Copied</span>
               </>
             ) : (
               <>
@@ -134,7 +196,7 @@ export default function DashboardOverviewPage() {
           </button>
         </div>
 
-        <div className="p-3 bg-zinc-950 text-zinc-100 font-mono text-xs overflow-x-auto border border-zinc-800">
+        <div className="p-3.5 bg-zinc-950 text-zinc-100 font-mono text-xs overflow-x-auto border border-zinc-800">
           <code>
             perceptras-node connect --server https://portal.perceptras.net/api --token {apiKey}
           </code>

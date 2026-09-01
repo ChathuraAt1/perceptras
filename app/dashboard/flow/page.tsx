@@ -13,8 +13,10 @@ interface StreamItem {
   resolution: string;
   fps: number;
   pipeline: string;
+  codec: string;
   status: 'active' | 'standby' | 'reconnecting';
   latency: string;
+  bitrate: string;
 }
 
 const INITIAL_STREAMS: StreamItem[] = [
@@ -26,8 +28,10 @@ const INITIAL_STREAMS: StreamItem[] = [
     resolution: '3840x2160 (4K)',
     fps: 30,
     pipeline: 'Perceptras Flow + Accel',
+    codec: 'H.265 (HEVC)',
     status: 'active',
     latency: '1.2ms',
+    bitrate: '14.2 Mbps',
   },
   {
     id: 'stream_02',
@@ -37,8 +41,10 @@ const INITIAL_STREAMS: StreamItem[] = [
     resolution: '1920x1080 (FHD)',
     fps: 60,
     pipeline: 'Perceptras Zone 3D',
+    codec: 'Raw YUV422',
     status: 'active',
     latency: '0.8ms',
+    bitrate: '124.0 Mbps',
   },
   {
     id: 'stream_03',
@@ -48,8 +54,10 @@ const INITIAL_STREAMS: StreamItem[] = [
     resolution: '1920x1080 (FHD)',
     fps: 30,
     pipeline: 'Perceptras Flow',
+    codec: 'H.264 (AVC)',
     status: 'active',
     latency: '1.4ms',
+    bitrate: '6.8 Mbps',
   },
   {
     id: 'stream_04',
@@ -59,13 +67,16 @@ const INITIAL_STREAMS: StreamItem[] = [
     resolution: '2560x1440 (2K)',
     fps: 90,
     pipeline: 'Perceptras Accel INT8',
+    codec: 'MJPEG / Raw',
     status: 'active',
     latency: '0.6ms',
+    bitrate: '88.4 Mbps',
   },
 ];
 
 export default function FlowDashboardPage() {
   const [streams, setStreams] = useState<StreamItem[]>(INITIAL_STREAMS);
+  const [selectedStream, setSelectedStream] = useState<StreamItem>(INITIAL_STREAMS[0]);
   const [isAddStreamOpen, setIsAddStreamOpen] = useState(false);
   const [newStreamName, setNewStreamName] = useState('');
   const [newStreamUrl, setNewStreamUrl] = useState('');
@@ -84,8 +95,10 @@ export default function FlowDashboardPage() {
       resolution: '1920x1080 (FHD)',
       fps: 30,
       pipeline: newStreamPipeline,
+      codec: 'H.265',
       status: 'active',
       latency: '1.2ms',
+      bitrate: '8.4 Mbps',
     };
 
     setStreams([newStream, ...streams]);
@@ -95,20 +108,22 @@ export default function FlowDashboardPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl">
+    <div className="space-y-8 max-w-6xl">
+      {/* Top Banner & Metric Strip */}
       <div className="border border-border p-6 bg-surface flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h3 className="font-syne text-lg font-bold uppercase text-foreground">
-            Perceptras Flow Video Ingest Bus
+            Perceptras Flow // Video Ingest &amp; Normalization Engine
           </h3>
           <p className="font-mono text-xs text-muted mt-1 max-w-xl leading-relaxed">
-            Zero-copy hardware decoding for high-density RTSP, GigE Vision, USB3, and MIPI cameras directly into unified GPU memory.
+            Zero-copy hardware decoding for high-density RTSP, GigE Vision, USB3, and MIPI cameras directly into unified GPU memory without CPU memory copies.
           </p>
         </div>
-        <div className="flex gap-4 font-mono text-xs">
+
+        <div className="flex flex-wrap gap-4 font-mono text-xs">
           <div className="border border-border p-3 bg-surface/50">
             <span className="text-muted text-[10px] uppercase">DMA Buffer Pool</span>
-            <p className="font-bold text-foreground">1.2 / 8.0 GB Used</p>
+            <p className="font-bold text-foreground">1.2 / 8.0 GB (15%)</p>
           </div>
           <div className="border border-border p-3 bg-surface/50">
             <span className="text-muted text-[10px] uppercase">Packet Loss</span>
@@ -126,53 +141,163 @@ export default function FlowDashboardPage() {
         </div>
       </div>
 
-      {/* Stream Table */}
-      <div className="border border-border bg-surface overflow-x-auto">
-        <table className="w-full text-left font-mono text-xs">
-          <thead>
-            <tr className="border-b border-border bg-surface/80 text-[10px] uppercase tracking-wider text-muted">
-              <th className="py-3.5 px-4 font-semibold">Camera Feed</th>
-              <th className="py-3.5 px-4 font-semibold">Endpoint &amp; Protocol</th>
-              <th className="py-3.5 px-4 font-semibold">Resolution</th>
-              <th className="py-3.5 px-4 font-semibold">Assigned Pipeline</th>
-              <th className="py-3.5 px-4 font-semibold">Latency</th>
-              <th className="py-3.5 px-4 font-semibold text-right">Status</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {streams.map((stream) => (
-              <tr key={stream.id} className="hover:bg-foreground/5 transition-colors">
-                <td className="py-3.5 px-4">
-                  <div className="font-bold text-foreground">{stream.name}</div>
-                  <div className="text-[10px] text-muted">{stream.id}</div>
-                </td>
-                <td className="py-3.5 px-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="border border-border px-1.5 py-0.5 text-[9px] font-bold">
-                      {stream.protocol}
-                    </span>
-                    <span className="text-muted truncate max-w-[200px]">{stream.url}</span>
-                  </div>
-                </td>
-                <td className="py-3.5 px-4 text-foreground">
-                  {stream.resolution} @ {stream.fps}fps
-                </td>
-                <td className="py-3.5 px-4">
-                  <span className="border border-border bg-surface/50 px-2 py-0.5 text-[10px] font-semibold text-foreground">
-                    {stream.pipeline}
-                  </span>
-                </td>
-                <td className="py-3.5 px-4 text-foreground">{stream.latency}</td>
-                <td className="py-3.5 px-4 text-right">
-                  <span className="inline-flex items-center gap-1.5 text-emerald-500 font-bold text-[10px] uppercase">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    {stream.status}
-                  </span>
-                </td>
+      {/* Live Stream Visualizer Frame + Selected Stream HUD */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8 border border-border bg-surface p-1 relative">
+          <div className="border-b border-border px-4 py-2.5 bg-surface flex items-center justify-between font-mono text-[11px]">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-bold uppercase text-foreground">
+                LIVE INGEST // {selectedStream.name}
+              </span>
+            </div>
+            <span className="text-muted">{selectedStream.resolution} @ {selectedStream.fps} FPS</span>
+          </div>
+
+          <div className="relative aspect-video bg-zinc-950 p-6 flex flex-col justify-between overflow-hidden text-zinc-100 font-mono">
+            {/* Grid overlay */}
+            <div
+              className="absolute inset-0 opacity-15 pointer-events-none"
+              style={{
+                backgroundImage:
+                  'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
+              }}
+            />
+
+            {/* Top metadata tags */}
+            <div className="relative z-10 flex justify-between items-start text-[10px]">
+              <div className="bg-zinc-900/90 border border-zinc-700 px-2 py-1 space-y-0.5">
+                <p className="text-zinc-400">DECODER: <span className="text-zinc-100 font-bold">NVDEC ZERO-COPY</span></p>
+                <p className="text-zinc-400">LATENCY: <span className="text-emerald-400 font-bold">{selectedStream.latency}</span></p>
+              </div>
+              <div className="bg-zinc-900/90 border border-zinc-700 px-2 py-1 text-right space-y-0.5">
+                <p className="text-zinc-400">BITRATE: <span className="text-zinc-100 font-bold">{selectedStream.bitrate}</span></p>
+                <p className="text-zinc-400">CODEC: <span className="text-zinc-100 font-bold">{selectedStream.codec}</span></p>
+              </div>
+            </div>
+
+            {/* Visual Bounding Box Simulation */}
+            <div className="absolute top-[30%] left-[25%] w-[35%] h-[45%] border border-emerald-400 bg-emerald-500/10 pointer-events-none">
+              <div className="absolute -top-5 left-0 bg-emerald-500 text-zinc-950 text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wider">
+                RAW_TENSOR // DECODED
+              </div>
+            </div>
+
+            {/* Bottom Status */}
+            <div className="relative z-10 flex items-center justify-between text-[10px] bg-zinc-900/90 border border-zinc-700 px-3 py-1.5">
+              <span>ENDPOINT: {selectedStream.url}</span>
+              <span className="text-emerald-400 font-bold">PIPELINE: {selectedStream.pipeline}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Selected Stream Settings & Diagnostics */}
+        <div className="lg:col-span-4 border border-border bg-surface p-6 space-y-4 font-mono text-xs">
+          <h4 className="font-syne text-sm font-bold uppercase text-foreground">
+            Feed Configuration
+          </h4>
+
+          <div className="space-y-3 pt-2 border-t border-border">
+            <div className="flex justify-between">
+              <span className="text-muted">Protocol:</span>
+              <span className="font-bold text-foreground">{selectedStream.protocol}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted">Resolution:</span>
+              <span className="font-bold text-foreground">{selectedStream.resolution}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted">Frame Rate:</span>
+              <span className="font-bold text-foreground">{selectedStream.fps} FPS</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted">Stream Codec:</span>
+              <span className="font-bold text-foreground">{selectedStream.codec}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted">Ingest Latency:</span>
+              <span className="font-bold text-emerald-500">{selectedStream.latency}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted">Pipeline Assignment:</span>
+              <span className="font-bold text-foreground truncate max-w-[140px]">{selectedStream.pipeline}</span>
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-border space-y-2">
+            <Button variant="outline" size="sm" className="w-full" onClick={() => alert('Stream decoder restarted.')}>
+              Restart Ingest Worker
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stream Inventory Table */}
+      <div className="space-y-4">
+        <h4 className="font-syne text-sm font-bold uppercase text-foreground">
+          Active Ingest Channels ({streams.length})
+        </h4>
+
+        <div className="border border-border bg-surface overflow-x-auto">
+          <table className="w-full text-left font-mono text-xs">
+            <thead>
+              <tr className="border-b border-border bg-surface/80 text-[10px] uppercase tracking-wider text-muted">
+                <th className="py-3.5 px-4 font-semibold">Camera Feed</th>
+                <th className="py-3.5 px-4 font-semibold">Protocol &amp; Codec</th>
+                <th className="py-3.5 px-4 font-semibold">Resolution</th>
+                <th className="py-3.5 px-4 font-semibold">Pipeline</th>
+                <th className="py-3.5 px-4 font-semibold">Latency</th>
+                <th className="py-3.5 px-4 font-semibold text-right">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {streams.map((stream) => (
+                <tr
+                  key={stream.id}
+                  onClick={() => setSelectedStream(stream)}
+                  className={`hover:bg-foreground/5 transition-colors cursor-pointer ${
+                    selectedStream.id === stream.id ? 'bg-foreground/[0.03] font-semibold' : ''
+                  }`}
+                >
+                  <td className="py-3.5 px-4">
+                    <div className="font-bold text-foreground">{stream.name}</div>
+                    <div className="text-[10px] text-muted">{stream.url}</div>
+                  </td>
+                  <td className="py-3.5 px-4">
+                    <div className="flex items-center gap-1.5">
+                      <span className="border border-border px-1.5 py-0.5 text-[9px] font-bold">
+                        {stream.protocol}
+                      </span>
+                      <span className="text-muted text-[10px]">{stream.codec}</span>
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-4 text-foreground">
+                    {stream.resolution} @ {stream.fps}fps
+                  </td>
+                  <td className="py-3.5 px-4 text-foreground">
+                    <span className="border border-border bg-surface px-2 py-0.5 text-[10px]">
+                      {stream.pipeline}
+                    </span>
+                  </td>
+                  <td className="py-3.5 px-4 text-emerald-500 font-bold">{stream.latency}</td>
+                  <td className="py-3.5 px-4 text-right">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedStream(stream);
+                      }}
+                      className="text-foreground underline text-[10px] uppercase font-bold"
+                    >
+                      Inspect HUD
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Modal: Add Camera Stream */}

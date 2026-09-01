@@ -2,8 +2,9 @@
 
 import { useState, useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { Button } from '@/components/ui/button';
 import {
   LayoutDashboard,
   Video,
@@ -14,14 +15,18 @@ import {
   Settings,
   ArrowLeft,
   LogOut,
+  Lock,
+  ShieldAlert,
+  ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 
 const NAV_MODULES = [
   { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/dashboard/flow', label: 'Flow // Ingest', icon: Video, count: 4 },
-  { href: '/dashboard/accel', label: 'Accel // Inference', icon: Zap, count: 3 },
+  { href: '/dashboard/accel', label: 'Accel // Inference', icon: Zap, count: 4 },
   { href: '/dashboard/zone', label: 'Zone // 3D Spatial', icon: Compass, count: 3 },
-  { href: '/dashboard/grid', label: 'Grid // Clusters', icon: Network, count: 2 },
+  { href: '/dashboard/grid', label: 'Grid // Clusters', icon: Network, count: 3 },
 ];
 
 const NAV_ADMIN = [
@@ -31,13 +36,29 @@ const NAV_ADMIN = [
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const [userName, setUserName] = useState('Lead Vision Engineer');
   const [userEmail, setUserEmail] = useState('developer@perceptras.local');
   const [currentPlan, setCurrentPlan] = useState('Professional');
 
   useEffect(() => {
-    const token = typeof window !== 'undefined' ? sessionStorage.getItem('sanctum_token') : null;
+    // Check if token exists in session/local storage
+    const token =
+      typeof window !== 'undefined'
+        ? sessionStorage.getItem('sanctum_token') || localStorage.getItem('sanctum_token')
+        : null;
+
+    const demoFlag =
+      typeof window !== 'undefined' ? sessionStorage.getItem('perceptras_demo_mode') === 'true' : false;
+
     if (token) {
+      setIsAuthenticated(true);
+      setIsDemoMode(false);
+
+      // Fetch user profile from /api/user
       fetch('https://portal.perceptras.net/api/user', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,6 +78,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         })
         .catch(() => {});
 
+      // Fetch subscription plan
       fetch('https://portal.perceptras.net/api/payments/last-plan', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -70,8 +92,31 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           }
         })
         .catch(() => {});
+    } else if (demoFlag) {
+      setIsAuthenticated(true);
+      setIsDemoMode(true);
+    } else {
+      setIsAuthenticated(false);
+      setIsDemoMode(false);
     }
   }, []);
+
+  const enableDemoMode = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('perceptras_demo_mode', 'true');
+    }
+    setIsAuthenticated(true);
+    setIsDemoMode(true);
+  };
+
+  const handleSignOut = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('sanctum_token');
+      localStorage.removeItem('sanctum_token');
+      sessionStorage.removeItem('perceptras_demo_mode');
+    }
+    router.push('/auth/login/');
+  };
 
   const getSectionTitle = () => {
     if (pathname === '/dashboard/flow') return 'Perceptras Flow // Video Ingest Engine';
@@ -82,6 +127,68 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     if (pathname === '/dashboard/settings') return 'Security & API Credentials';
     return 'Cluster Overview';
   };
+
+  // Auth Guard Screen if Unauthenticated
+  if (isAuthenticated === false) {
+    return (
+      <div className="min-h-screen w-full bg-background flex flex-col items-center justify-center p-6 text-foreground">
+        <div className="max-w-md w-full border border-border bg-surface p-8 space-y-6 shadow-2xl relative">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+              PERCEPTRAS // CONTROLLER ACCESS
+            </span>
+            <div className="flex items-center gap-1.5 text-amber-500 font-mono text-[10px] font-bold uppercase">
+              <Lock className="h-3.5 w-3.5" />
+              <span>401 Unauthorized</span>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h1 className="font-syne text-2xl font-bold uppercase text-foreground">
+              Authentication Required
+            </h1>
+            <p className="font-mono text-xs text-muted leading-relaxed">
+              This dashboard controls live on-premise perception clusters and stream ingest. Please sign in with your Perceptras account to authenticate your session.
+            </p>
+          </div>
+
+          <div className="space-y-3 pt-2">
+            <Link href={`/auth/login/?redirect=${encodeURIComponent(pathname)}`} className="block">
+              <Button variant="primary" size="lg" className="w-full flex items-center justify-center gap-2">
+                <span>Sign In to Controller</span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+
+            <button
+              type="button"
+              onClick={enableDemoMode}
+              className="w-full py-2.5 px-4 border border-border bg-surface/50 hover:bg-foreground/5 font-mono text-xs font-semibold text-muted hover:text-foreground transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
+              <span>Inspect in Sandbox Demo Mode</span>
+            </button>
+
+            <div className="text-center pt-2">
+              <Link href="/" className="font-mono text-xs text-muted hover:text-foreground inline-flex items-center gap-1">
+                <ArrowLeft className="h-3.5 w-3.5" />
+                <span>Return to Homepage</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state while checking token
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen w-full bg-background flex items-center justify-center font-mono text-xs text-muted">
+        <span>Authenticating controller session...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen w-full bg-background text-foreground overflow-hidden">
@@ -168,7 +275,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <p className="text-[10px] text-muted truncate">{userEmail}</p>
             <div className="mt-1.5 flex items-center justify-between text-[9px] uppercase tracking-wider">
               <span className="text-muted">Plan: {currentPlan}</span>
-              <span className="text-emerald-500 font-bold">Live</span>
+              <span className="text-emerald-500 font-bold">{isDemoMode ? 'Sandbox Demo' : 'Live Node'}</span>
             </div>
           </div>
 
@@ -183,10 +290,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
             <button
               type="button"
-              onClick={() => {
-                sessionStorage.removeItem('sanctum_token');
-                window.location.href = '/auth/login/';
-              }}
+              onClick={handleSignOut}
               title="Sign Out"
               className="text-muted hover:text-foreground cursor-pointer"
             >
@@ -208,6 +312,15 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4">
+            {isDemoMode && (
+              <div className="hidden sm:flex items-center gap-2 border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-600 dark:text-amber-400 font-mono text-[10px] font-bold uppercase">
+                <ShieldAlert className="h-3.5 w-3.5" />
+                <span>Sandbox Mode (Read-Only)</span>
+                <Link href="/auth/login/" className="underline hover:text-foreground ml-1">
+                  [Sign In]
+                </Link>
+              </div>
+            )}
             <ThemeToggle />
           </div>
         </header>
