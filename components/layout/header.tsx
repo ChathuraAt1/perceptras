@@ -27,6 +27,12 @@ export function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-7">
           <Link
+            href="/features/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            Features
+          </Link>
+          <Link
             href="/about/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
