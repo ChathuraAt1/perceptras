@@ -119,9 +119,10 @@ export default function ProductsPage() {
           </p>
 
           <div className="flex flex-wrap gap-4 mt-8">
-            <Link href="/auth/register/">
-              <Button variant="primary" size="lg">
-                Create Account
+            <Link href="/dashboard/">
+              <Button variant="primary" size="lg" className="flex items-center gap-2">
+                <span>Launch Controller Dashboard</span>
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact/">
@@ -217,11 +218,16 @@ export default function ProductsPage() {
                     </div>
                   </div>
 
-                  <div className="pt-2">
-                    <Link href={`/contact?subject=${encodeURIComponent(product.name)}`}>
-                      <Button variant="outline" size="md" className="w-full flex items-center justify-center gap-2">
-                        <span>Deploy {product.name}</span>
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Link href={`/dashboard?pipeline=${product.id}`}>
+                      <Button variant="primary" size="md" className="w-full flex items-center justify-center gap-2">
+                        <span>Launch {product.name} in Dashboard</span>
                         <ArrowRight className="h-3.5 w-3.5" />
+                      </Button>
+                    </Link>
+                    <Link href={`/contact?subject=${encodeURIComponent(product.name)}`}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        Request Architecture Consultation
                       </Button>
                     </Link>
                   </div>

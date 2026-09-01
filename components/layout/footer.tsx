@@ -1,8 +1,17 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Container } from '@/components/layout/section-container';
 
 export function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  // Hide site footer when inside the dedicated dashboard
+  if (pathname?.startsWith('/dashboard')) {
+    return null;
+  }
 
   return (
     <footer className="border-t border-border bg-surface/30">

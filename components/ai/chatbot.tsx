@@ -157,32 +157,32 @@ export function Chatbot() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 bg-foreground text-background border border-foreground font-mono text-xs font-bold uppercase tracking-wider shadow-lg hover:opacity-90 transition-all cursor-pointer"
+          className="group flex items-center gap-2.5 px-4 py-3 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-zinc-800 dark:border-zinc-200 font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:opacity-90 transition-all cursor-pointer"
         >
-          <Sparkles className="h-4 w-4 text-background animate-pulse" />
+          <Sparkles className="h-4 w-4 animate-pulse text-emerald-400 dark:text-emerald-600" />
           <span>Perceptras AI</span>
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
         </button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
         <div
-          className={`border border-border bg-surface shadow-2xl flex flex-col transition-all duration-200 ${
+          className={`border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-2xl flex flex-col transition-all duration-200 ${
             isExpanded
               ? 'w-[90vw] md:w-[680px] h-[80vh] max-w-3xl'
               : 'w-[90vw] sm:w-[400px] h-[540px]'
           }`}
         >
           {/* Header */}
-          <div className="border-b border-border px-4 py-3 bg-surface flex items-center justify-between">
+          <div className="border-b border-zinc-200 dark:border-zinc-800 px-4 py-3 bg-zinc-50 dark:bg-zinc-950 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="h-2 w-2 rounded-full bg-emerald-500" />
               <div>
-                <p className="font-syne text-xs font-bold uppercase text-foreground flex items-center gap-1.5">
+                <p className="font-syne text-xs font-bold uppercase text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
                   Perceptras AI Assistant
                 </p>
-                <p className="font-mono text-[9px] text-muted">Model: gpt-4o-mini // Live Gateway</p>
+                <p className="font-mono text-[9px] text-zinc-500 dark:text-zinc-400">Model: gpt-4o-mini // Live Gateway</p>
               </div>
             </div>
 
@@ -191,7 +191,7 @@ export function Chatbot() {
                 type="button"
                 onClick={handleClear}
                 title="Clear Conversation"
-                className="p-1.5 text-muted hover:text-foreground transition-colors cursor-pointer"
+                className="p-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors cursor-pointer"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>
@@ -199,7 +199,7 @@ export function Chatbot() {
                 type="button"
                 onClick={() => setIsExpanded(!isExpanded)}
                 title={isExpanded ? 'Collapse' : 'Expand'}
-                className="p-1.5 text-muted hover:text-foreground transition-colors cursor-pointer hidden sm:block"
+                className="p-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors cursor-pointer hidden sm:block"
               >
                 {isExpanded ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
               </button>
@@ -207,7 +207,7 @@ export function Chatbot() {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Close"
-                className="p-1.5 text-muted hover:text-foreground transition-colors cursor-pointer"
+                className="p-1.5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -215,30 +215,30 @@ export function Chatbot() {
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-xs">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-xs bg-zinc-50/50 dark:bg-zinc-900">
             {messages.map((m, idx) => (
               <div
                 key={idx}
                 className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {m.role === 'assistant' && (
-                  <div className="h-6 w-6 rounded-none bg-foreground text-background flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="h-6 w-6 rounded-none bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 flex items-center justify-center shrink-0 mt-0.5 font-bold">
                     <Bot className="h-3.5 w-3.5" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[82%] p-3 leading-relaxed whitespace-pre-wrap ${
+                  className={`max-w-[84%] p-3 leading-relaxed whitespace-pre-wrap ${
                     m.role === 'user'
-                      ? 'bg-foreground text-background'
-                      : 'bg-surface border border-border text-foreground'
+                      ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 shadow-sm'
+                      : 'bg-white text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 shadow-sm'
                   }`}
                 >
                   {m.content}
                   {m.timestamp && (
                     <p
                       className={`text-[9px] mt-1.5 ${
-                        m.role === 'user' ? 'text-background/70 text-right' : 'text-muted'
+                        m.role === 'user' ? 'text-zinc-300 dark:text-zinc-600 text-right' : 'text-zinc-400 dark:text-zinc-500'
                       }`}
                     >
                       {m.timestamp}
@@ -247,32 +247,32 @@ export function Chatbot() {
                 </div>
 
                 {m.role === 'user' && (
-                  <div className="h-6 w-6 rounded-none border border-border bg-surface flex items-center justify-center shrink-0 mt-0.5">
-                    <User className="h-3.5 w-3.5 text-muted" />
+                  <div className="h-6 w-6 rounded-none border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 flex items-center justify-center shrink-0 mt-0.5">
+                    <User className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-400" />
                   </div>
                 )}
               </div>
             ))}
 
             {loading && (
-              <div className="flex items-center gap-2 text-muted font-mono text-xs">
-                <RefreshCw className="h-3 w-3 animate-spin text-foreground" />
-                <span>Perceptras AI is generating response...</span>
+              <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400 font-mono text-xs p-2">
+                <RefreshCw className="h-3.5 w-3.5 animate-spin text-zinc-900 dark:text-zinc-100" />
+                <span>Perceptras AI is thinking...</span>
               </div>
             )}
 
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Suggestion Chips (show if fewer than 3 user messages) */}
+          {/* Quick Suggestion Chips */}
           {messages.filter((m) => m.role === 'user').length < 2 && !loading && (
-            <div className="px-4 py-2 border-t border-border bg-surface/50 flex flex-wrap gap-1.5">
+            <div className="px-4 py-2 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-100/60 dark:bg-zinc-950 flex flex-wrap gap-1.5">
               {STARTER_PROMPTS.slice(0, 3).map((prompt, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => handleSend(prompt)}
-                  className="font-mono text-[10px] text-muted hover:text-foreground border border-border px-2 py-1 bg-surface hover:bg-foreground/5 transition-colors text-left cursor-pointer truncate max-w-full"
+                  className="font-mono text-[10px] text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 border border-zinc-300 dark:border-zinc-700 px-2 py-1 bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-left cursor-pointer truncate max-w-full"
                 >
                   {prompt}
                 </button>
@@ -286,15 +286,15 @@ export function Chatbot() {
               e.preventDefault();
               handleSend();
             }}
-            className="border-t border-border p-3 bg-surface flex items-center gap-2"
+            className="border-t border-zinc-200 dark:border-zinc-800 p-3 bg-white dark:bg-zinc-950 flex items-center gap-2"
           >
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about streams, models, 3D tracking..."
+              placeholder="Ask about cameras, models, 3D tracking..."
               disabled={loading}
-              className="flex-1 bg-transparent border-0 font-mono text-xs text-foreground placeholder:text-muted focus:outline-none px-2"
+              className="flex-1 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-2 font-mono text-xs text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:border-zinc-900 dark:focus:border-zinc-100"
             />
             <Button
               type="submit"
