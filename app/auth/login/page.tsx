@@ -7,7 +7,7 @@ import { Display } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GoogleButton } from '@/components/ui/google-button';
-import { useRecaptcha } from '@/lib/recaptcha';
+import { useRecaptcha, EnterpriseRecaptchaWidget } from '@/lib/recaptcha';
 import { sha256Hex } from '@/lib/crypto';
 import { ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 
@@ -126,6 +126,8 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+
+                <EnterpriseRecaptchaWidget action="LOGIN" />
 
                 <div className="pt-2">
                   <Button

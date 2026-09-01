@@ -20,14 +20,16 @@ export const ENTERPRISE_RECAPTCHA_SITE_KEY =
 
 interface GrecaptchaEnterprise {
   ready: (callback: () => void) => void;
-  execute: (siteKey: string, options: { action: string }) => Promise<string>;
+  execute?: (siteKey: string, options: { action: string }) => Promise<string>;
   render?: (container: string | HTMLElement, parameters: Record<string, unknown>) => string;
+  getResponse?: (optWidgetId?: string | number) => string;
 }
 
 interface ExtendedWindow {
   grecaptcha?: {
     ready?: (callback: () => void) => void;
     execute?: (siteKey: string, options: { action: string }) => Promise<string>;
+    getResponse?: (optWidgetId?: string | number) => string;
     enterprise?: GrecaptchaEnterprise;
   };
 }
@@ -55,34 +57,43 @@ export function RecaptchaProvider({ children }: { children: React.ReactNode }) {
         return '';
       }
 
-      // 1. Google reCAPTCHA Enterprise API
-      if (extWin.grecaptcha.enterprise) {
+      // 1. Check if token is already solved in widget checkbox
+      const existingToken =
+        extWin.grecaptcha.enterprise?.getResponse?.() ||
+        extWin.grecaptcha?.getResponse?.();
+
+      if (existingToken) {
+        return existingToken;
+      }
+
+      // 2. Google reCAPTCHA Enterprise execute API
+      if (extWin.grecaptcha.enterprise?.execute) {
         return new Promise<string>((resolve) => {
           extWin.grecaptcha?.enterprise?.ready(async () => {
             try {
-              const token = await extWin.grecaptcha?.enterprise?.execute(siteKey, {
+              const token = await extWin.grecaptcha?.enterprise?.execute?.(siteKey, {
                 action: action.toUpperCase(),
               });
-              resolve(token || '');
+              resolve(token || extWin.grecaptcha?.enterprise?.getResponse?.() || '');
             } catch (err) {
               console.error('reCAPTCHA Enterprise execution error:', err);
-              resolve('');
+              resolve(extWin.grecaptcha?.enterprise?.getResponse?.() || '');
             }
           });
         });
       }
 
-      // 2. Fallback to standard grecaptcha API
+      // 3. Fallback to standard grecaptcha API
       return new Promise<string>((resolve) => {
         extWin.grecaptcha?.ready?.(async () => {
           try {
             const token = await extWin.grecaptcha?.execute?.(siteKey, {
               action: action.toLowerCase(),
             });
-            resolve(token || '');
+            resolve(token || extWin.grecaptcha?.getResponse?.() || '');
           } catch (err) {
             console.error('reCAPTCHA standard execution error:', err);
-            resolve('');
+            resolve(extWin.grecaptcha?.getResponse?.() || '');
           }
         });
       });
@@ -94,7 +105,7 @@ export function RecaptchaProvider({ children }: { children: React.ReactNode }) {
     <RecaptchaContext.Provider value={{ executeRecaptcha, isLoaded, siteKey }}>
       {siteKey && (
         <Script
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`}
+          src="https://www.google.com/recaptcha/enterprise.js"
           strategy="lazyOnload"
           onLoad={() => setIsLoaded(true)}
         />
@@ -109,15 +120,17 @@ export function useRecaptcha() {
 }
 
 /**
- * Optional container widget for explicit Enterprise reCAPTCHA rendering
+ * Enterprise reCAPTCHA widget container (renders the checkbox challenge)
  */
 export function EnterpriseRecaptchaWidget({ action = 'LOGIN' }: { action?: string }) {
   const { siteKey } = useRecaptcha();
   return (
-    <div
-      className="g-recaptcha"
-      data-sitekey={siteKey}
-      data-action={action}
-    />
+    <div className="py-2 flex justify-center">
+      <div
+        className="g-recaptcha"
+        data-sitekey={siteKey}
+        data-action={action}
+      />
+    </div>
   );
 }

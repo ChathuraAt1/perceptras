@@ -6,7 +6,7 @@ import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
 import { Display, Heading } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { Input, Textarea } from '@/components/ui/input';
-import { useRecaptcha } from '@/lib/recaptcha';
+import { useRecaptcha, EnterpriseRecaptchaWidget } from '@/lib/recaptcha';
 import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Radio } from 'lucide-react';
 
 const PORTAL_CONTACT_URL = 'https://portal.perceptras.net/api/mail/contact';
@@ -176,6 +176,8 @@ export default function ContactPage() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                     />
+
+                    <EnterpriseRecaptchaWidget action="CONTACT" />
 
                     <Button
                       type="submit"
