@@ -241,30 +241,34 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               );
             })}
 
-            {/* Navigation Section 2: Management & Billing */}
-            <p className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-widest text-muted font-bold">
-              Account &amp; Topology
-            </p>
+            {/* Navigation Section 2: Management & Billing (Hidden in Sandbox Demo Mode) */}
+            {!isDemoMode && (
+              <>
+                <p className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-widest text-muted font-bold">
+                  Account &amp; Topology
+                </p>
 
-            {NAV_ADMIN.map(({ href, label, icon: Icon }) => {
-              const active = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={`w-full flex items-center justify-between px-3 py-2 uppercase font-medium transition-colors ${
-                    active
-                      ? 'bg-foreground text-background font-bold'
-                      : 'text-muted hover:text-foreground hover:bg-foreground/5'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Icon className="h-4 w-4" />
-                    <span>{label}</span>
-                  </div>
-                </Link>
-              );
-            })}
+                {NAV_ADMIN.map(({ href, label, icon: Icon }) => {
+                  const active = pathname === href;
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      className={`w-full flex items-center justify-between px-3 py-2 uppercase font-medium transition-colors ${
+                        active
+                          ? 'bg-foreground text-background font-bold'
+                          : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="h-4 w-4" />
+                        <span>{label}</span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
 
@@ -326,7 +330,41 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </header>
 
         {/* Workspace Content Scrollable Body */}
-        <main className="flex-1 overflow-y-auto p-8 space-y-8">{children}</main>
+        <main className="flex-1 overflow-y-auto p-8 space-y-8">
+          {isDemoMode && (pathname === '/dashboard/billing' || pathname === '/dashboard/settings') ? (
+            <div className="max-w-xl mx-auto border border-border bg-surface p-8 space-y-6 text-center shadow-lg my-12">
+              <div className="w-14 h-14 bg-amber-500/10 border border-amber-500 text-amber-500 flex items-center justify-center mx-auto">
+                <Lock className="h-7 w-7" />
+              </div>
+              <div className="space-y-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
+                  SANDBOX DEMO MODE // ACCESS RESTRICTED
+                </span>
+                <h2 className="font-syne text-xl font-bold uppercase text-foreground">
+                  Section Disabled in Sandbox Mode
+                </h2>
+                <p className="font-mono text-xs text-muted leading-relaxed">
+                  Billing, quota upgrades, and master security credentials require an authenticated Perceptras ID. Please sign in to manage live cluster billing and security settings.
+                </p>
+              </div>
+
+              <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/auth/login/?redirect=/dashboard/billing">
+                  <Button variant="primary" size="md" className="w-full sm:w-auto">
+                    Sign In to Unlock
+                  </Button>
+                </Link>
+                <Link href="/dashboard/">
+                  <Button variant="outline" size="md" className="w-full sm:w-auto">
+                    Back to Cluster Overview
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            children
+          )}
+        </main>
       </div>
     </div>
   );

@@ -8,101 +8,102 @@ import {
   Compass,
   Network,
   ArrowRight,
+  Check,
 } from 'lucide-react';
 
 const CORE_PILLARS = [
   {
     number: '01',
     id: 'flow',
-    title: 'Zero-Copy Video Ingest & Protocol Normalization',
+    title: 'Multi-Protocol Video Ingest & Stream Management',
     tagline: 'Perceptras Flow',
     description:
-      'Direct-to-GPU memory transfer eliminates CPU bottlenecks, enabling ultra-low latency multi-stream 4K decoding and standard protocol aggregation.',
+      'Connect industrial and standard cameras across your facility. Hardware-accelerated decoding offloads CPU memory bottlenecks, keeping video pipelines stable during continuous operation.',
     icon: Video,
-    specs: [
-      { label: 'Protocols Supported', val: 'RTSP, GigE Vision, USB3, MIPI CSI-2' },
-      { label: 'Memory Architecture', val: 'Zero-Copy Unified DMA Buffers' },
-      { label: 'Decode Latency', val: '< 0.4 ms Hardware NVDEC' },
-      { label: 'Packet Recovery', val: 'Lossless Dynamic Jitter Buffer' },
+    highlights: [
+      { title: 'Standard Camera Support', desc: 'Native ingest for RTSP, GigE Vision, USB3 Vision, and MIPI CSI sensor feeds.' },
+      { title: 'Hardware Decoding Offload', desc: 'Direct GPU decoding reduces host CPU utilization and memory copying.' },
+      { title: 'Resilient Reconnection', desc: 'Automatic stream recovery and dynamic buffering during transient network drops.' },
+      { title: 'Normalized Frame Buffers', desc: 'Converts mixed camera feeds into consistent tensor formats for downstream inference.' },
     ],
   },
   {
     number: '02',
     id: 'accel',
-    title: 'Hardware-Compiled Neural Inference Engine',
+    title: 'Edge-Optimized Neural Model Runtime',
     tagline: 'Perceptras Accel',
     description:
-      'Automatic INT8 and FP8 layer quantization with execution graph compilation delivers sub-2ms line-rate perception on edge GPUs and robotics units.',
+      'Run modern vision models on your own edge devices. Quantization and batching tools help maintain stable frame rates on NVIDIA Jetson units and workstation GPUs.',
     icon: Zap,
-    specs: [
-      { label: 'Quantization Tiers', val: 'FP8, INT8, FP16 Layer Fusion' },
-      { label: 'Model Formats', val: 'ONNX, TensorRT, PyTorch, OpenVINO' },
-      { label: 'Inference Throughput', val: '240+ FPS Aggregate per Node' },
-      { label: 'Batch Optimization', val: 'Dynamic 1 to 32 Frame Batching' },
+    highlights: [
+      { title: 'INT8 & FP16 Precision', desc: 'Quantize models to reduce memory and compute requirements with minimal accuracy loss.' },
+      { title: 'Standard Framework Export', desc: 'Direct support for models exported from PyTorch, ONNX, and TensorRT pipelines.' },
+      { title: 'Dynamic Batch Processing', desc: 'Balances throughput and responsiveness under variable camera workloads.' },
+      { title: 'Multiple Vision Tasks', desc: 'Configurable pipelines for object detection, segmentation, and pose tracking.' },
     ],
   },
   {
     number: '03',
     id: 'zone',
-    title: 'Multi-Camera 3D Spatial Intelligence & Geofences',
+    title: 'Multi-Camera Spatial Coverage & Alert Zones',
     tagline: 'Perceptras Zone',
     description:
-      'Continuous extrinsic auto-calibration fuses overlapping camera angles into unified 3D metric world coordinates with real-time entity re-identification.',
+      'Calibrate multiple overlapping cameras to track objects across wider areas. Set up virtual safety zones and tripwires to notify your operations team when events occur.',
     icon: Compass,
-    specs: [
-      { label: 'Calibration Lock', val: '0.019 px Reprojection Error' },
-      { label: 'ReID Persistence', val: '99.8% Cross-Camera Retention' },
-      { label: 'Coordinate System', val: 'Metric 3D Real-World Space' },
-      { label: 'Safety Triggers', val: 'Zero-Lag Hardware E-Stop Relays' },
+    highlights: [
+      { title: 'Multi-Camera Calibration', desc: 'Guided extrinsic calibration routines to align overlapping viewpoints.' },
+      { title: 'Cross-Camera Tracking', desc: 'Maintains object continuity as items or personnel move between camera fields of view.' },
+      { title: 'Configurable Alert Boundaries', desc: 'Define custom polygons for pedestrian lanes, restricted areas, and equipment zones.' },
+      { title: 'Flexible Event Dispatch', desc: 'Trigger alerts via webhooks, MQTT topics, visual alarms, or hardware relays.' },
     ],
   },
   {
     number: '04',
     id: 'grid',
-    title: 'Sovereign Edge Cluster & Streaming Egress',
+    title: 'Local Network Deployment & Data Privacy',
     tagline: 'Perceptras Grid',
     description:
-      'Distributed multi-node clustering with 120ms automatic failover, load-balanced stream distribution, and enterprise streaming telemetry buses.',
+      'Process all video feeds entirely on your local facility network. Your video data never leaves your premises, avoiding cloud bandwidth fees and privacy risks.',
     icon: Network,
-    specs: [
-      { label: 'Failover Speed', val: '120 ms Hot-Standby Switchover' },
-      { label: 'Streaming Buses', val: 'gRPC, Apache Kafka, MQTT, WebSockets' },
-      { label: 'Air-Gap Security', val: '100% On-Premise Sovereign Compute' },
-      { label: 'Edge OS Support', val: 'Linux x86, JetPack, Ubuntu Server' },
+    highlights: [
+      { title: '100% On-Premise Execution', desc: 'No external cloud dependencies required for continuous day-to-day operations.' },
+      { title: 'Zero Cloud Video Egress Costs', desc: 'Eliminates expensive monthly cloud bandwidth charges for multi-camera feeds.' },
+      { title: 'Cluster Health & Failover', desc: 'Monitor node status and reassign stream workloads if a host needs maintenance.' },
+      { title: 'Standard Integration APIs', desc: 'Export detection events and metadata directly to SCADA, MES, or robotics controllers.' },
     ],
   },
 ];
 
-const COMPARISON_ROWS = [
+const ARCHITECTURAL_DIFFERENCES = [
   {
-    metric: 'Pipeline End-to-End Latency',
-    cloud: '150 ms – 400 ms (Network RTT)',
-    perceptras: '1.1 ms (Edge Direct-to-GPU)',
+    topic: 'Video Processing Location',
+    cloud: 'Uploaded continuously to third-party cloud servers',
+    perceptras: 'Processed locally on your on-premise edge hardware',
   },
   {
-    metric: 'Raw Video Bandwidth Required',
-    cloud: 'High (Continuous 4K Uplink)',
-    perceptras: 'Zero (Local GPU Decode & Ingest)',
+    topic: 'Bandwidth & Data Costs',
+    cloud: 'High recurring costs for uploading multiple 4K/FHD streams',
+    perceptras: 'Zero internet bandwidth needed for video processing',
   },
   {
-    metric: 'Data Sovereignty & Privacy',
-    cloud: 'Third-party cloud storage risk',
-    perceptras: '100% Air-Gapped On-Premises',
+    topic: 'Data Privacy & Compliance',
+    cloud: 'Video leaves facility premises and enters external datacenters',
+    perceptras: 'Footage remains 100% on your secure local network',
   },
   {
-    metric: 'Internet Outage Resilience',
-    cloud: 'Complete perception failure',
-    perceptras: '100% Operational via Local Mesh',
+    topic: 'Internet Outage Impact',
+    cloud: 'Vision system stops functioning if connection is interrupted',
+    perceptras: 'Continues running normally without external internet',
   },
   {
-    metric: 'Multi-Camera 3D Spatial Fusion',
-    cloud: 'Basic individual 2D frame tags',
-    perceptras: 'Unified Metric 3D Coordinate Plane',
+    topic: 'Multi-Camera Coordination',
+    cloud: 'Usually processes isolated frames with separate API calls',
+    perceptras: 'Fuses overlapping camera viewpoints in unified coordinate space',
   },
   {
-    metric: 'Hardware E-Stop Interlock',
-    cloud: 'Not supported (Excessive delay)',
-    perceptras: 'Sub-millisecond hardware trigger',
+    topic: 'Integration with Local Systems',
+    cloud: 'Requires webhooks back from the cloud with internet delays',
+    perceptras: 'Direct local buses: gRPC, Kafka, MQTT, and digital I/O signals',
   },
 ];
 
@@ -112,12 +113,12 @@ export default function FeaturesPage() {
       {/* ── Features Hero ───────────────────────────────────────── */}
       <Section className="pt-24 md:pt-36 pb-16">
         <Container className="text-center max-w-4xl mx-auto space-y-6">
-          <MonoTag>PHYSICAL AI PLATFORM CAPABILITIES</MonoTag>
+          <MonoTag>PLATFORM ARCHITECTURE &amp; CAPABILITIES</MonoTag>
           <Display className="text-4xl sm:text-6xl font-bold">
-            Built for Sub-Millisecond Perception at Physical Scale
+            Dependable Physical AI for Real-World Systems
           </Display>
           <p className="font-mono text-sm md:text-base text-muted max-w-3xl mx-auto leading-relaxed">
-            A comprehensive architectural breakdown of the video ingest pipelines, neural runtime compilers, 3D metric spatial intelligence, and sovereign edge clustering that power Perceptras.
+            Connect multi-camera streams, run optimized neural inference on your edge hardware, and monitor spatial boundaries on your local network without cloud bandwidth overhead.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 pt-4">
@@ -151,11 +152,11 @@ export default function FeaturesPage() {
                   isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'
                 } gap-10 items-stretch justify-between shadow-sm`}
               >
-                {/* Left: Text Description */}
-                <div className="space-y-4 lg:w-1/2 flex flex-col justify-between">
+                {/* Left: Text Overview */}
+                <div className="space-y-6 lg:w-1/2 flex flex-col justify-between">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <span className="font-mono text-xs font-bold text-muted border border-border px-2 py-0.5">
+                      <span className="font-mono text-xs font-bold text-muted border border-border px-2.5 py-0.5">
                         {pillar.number} • {pillar.tagline}
                       </span>
                       <Icon className="h-5 w-5 text-foreground" />
@@ -170,30 +171,34 @@ export default function FeaturesPage() {
                     </p>
                   </div>
 
-                  <div className="pt-6">
+                  <div>
                     <Link href={`/dashboard/${pillar.id}`}>
                       <Button variant="outline" size="sm" className="flex items-center gap-2">
-                        <span>Open {pillar.tagline} Workspace</span>
+                        <span>Explore {pillar.tagline} in Dashboard</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Button>
                     </Link>
                   </div>
                 </div>
 
-                {/* Right: Technical Specs HUD Matrix */}
-                <div className="lg:w-1/2 border border-border bg-surface/50 p-6 flex flex-col justify-center space-y-4">
+                {/* Right: Concrete Capabilities List */}
+                <div className="lg:w-1/2 border border-border bg-surface/50 p-6 sm:p-8 flex flex-col justify-center space-y-4">
                   <span className="font-mono text-[10px] uppercase tracking-widest text-muted font-bold border-b border-border pb-2">
-                    Verified Benchmark Specifications
+                    Key Functional Capabilities
                   </span>
 
-                  <div className="space-y-3 font-mono text-xs">
-                    {pillar.specs.map((spec) => (
-                      <div
-                        key={spec.label}
-                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 py-2 border-b border-border/50"
-                      >
-                        <span className="text-muted text-[11px]">{spec.label}:</span>
-                        <span className="font-bold text-foreground sm:text-right">{spec.val}</span>
+                  <div className="space-y-4">
+                    {pillar.highlights.map((item, hIdx) => (
+                      <div key={hIdx} className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <Check className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                          <h4 className="font-syne text-sm font-bold text-foreground uppercase">
+                            {item.title}
+                          </h4>
+                        </div>
+                        <p className="font-mono text-xs text-muted leading-relaxed pl-5.5">
+                          {item.desc}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -204,16 +209,16 @@ export default function FeaturesPage() {
         </Container>
       </Section>
 
-      {/* ── Comparison Table: Cloud APIs vs. Perceptras Edge ──── */}
+      {/* ── Comparison Table: Cloud APIs vs. Perceptras Local Edge ──── */}
       <Section borders={{ bottom: true }} className="bg-surface/30 py-20 md:py-28">
         <Container className="max-w-5xl">
           <div className="max-w-3xl mb-12">
-            <MonoTag>ARCHITECTURAL ADVANTAGE</MonoTag>
+            <MonoTag>DEPLOYMENT ARCHITECTURE</MonoTag>
             <Heading as="h2" className="text-2xl md:text-4xl mt-3 mb-4">
-              Traditional Cloud APIs vs. Perceptras Physical AI
+              Local Edge Processing vs. Cloud Streaming
             </Heading>
-            <p className="font-mono text-sm text-muted">
-              Why autonomous robotics, manufacturing lines, and automated facilities require on-premise zero-copy inference.
+            <p className="font-mono text-sm text-muted leading-relaxed">
+              Why on-premise vision pipelines provide better reliability, privacy, and cost predictability for operational environments.
             </p>
           </div>
 
@@ -221,19 +226,19 @@ export default function FeaturesPage() {
             <table className="w-full text-left font-mono text-xs">
               <thead>
                 <tr className="border-b border-border bg-surface/80 text-[10px] uppercase tracking-wider text-muted">
-                  <th className="py-4 px-5 font-semibold">Architectural Vector</th>
-                  <th className="py-4 px-5 font-semibold text-muted">Traditional Cloud Vision</th>
+                  <th className="py-4 px-5 font-semibold">Aspect</th>
+                  <th className="py-4 px-5 font-semibold text-muted">Typical Cloud Vision</th>
                   <th className="py-4 px-5 font-semibold text-foreground font-bold bg-foreground/[0.03]">
-                    Perceptras Platform
+                    Perceptras On-Premise
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {COMPARISON_ROWS.map((row) => (
-                  <tr key={row.metric} className="hover:bg-foreground/5 transition-colors">
-                    <td className="py-3.5 px-5 font-bold text-foreground">{row.metric}</td>
+                {ARCHITECTURAL_DIFFERENCES.map((row) => (
+                  <tr key={row.topic} className="hover:bg-foreground/5 transition-colors">
+                    <td className="py-3.5 px-5 font-bold text-foreground">{row.topic}</td>
                     <td className="py-3.5 px-5 text-muted">{row.cloud}</td>
-                    <td className="py-3.5 px-5 text-emerald-500 font-bold bg-foreground/[0.02]">
+                    <td className="py-3.5 px-5 text-foreground font-semibold bg-foreground/[0.02]">
                       {row.perceptras}
                     </td>
                   </tr>
@@ -248,10 +253,10 @@ export default function FeaturesPage() {
       <Section className="py-24 md:py-32">
         <Container className="text-center max-w-3xl mx-auto space-y-6">
           <Display as="h2" className="text-3xl md:text-5xl font-bold">
-            Experience Sub-Millisecond Perception Today
+            Evaluate Perceptras on Your Hardware
           </Display>
           <p className="font-mono text-sm text-muted max-w-xl mx-auto leading-relaxed">
-            Deploy on your existing edge hardware or test our live demo feeds in the controller dashboard.
+            Test our stream ingest and model pipelines in the interactive controller dashboard or size a deployment for your facility.
           </p>
           <div className="flex justify-center gap-4 pt-4">
             <Link href="/checkout?plan=professional">

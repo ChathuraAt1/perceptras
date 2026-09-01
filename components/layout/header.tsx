@@ -33,16 +33,16 @@ export function Header() {
             Features
           </Link>
           <Link
-            href="/about/"
-            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
-          >
-            About
-          </Link>
-          <Link
             href="/pricing/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
             Pricing
+          </Link>
+          <Link
+            href="/about/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            About
           </Link>
           <Link
             href="/contact/"
