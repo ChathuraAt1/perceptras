@@ -217,7 +217,7 @@ export function PricingSection() {
                   href={
                     isCustom
                       ? '/contact?subject=Enterprise%20Inquiry'
-                      : `/auth/register?plan=${plan.slug}&interval=${billingCycle}`
+                      : `/checkout?plan=${plan.slug}&interval=${billingCycle}`
                   }
                 >
                   <Button
