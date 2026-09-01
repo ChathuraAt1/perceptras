@@ -33,16 +33,16 @@ export function Header() {
             About
           </Link>
           <Link
+            href="/pricing/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            Pricing
+          </Link>
+          <Link
             href="/contact/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >
             Contact
-          </Link>
-          <Link
-            href="/auth/login/"
-            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
-          >
-            Sign In
           </Link>
 
           {/* Primary CTA: Explore Products */}

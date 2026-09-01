@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { CredibilityStrip } from '@/components/marketing/credibility-strip';
 import { FeatureShowcase } from '@/components/marketing/feature-showcase';
 import { TestimonialsSection } from '@/components/marketing/testimonials';
-import { PricingSection } from '@/components/marketing/pricing-section';
 import { FAQSection } from '@/components/marketing/faq-section';
 import {
   Video,
@@ -240,20 +239,29 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── Pricing Plans ────────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="bg-surface/30">
+      {/* ── Pricing Teaser ──────────────────────────────────── */}
+      <Section borders={{ bottom: true }} className="bg-surface/30 py-20 md:py-28">
         <Container>
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <MonoTag className="mb-3">PLANS &amp; PRICING</MonoTag>
-            <Heading as="h2" className="text-3xl md:text-4xl mb-4">
-              Transparent, Scalable Pricing
-            </Heading>
-            <p className="font-mono text-sm text-muted leading-relaxed">
-              Choose the right tier for your deployment scale. Switch or scale anytime.
-            </p>
-          </div>
+          <div className="border border-border bg-surface p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="space-y-4 max-w-2xl">
+              <MonoTag>FLEXIBLE SUBSCRIPTIONS</MonoTag>
+              <Heading as="h2" className="text-2xl md:text-4xl">
+                Predictable Pricing for Any Hardware Scale
+              </Heading>
+              <p className="font-mono text-sm text-muted leading-relaxed">
+                From single edge devices to multi-node facility clusters. Simple monthly or annual subscriptions with 20% discount on yearly billing.
+              </p>
+            </div>
 
-          <PricingSection />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+              <Link href="/pricing/">
+                <Button variant="primary" size="lg" className="flex items-center justify-center gap-2">
+                  <span>View All Pricing Plans</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </Container>
       </Section>
 

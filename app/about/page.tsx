@@ -35,24 +35,32 @@ const TEAM = [
   {
     name: 'Dr. Alistair Vance',
     role: 'Co-Founder & CEO',
+    initials: 'AV',
+    gradient: 'from-zinc-800 to-zinc-950',
     background:
       'Spent over a decade leading robotics and vision teams, helping automated warehouses and mobile robots navigate complex spaces safely.',
   },
   {
     name: 'Mira Sorensen',
     role: 'Co-Founder & Chief Architect',
+    initials: 'MS',
+    gradient: 'from-zinc-700 to-zinc-900',
     background:
       'Specialist in making artificial intelligence models run fast and efficiently on everyday hardware devices without expensive servers.',
   },
   {
     name: 'Tarek El-Masri',
     role: 'Head of Engineering',
+    initials: 'TE',
+    gradient: 'from-zinc-800 to-zinc-900',
     background:
       'Expert in building reliable, high-speed software systems that connect hundreds of cameras and sensors simultaneously without crashing.',
   },
   {
     name: 'Dr. Elena Rostova',
     role: 'Head of Research',
+    initials: 'ER',
+    gradient: 'from-zinc-700 to-zinc-950',
     background:
       'Dedicated to helping systems understand 3D physical spaces and track objects smoothly across multiple camera angles.',
   },
@@ -232,18 +240,43 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             {TEAM.map((member) => (
-              <div key={member.name} className="border-t border-border pt-6 space-y-2">
-                <h3 className="font-syne text-xl font-bold uppercase text-foreground">
-                  {member.name}
-                </h3>
-                <p className="font-mono text-xs text-foreground font-semibold">
-                  {member.role}
-                </p>
-                <p className="font-mono text-xs text-muted leading-relaxed pt-1">
-                  {member.background}
-                </p>
+              <div
+                key={member.name}
+                className="group border-t border-border pt-6 flex items-start gap-5 transition-colors"
+              >
+                {/* Left Square Avatar Container with Hover Effects */}
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 border border-border bg-surface overflow-hidden group-hover:border-foreground transition-all duration-300">
+                  {/* Subtle Monochrome Gradient / Portrait Canvas */}
+                  <div
+                    className={`w-full h-full bg-gradient-to-br ${member.gradient} flex flex-col items-center justify-center text-zinc-100 font-mono select-none group-hover:scale-110 transition-transform duration-500`}
+                  >
+                    <span className="font-syne text-xl sm:text-2xl font-bold tracking-wider">
+                      {member.initials}
+                    </span>
+                    <span className="text-[8px] text-zinc-400 uppercase tracking-widest mt-0.5">
+                      Team
+                    </span>
+                  </div>
+
+                  {/* Corner crosshairs on hover */}
+                  <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Right Text Description */}
+                <div className="space-y-1.5 flex-1 min-w-0">
+                  <h3 className="font-syne text-lg font-bold uppercase text-foreground group-hover:text-foreground transition-colors">
+                    {member.name}
+                  </h3>
+                  <p className="font-mono text-xs text-foreground font-semibold">
+                    {member.role}
+                  </p>
+                  <p className="font-mono text-xs text-muted leading-relaxed pt-1">
+                    {member.background}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
