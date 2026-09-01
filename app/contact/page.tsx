@@ -7,12 +7,13 @@ import { Display, Heading } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { Input, Textarea } from '@/components/ui/input';
 import { useRecaptcha, EnterpriseRecaptchaWidget } from '@/lib/recaptcha';
-import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Radio } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Phone } from 'lucide-react';
 
 const PORTAL_CONTACT_URL = 'https://portal.perceptras.net/api/mail/contact';
 
 export default function ContactPage() {
   const { executeRecaptcha } = useRecaptcha();
+  const [selectedBranch, setSelectedBranch] = useState<'usa' | 'sl'>('usa');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('General Inquiry');
@@ -209,53 +210,129 @@ export default function ContactPage() {
 
             <div className="space-y-8">
               <Heading index="02" className="mb-6">
-                Contact Information
+                Global Operations &amp; Offices
               </Heading>
 
-              <div className="space-y-6">
-                <div className="border-l-2 border-border pl-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Mail className="h-3.5 w-3.5 text-muted" />
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      Email
-                    </p>
-                  </div>
-                  <p className="font-mono text-sm text-foreground">
-                    contact@perceptras.net
-                  </p>
-                  <p className="font-mono text-xs text-muted mt-0.5">
-                    General support and business inquiries
-                  </p>
-                </div>
+              {/* Branch Selector Tabs */}
+              <div className="flex border border-border bg-surface font-mono text-xs">
+                <button
+                  type="button"
+                  onClick={() => setSelectedBranch('usa')}
+                  className={`flex-1 py-2 px-3 text-center uppercase font-bold transition-colors cursor-pointer ${
+                    selectedBranch === 'usa'
+                      ? 'bg-foreground text-background'
+                      : 'text-muted hover:text-foreground'
+                  }`}
+                >
+                  USA Headquarters
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBranch('sl')}
+                  className={`flex-1 py-2 px-3 text-center uppercase font-bold transition-colors cursor-pointer border-l border-border ${
+                    selectedBranch === 'sl'
+                      ? 'bg-foreground text-background'
+                      : 'text-muted hover:text-foreground'
+                  }`}
+                >
+                  Sri Lanka Labs
+                </button>
+              </div>
 
-                <div className="border-l-2 border-border pl-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Radio className="h-3.5 w-3.5 text-muted" />
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      Portal &amp; Dashboard
-                    </p>
-                  </div>
-                  <p className="font-mono text-sm text-foreground">
-                    portal.perceptras.net
-                  </p>
-                  <p className="font-mono text-xs text-muted mt-0.5">
-                    Account management &amp; telemetry
-                  </p>
-                </div>
+              {/* Active Branch Card */}
+              <div className="border border-border bg-surface p-6 space-y-5">
+                {selectedBranch === 'usa' ? (
+                  <>
+                    <div className="space-y-1">
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-emerald-500 font-bold">
+                        Global Headquarters
+                      </span>
+                      <h3 className="font-syne text-base font-bold text-foreground">
+                        Perceptras Digital Labs LLC
+                      </h3>
+                    </div>
 
-                <div className="border-l-2 border-border pl-4">
-                  <div className="flex items-center gap-2 mb-1">
-                    <MapPin className="h-3.5 w-3.5 text-muted" />
-                    <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                      Location
-                    </p>
-                  </div>
-                  <p className="font-mono text-sm text-foreground">
-                    Perceptras Inc.
-                  </p>
-                  <p className="font-mono text-xs text-muted mt-0.5">
-                    Physical AI Systems Division
-                  </p>
+                    <div className="space-y-3 font-mono text-xs">
+                      <div className="flex items-start gap-2.5">
+                        <MapPin className="h-4 w-4 text-muted shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-foreground">333 Bush Street, Suite 700</p>
+                          <p className="text-muted text-[11px]">San Francisco, CA 94104, USA</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2.5">
+                        <Phone className="h-4 w-4 text-muted shrink-0" />
+                        <a href="tel:+14155552104" className="text-foreground hover:underline">
+                          +1 415 555 2104
+                        </a>
+                      </div>
+
+                      <div className="flex items-center gap-2.5">
+                        <Mail className="h-4 w-4 text-muted shrink-0" />
+                        <a href="mailto:contact@perceptras.net" className="text-foreground hover:underline">
+                          contact@perceptras.net
+                        </a>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="space-y-1">
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-emerald-500 font-bold">
+                        Engineering &amp; Operations Center
+                      </span>
+                      <h3 className="font-syne text-base font-bold text-foreground">
+                        Perceptras Digital Labs (Pvt) Ltd
+                      </h3>
+                    </div>
+
+                    <div className="space-y-3 font-mono text-xs">
+                      <div className="flex items-start gap-2.5">
+                        <MapPin className="h-4 w-4 text-muted shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-foreground">26 Silver Crescent</p>
+                          <p className="text-muted text-[11px]">Rajagiriya, Sri Lanka</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2.5">
+                        <Phone className="h-4 w-4 text-muted shrink-0" />
+                        <a href="tel:+94112876431" className="text-foreground hover:underline">
+                          +94 11 287 6431
+                        </a>
+                      </div>
+
+                      <div className="flex items-center gap-2.5">
+                        <Mail className="h-4 w-4 text-muted shrink-0" />
+                        <a href="mailto:contact@perceptras.net" className="text-foreground hover:underline">
+                          contact@perceptras.net
+                        </a>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Google Map Embed */}
+              <div className="border border-border bg-surface overflow-hidden space-y-2">
+                <div className="p-3 border-b border-border bg-surface/50 flex items-center justify-between font-mono text-[10px] text-muted">
+                  <span>FACILITY SATELLITE TELEMETRY</span>
+                  <span className="text-emerald-500 font-bold uppercase">
+                    {selectedBranch === 'usa' ? 'SF Hub Coordinates' : 'SL Labs Coordinates'}
+                  </span>
+                </div>
+                <div className="h-56 w-full relative bg-surface/80">
+                  <iframe
+                    title="Perceptras Facility Map"
+                    src={
+                      selectedBranch === 'usa'
+                        ? 'https://maps.google.com/maps?q=333%20Bush%20Street,%20San%20Francisco,%20CA%2094104&t=&z=15&ie=UTF8&iwloc=&output=embed'
+                        : 'https://maps.google.com/maps?q=26%20Silver%20Crescent,%20Rajagiriya,%20Sri%20Lanka&t=&z=15&ie=UTF8&iwloc=&output=embed'
+                    }
+                    className="w-full h-full border-0 grayscale invert contrast-125 dark:opacity-90 opacity-80"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             </div>
