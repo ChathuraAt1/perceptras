@@ -10,6 +10,8 @@ import {
   LayoutDashboard,
   Video,
   Zap,
+  Compass,
+  Network,
   CreditCard,
   Settings,
   Plus,
@@ -21,6 +23,8 @@ import {
   LogOut,
   Terminal,
   ArrowLeft,
+  Play,
+  ArrowRight,
 } from 'lucide-react';
 
 interface StreamItem {
@@ -86,7 +90,7 @@ const NODES = [
   {
     id: 'node-alpha-01',
     name: 'Edge-Cluster-US-East',
-    role: 'Primary Ingest & Inference',
+    role: 'Primary Ingest & Inference Node',
     gpu: '2x RTX 6000 Ada (96GB VRAM)',
     gpuLoad: '64%',
     cpuLoad: '28%',
@@ -94,11 +98,12 @@ const NODES = [
     temp: '58°C',
     status: 'online',
     streamsAssigned: 18,
+    egress: 'gRPC :50051 + Kafka Topic',
   },
   {
     id: 'node-beta-02',
     name: 'Robot-Fleet-Zone-A',
-    role: 'Embedded AMR SLAM Node',
+    role: 'Embedded AMR SLAM & Spatial Unit',
     gpu: 'Jetson AGX Orin 64GB',
     gpuLoad: '72%',
     cpuLoad: '44%',
@@ -106,13 +111,84 @@ const NODES = [
     temp: '49°C',
     status: 'online',
     streamsAssigned: 8,
+    egress: 'WebSocket Live Bus',
+  },
+];
+
+const MODELS = [
+  {
+    id: 'model_01',
+    name: 'YOLOv10x-Physical-Perception',
+    type: 'Object Detection & Bounding',
+    quantization: 'FP8 Quantized',
+    batchSize: 'Batch 16',
+    throughput: '240 FPS',
+    latency: '1.1 ms',
+    memory: '1.8 GB VRAM',
+  },
+  {
+    id: 'model_02',
+    name: 'Spatial-Pose-3D-Tracking',
+    type: 'Multi-Person 3D Keypoint Pose',
+    quantization: 'INT8 Quantized',
+    batchSize: 'Batch 8',
+    throughput: '180 FPS',
+    latency: '1.4 ms',
+    memory: '2.4 GB VRAM',
+  },
+  {
+    id: 'model_03',
+    name: 'Defect-Anomalies-Engine',
+    type: 'Surface Defect Segmentation',
+    quantization: 'FP16 Precision',
+    batchSize: 'Batch 4',
+    throughput: '90 FPS',
+    latency: '2.1 ms',
+    memory: '3.1 GB VRAM',
+  },
+];
+
+const GEOFENCES = [
+  {
+    id: 'geo_01',
+    name: 'Loading Dock Alpha // Safety Zone',
+    type: 'Restricted Proximity Hazard',
+    cameras: 'Dock-Cam-01, Dock-Cam-02',
+    status: 'Armed & Active',
+    activeEntities: '0 Violations',
+  },
+  {
+    id: 'geo_02',
+    name: 'AMR Fast Transit Corridor',
+    type: 'Autonomous Vehicle Lane',
+    cameras: 'Aisle-North, Aisle-South',
+    status: 'Active Tracking',
+    activeEntities: '2 Mobile Robots',
+  },
+  {
+    id: 'geo_03',
+    name: 'Robotic Arm Cell Perimeter',
+    type: 'Interlock E-Stop Boundary',
+    cameras: 'Cell-Macro-01',
+    status: 'Armed (Zero-Lag)',
+    activeEntities: '1 Operator in Safe Zone',
   },
 ];
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'streams' | 'pipelines' | 'billing' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'flow' | 'accel' | 'zone' | 'grid' | 'billing' | 'settings'
+  >('overview');
   const [copiedKey, setCopiedKey] = useState(false);
   const [streams, setStreams] = useState<StreamItem[]>(INITIAL_STREAMS);
+
+  // Accel Benchmark State
+  const [isBenchmarking, setIsBenchmarking] = useState(false);
+  const [benchResults, setBenchResults] = useState<{
+    p50: string;
+    p99: string;
+    fps: string;
+  } | null>(null);
 
   // Add Stream Modal State
   const [isAddStreamOpen, setIsAddStreamOpen] = useState(false);
@@ -134,7 +210,20 @@ export default function DashboardPage() {
   const [passMsg, setPassMsg] = useState('');
 
   useEffect(() => {
-    // Check if token exists in session storage for authenticated users
+    // Check URL parameters for tab routing (e.g. ?pipeline=flow)
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const pipelineParam = params.get('pipeline');
+      if (
+        pipelineParam === 'flow' ||
+        pipelineParam === 'accel' ||
+        pipelineParam === 'zone' ||
+        pipelineParam === 'grid'
+      ) {
+        setActiveTab(pipelineParam);
+      }
+    }
+
     const token = typeof window !== 'undefined' ? sessionStorage.getItem('sanctum_token') : null;
     if (token) {
       setApiKey(`pct_live_${token.slice(0, 24)}...`);
@@ -179,6 +268,19 @@ export default function DashboardPage() {
     navigator.clipboard.writeText(text);
     setCopiedKey(true);
     setTimeout(() => setCopiedKey(false), 2000);
+  };
+
+  const handleRunBenchmark = () => {
+    setIsBenchmarking(true);
+    setBenchResults(null);
+    setTimeout(() => {
+      setIsBenchmarking(false);
+      setBenchResults({
+        p50: '0.94 ms',
+        p99: '1.28 ms',
+        fps: '246.2 FPS',
+      });
+    }, 1500);
   };
 
   const handleAddStream = (e: React.FormEvent) => {
@@ -256,34 +358,38 @@ export default function DashboardPage() {
     <div className="flex h-screen w-full bg-background text-foreground overflow-hidden">
       {/* ── Fixed Left Sidebar ────────────────────────────────── */}
       <aside className="w-64 border-r border-border bg-surface flex flex-col justify-between shrink-0 z-30">
-        <div>
+        <div className="overflow-y-auto">
           {/* Brand Header */}
           <div className="h-16 border-b border-border px-6 flex items-center justify-between">
             <Link href="/" className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-foreground">
               Perceptras
             </Link>
-            <span className="flex h-2 w-2 relative">
+            <span className="flex h-2 w-2 relative" title="Edge Controller Online">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
           </div>
 
-          {/* Navigation Items */}
-          <nav className="p-3 space-y-1 font-mono text-xs">
-            {([
+          {/* Navigation Section 1: Core Perception Modules */}
+          <div className="p-3 space-y-1 font-mono text-xs">
+            <p className="px-3 py-1.5 text-[9px] uppercase tracking-widest text-muted font-bold">
+              Perception Platform
+            </p>
+
+            {[
               { id: 'overview' as const, label: 'Overview', icon: LayoutDashboard },
-              { id: 'streams' as const, label: 'Camera Streams', icon: Video, count: streams.length },
-              { id: 'pipelines' as const, label: 'Inference Pipelines', icon: Zap },
-              { id: 'billing' as const, label: 'Billing & Quota', icon: CreditCard },
-              { id: 'settings' as const, label: 'Settings & Security', icon: Settings },
-            ]).map(({ id, label, icon: Icon, count }) => {
+              { id: 'flow' as const, label: 'Flow // Ingest', icon: Video, count: streams.length },
+              { id: 'accel' as const, label: 'Accel // Inference', icon: Zap, count: MODELS.length },
+              { id: 'zone' as const, label: 'Zone // 3D Spatial', icon: Compass, count: GEOFENCES.length },
+              { id: 'grid' as const, label: 'Grid // Clusters', icon: Network, count: NODES.length },
+            ].map(({ id, label, icon: Icon, count }) => {
               const active = activeTab === id;
               return (
                 <button
                   key={id}
                   type="button"
                   onClick={() => setActiveTab(id)}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 uppercase font-medium transition-colors cursor-pointer ${
+                  className={`w-full flex items-center justify-between px-3 py-2 uppercase font-medium transition-colors cursor-pointer ${
                     active
                       ? 'bg-foreground text-background font-bold'
                       : 'text-muted hover:text-foreground hover:bg-foreground/5'
@@ -295,7 +401,7 @@ export default function DashboardPage() {
                   </div>
                   {count !== undefined && (
                     <span
-                      className={`text-[10px] px-1.5 py-0.2 border ${
+                      className={`text-[9px] px-1.5 py-0.2 border ${
                         active ? 'border-background text-background' : 'border-border text-muted'
                       }`}
                     >
@@ -305,17 +411,46 @@ export default function DashboardPage() {
                 </button>
               );
             })}
-          </nav>
+
+            {/* Navigation Section 2: Management & Billing */}
+            <p className="px-3 pt-4 pb-1.5 text-[9px] uppercase tracking-widest text-muted font-bold">
+              Account &amp; Topology
+            </p>
+
+            {[
+              { id: 'billing' as const, label: 'Plans & Quota', icon: CreditCard },
+              { id: 'settings' as const, label: 'Security & Keys', icon: Settings },
+            ].map(({ id, label, icon: Icon }) => {
+              const active = activeTab === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setActiveTab(id)}
+                  className={`w-full flex items-center justify-between px-3 py-2 uppercase font-medium transition-colors cursor-pointer ${
+                    active
+                      ? 'bg-foreground text-background font-bold'
+                      : 'text-muted hover:text-foreground hover:bg-foreground/5'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Icon className="h-4 w-4" />
+                    <span>{label}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Sidebar Footer User Card */}
-        <div className="p-4 border-t border-border space-y-3 font-mono text-xs">
+        <div className="p-4 border-t border-border space-y-3 font-mono text-xs shrink-0">
           <div className="p-2.5 bg-surface/50 border border-border">
             <p className="font-bold text-foreground truncate">{userName}</p>
             <p className="text-[10px] text-muted truncate">{userEmail}</p>
             <div className="mt-1.5 flex items-center justify-between text-[9px] uppercase tracking-wider">
               <span className="text-muted">Plan: {currentPlan}</span>
-              <span className="text-emerald-500 font-bold">Node Live</span>
+              <span className="text-emerald-500 font-bold">Live</span>
             </div>
           </div>
 
@@ -351,23 +486,41 @@ export default function DashboardPage() {
             <span className="font-mono text-[10px] uppercase tracking-widest text-muted">Controller /</span>
             <h2 className="font-syne text-base font-bold uppercase text-foreground">
               {activeTab === 'overview' && 'Cluster Overview'}
-              {activeTab === 'streams' && 'Camera Feeds & Ingest'}
-              {activeTab === 'pipelines' && 'Neural Perception Pipelines'}
+              {activeTab === 'flow' && 'Perceptras Flow // Video Ingest Engine'}
+              {activeTab === 'accel' && 'Perceptras Accel // Inference Engine'}
+              {activeTab === 'zone' && 'Perceptras Zone // 3D Spatial Intelligence'}
+              {activeTab === 'grid' && 'Perceptras Grid // Cluster Topology'}
               {activeTab === 'billing' && 'Subscription & Quota'}
-              {activeTab === 'settings' && 'Controller Settings'}
+              {activeTab === 'settings' && 'Security & API Credentials'}
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setIsAddStreamOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <Plus className="h-3.5 w-3.5" />
-              <span>Connect Camera</span>
-            </Button>
+          <div className="flex items-center gap-3">
+            {activeTab === 'flow' && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setIsAddStreamOpen(true)}
+                className="flex items-center gap-2"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                <span>Connect Camera</span>
+              </Button>
+            )}
+
+            {activeTab === 'accel' && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleRunBenchmark}
+                disabled={isBenchmarking}
+                className="flex items-center gap-2"
+              >
+                <Play className="h-3.5 w-3.5" />
+                <span>{isBenchmarking ? 'Profiling...' : 'Run Benchmark'}</span>
+              </Button>
+            )}
+
             <ThemeToggle />
           </div>
         </header>
@@ -375,7 +528,7 @@ export default function DashboardPage() {
         {/* Workspace Content Scrollable Body */}
         <main className="flex-1 overflow-y-auto p-8 space-y-8">
           {/* ══════════════════════════════════════════════════════ */}
-          {/* TAB: OVERVIEW                                          */}
+          {/* TAB 1: OVERVIEW                                        */}
           {/* ══════════════════════════════════════════════════════ */}
           {activeTab === 'overview' && (
             <div className="space-y-8 max-w-6xl">
@@ -424,59 +577,46 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Edge Node Hardware Monitor */}
+              {/* Core 4 Products Quick Launcher Hub */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-syne text-base font-bold uppercase text-foreground">
-                    Connected Hardware Nodes
+                    Active Perception Modules
                   </h3>
-                  <span className="font-mono text-xs text-muted">Perceptras Grid Topology</span>
+                  <span className="font-mono text-xs text-muted">Click module to manage</span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {NODES.map((node) => (
-                    <div key={node.id} className="border border-border p-6 bg-surface space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                            <h4 className="font-syne text-base font-bold uppercase text-foreground">
-                              {node.name}
-                            </h4>
-                          </div>
-                          <p className="font-mono text-xs text-muted mt-0.5">{node.role}</p>
-                        </div>
-                        <span className="font-mono text-[10px] uppercase border border-border px-2 py-0.5 text-foreground font-semibold">
-                          {node.gpu}
-                        </span>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  {[
+                    { id: 'flow' as const, name: 'Flow // Ingest', desc: `${streams.length} Active Feeds`, icon: Video },
+                    { id: 'accel' as const, name: 'Accel // Inference', desc: 'INT8/FP8 Quantized', icon: Zap },
+                    { id: 'zone' as const, name: 'Zone // 3D Spatial', desc: '3 Active Geofences', icon: Compass },
+                    { id: 'grid' as const, name: 'Grid // Topology', desc: '2 Clustered Nodes', icon: Network },
+                  ].map((mod) => (
+                    <button
+                      key={mod.id}
+                      type="button"
+                      onClick={() => setActiveTab(mod.id)}
+                      className="border border-border p-5 bg-surface hover:border-foreground transition-colors text-left space-y-2 cursor-pointer group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <mod.icon className="h-5 w-5 text-foreground" />
+                        <ArrowRight className="h-3.5 w-3.5 text-muted group-hover:text-foreground transition-colors" />
                       </div>
-
-                      <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border font-mono text-xs">
-                        <div>
-                          <span className="text-muted text-[10px] uppercase">GPU Load</span>
-                          <p className="font-bold text-foreground">{node.gpuLoad}</p>
-                        </div>
-                        <div>
-                          <span className="text-muted text-[10px] uppercase">VRAM Usage</span>
-                          <p className="font-bold text-foreground">{node.vram}</p>
-                        </div>
-                        <div>
-                          <span className="text-muted text-[10px] uppercase">Temperature</span>
-                          <p className="font-bold text-foreground">{node.temp}</p>
-                        </div>
-                      </div>
-                    </div>
+                      <h4 className="font-syne text-sm font-bold uppercase text-foreground">{mod.name}</h4>
+                      <p className="font-mono text-xs text-muted">{mod.desc}</p>
+                    </button>
                   ))}
                 </div>
               </div>
 
-              {/* CLI & Token Box */}
+              {/* Edge Agent Install Script */}
               <div className="border border-border p-6 bg-surface space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Terminal className="h-4 w-4 text-foreground" />
                     <h3 className="font-syne text-sm font-bold uppercase text-foreground">
-                      Edge Agent Quick Connect
+                      Edge Node Registration Command
                     </h3>
                   </div>
                   <button
@@ -496,7 +636,7 @@ export default function DashboardPage() {
                     ) : (
                       <>
                         <Copy className="h-3.5 w-3.5" />
-                        <span>Copy Agent Script</span>
+                        <span>Copy Install Command</span>
                       </>
                     )}
                   </button>
@@ -512,10 +652,32 @@ export default function DashboardPage() {
           )}
 
           {/* ══════════════════════════════════════════════════════ */}
-          {/* TAB: CAMERA STREAMS                                    */}
+          {/* TAB 2: PERCEPTRAS FLOW (INGEST ENGINE)                 */}
           {/* ══════════════════════════════════════════════════════ */}
-          {activeTab === 'streams' && (
+          {activeTab === 'flow' && (
             <div className="space-y-6 max-w-6xl">
+              <div className="border border-border p-6 bg-surface flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="font-syne text-lg font-bold uppercase text-foreground">
+                    Perceptras Flow Video Ingest Bus
+                  </h3>
+                  <p className="font-mono text-xs text-muted mt-1 max-w-xl leading-relaxed">
+                    Zero-copy hardware decoding for high-density RTSP, GigE Vision, USB3, and MIPI cameras directly into unified GPU memory.
+                  </p>
+                </div>
+                <div className="flex gap-4 font-mono text-xs">
+                  <div className="border border-border p-3 bg-surface/50">
+                    <span className="text-muted text-[10px] uppercase">DMA Buffer Pool</span>
+                    <p className="font-bold text-foreground">1.2 / 8.0 GB Used</p>
+                  </div>
+                  <div className="border border-border p-3 bg-surface/50">
+                    <span className="text-muted text-[10px] uppercase">Packet Loss</span>
+                    <p className="font-bold text-emerald-500">0.00% (Lossless)</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stream Table */}
               <div className="border border-border bg-surface overflow-x-auto">
                 <table className="w-full text-left font-mono text-xs">
                   <thead>
@@ -567,49 +729,187 @@ export default function DashboardPage() {
           )}
 
           {/* ══════════════════════════════════════════════════════ */}
-          {/* TAB: PIPELINES                                         */}
+          {/* TAB 3: PERCEPTRAS ACCEL (INFERENCE ENGINE)             */}
           {/* ══════════════════════════════════════════════════════ */}
-          {activeTab === 'pipelines' && (
+          {activeTab === 'accel' && (
             <div className="space-y-6 max-w-6xl">
+              <div className="border border-border p-6 bg-surface flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="font-syne text-lg font-bold uppercase text-foreground">
+                    Perceptras Accel Model Optimizer &amp; Compiler
+                  </h3>
+                  <p className="font-mono text-xs text-muted mt-1 max-w-xl leading-relaxed">
+                    Quantized INT8/FP8 layer fusion and dynamic execution graph compilation for sub-2ms edge vision inference.
+                  </p>
+                </div>
+
+                {benchResults && (
+                  <div className="flex gap-4 font-mono text-xs border border-emerald-500/40 bg-emerald-500/10 p-3">
+                    <div>
+                      <span className="text-muted text-[10px] uppercase">P50 Latency</span>
+                      <p className="font-bold text-foreground">{benchResults.p50}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted text-[10px] uppercase">P99 Latency</span>
+                      <p className="font-bold text-foreground">{benchResults.p99}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted text-[10px] uppercase">Throughput</span>
+                      <p className="font-bold text-emerald-600 dark:text-emerald-400">{benchResults.fps}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Models List */}
+              <div className="space-y-4">
+                <h4 className="font-syne text-sm font-bold uppercase text-foreground">
+                  Compiled Execution Graphs
+                </h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {MODELS.map((model) => (
+                    <div key={model.id} className="border border-border p-6 bg-surface space-y-4 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono text-[9px] uppercase border border-border px-2 py-0.5 text-foreground font-bold">
+                            {model.quantization}
+                          </span>
+                          <span className="text-emerald-500 font-mono text-[10px] font-bold">Active</span>
+                        </div>
+                        <h4 className="font-syne text-base font-bold uppercase text-foreground">{model.name}</h4>
+                        <p className="font-mono text-xs text-muted">{model.type}</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 pt-3 border-t border-border font-mono text-xs">
+                        <div>
+                          <span className="text-muted text-[10px] uppercase">Latency</span>
+                          <p className="font-bold text-foreground">{model.latency}</p>
+                        </div>
+                        <div>
+                          <span className="text-muted text-[10px] uppercase">Throughput</span>
+                          <p className="font-bold text-foreground">{model.throughput}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════ */}
+          {/* TAB 4: PERCEPTRAS ZONE (3D SPATIAL & GEOFENCES)        */}
+          {/* ══════════════════════════════════════════════════════ */}
+          {activeTab === 'zone' && (
+            <div className="space-y-6 max-w-6xl">
+              <div className="border border-border p-6 bg-surface flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="font-syne text-lg font-bold uppercase text-foreground">
+                    Perceptras Zone 3D Spatial Intelligence
+                  </h3>
+                  <p className="font-mono text-xs text-muted mt-1 max-w-xl leading-relaxed">
+                    Extrinsic multi-camera calibration and continuous 3D entity tracking across overlapping angles and blind spots.
+                  </p>
+                </div>
+                <div className="flex gap-4 font-mono text-xs">
+                  <div className="border border-border p-3 bg-surface/50">
+                    <span className="text-muted text-[10px] uppercase">Calibration Error</span>
+                    <p className="font-bold text-emerald-500">0.02 px (Extrinsic Locked)</p>
+                  </div>
+                  <div className="border border-border p-3 bg-surface/50">
+                    <span className="text-muted text-[10px] uppercase">ReID Retention</span>
+                    <p className="font-bold text-foreground">99.8% Multi-Cam</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Geofence List */}
+              <div className="space-y-4">
+                <h4 className="font-syne text-sm font-bold uppercase text-foreground">
+                  Configured 3D Spatial Boundaries
+                </h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {GEOFENCES.map((geo) => (
+                    <div key={geo.id} className="border border-border p-6 bg-surface space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[9px] uppercase border border-border px-2 py-0.5 text-foreground font-bold">
+                          {geo.type}
+                        </span>
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                      </div>
+                      <h4 className="font-syne text-base font-bold uppercase text-foreground">{geo.name}</h4>
+                      <p className="font-mono text-xs text-muted">Cameras: {geo.cameras}</p>
+                      <div className="pt-2 border-t border-border font-mono text-xs flex justify-between">
+                        <span className="text-muted">Live Status:</span>
+                        <span className="font-bold text-foreground">{geo.activeEntities}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ══════════════════════════════════════════════════════ */}
+          {/* TAB 5: PERCEPTRAS GRID (CLUSTER TOPOLOGY)              */}
+          {/* ══════════════════════════════════════════════════════ */}
+          {activeTab === 'grid' && (
+            <div className="space-y-6 max-w-6xl">
+              <div className="border border-border p-6 bg-surface flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                  <h3 className="font-syne text-lg font-bold uppercase text-foreground">
+                    Perceptras Grid Cluster Orchestration
+                  </h3>
+                  <p className="font-mono text-xs text-muted mt-1 max-w-xl leading-relaxed">
+                    Distributed edge node clustering with zero-downtime automatic failover, load balancing, and unified gRPC/Kafka buses.
+                  </p>
+                </div>
+                <div className="border border-border p-3 bg-surface/50 font-mono text-xs">
+                  <span className="text-muted text-[10px] uppercase">Failover Readiness</span>
+                  <p className="font-bold text-emerald-500">120ms Hot Standby</p>
+                </div>
+              </div>
+
+              {/* Nodes List */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  {
-                    name: 'Perceptras Flow',
-                    desc: 'Real-time multi-stream video ingest, zero-copy DMA memory buffers, and standard protocol normalization.',
-                    status: 'Active (4 Streams)',
-                    channels: 4,
-                  },
-                  {
-                    name: 'Perceptras Accel',
-                    desc: 'Hardware-compiled neural inference runtime with INT8/FP8 layer fusion and dynamic batching.',
-                    status: 'Active (180 FPS)',
-                    channels: 3,
-                  },
-                  {
-                    name: 'Perceptras Zone',
-                    desc: 'Multi-camera extrinsic auto-calibration, 3D metric coordinate tracking, and geofenced spatial alerts.',
-                    status: 'Active (1 Node)',
-                    channels: 1,
-                  },
-                  {
-                    name: 'Perceptras Grid',
-                    desc: 'Distributed cluster topology, automatic edge node failover, and gRPC/Kafka telemetry streams.',
-                    status: 'Active (2 Nodes)',
-                    channels: 2,
-                  },
-                ].map((pipe) => (
-                  <div key={pipe.name} className="border border-border p-6 bg-surface space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-syne text-base font-bold uppercase text-foreground">
-                        {pipe.name}
-                      </h4>
-                      <span className="text-emerald-500 font-mono text-[10px] font-bold uppercase">
-                        {pipe.status}
+                {NODES.map((node) => (
+                  <div key={node.id} className="border border-border p-6 bg-surface space-y-4">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                          <h4 className="font-syne text-base font-bold uppercase text-foreground">
+                            {node.name}
+                          </h4>
+                        </div>
+                        <p className="font-mono text-xs text-muted mt-0.5">{node.role}</p>
+                      </div>
+                      <span className="font-mono text-[10px] uppercase border border-border px-2 py-0.5 text-foreground font-semibold">
+                        {node.gpu}
                       </span>
                     </div>
-                    <p className="font-mono text-xs text-muted leading-relaxed">
-                      {pipe.desc}
-                    </p>
+
+                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border font-mono text-xs">
+                      <div>
+                        <span className="text-muted text-[10px] uppercase">GPU Load</span>
+                        <p className="font-bold text-foreground">{node.gpuLoad}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted text-[10px] uppercase">VRAM Usage</span>
+                        <p className="font-bold text-foreground">{node.vram}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted text-[10px] uppercase">Temperature</span>
+                        <p className="font-bold text-foreground">{node.temp}</p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-border font-mono text-[11px] flex justify-between text-muted">
+                      <span>Egress: {node.egress}</span>
+                      <span className="text-foreground font-bold">{node.streamsAssigned} Streams</span>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -617,7 +917,7 @@ export default function DashboardPage() {
           )}
 
           {/* ══════════════════════════════════════════════════════ */}
-          {/* TAB: BILLING & QUOTA                                   */}
+          {/* TAB 6: BILLING & QUOTA                                 */}
           {/* ══════════════════════════════════════════════════════ */}
           {activeTab === 'billing' && (
             <div className="space-y-8 max-w-4xl">
@@ -652,9 +952,14 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="pt-2 flex gap-3">
-                  <Link href="/contact?subject=Plan%20Upgrade%20Inquiry">
+                  <Link href="/pricing/">
                     <Button variant="primary" size="sm">
-                      Upgrade Stream Quota
+                      Change Subscription Tier →
+                    </Button>
+                  </Link>
+                  <Link href="/contact?subject=Plan%20Upgrade%20Inquiry">
+                    <Button variant="outline" size="sm">
+                      Talk to Sizing Specialist
                     </Button>
                   </Link>
                 </div>
@@ -663,7 +968,7 @@ export default function DashboardPage() {
           )}
 
           {/* ══════════════════════════════════════════════════════ */}
-          {/* TAB: SETTINGS & SECURITY                               */}
+          {/* TAB 7: SETTINGS & SECURITY                             */}
           {/* ══════════════════════════════════════════════════════ */}
           {activeTab === 'settings' && (
             <div className="max-w-2xl space-y-8">
