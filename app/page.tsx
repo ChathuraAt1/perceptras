@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { Section, Container } from '@/components/layout/section-container';
-import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
 import { Display, Heading, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
-import { MetricCard, DataBadge } from '@/components/ui/metric-card';
+import { CredibilityStrip } from '@/components/marketing/credibility-strip';
+import { FeatureShowcase } from '@/components/marketing/feature-showcase';
+import { TestimonialsSection } from '@/components/marketing/testimonials';
+import { PricingSection } from '@/components/marketing/pricing-section';
+import { FAQSection } from '@/components/marketing/faq-section';
 import {
   Video,
   Zap,
@@ -14,9 +17,6 @@ import {
   Warehouse,
   Factory,
   ShieldAlert,
-  Cpu,
-  Layers,
-  Activity,
 } from 'lucide-react';
 
 const PRODUCT_SUMMARY = [
@@ -26,7 +26,7 @@ const PRODUCT_SUMMARY = [
     name: 'Perceptras Flow',
     role: 'Multi-Stream Ingest Pipeline',
     description:
-      'High-throughput video decoding and sensor stream normalization for up to 128 concurrent camera feeds with zero-copy memory pipelines.',
+      'Connects up to 128 RTSP and industrial camera streams with zero-copy hardware decoding directly into AI tensor memory.',
     icon: Video,
   },
   {
@@ -35,7 +35,7 @@ const PRODUCT_SUMMARY = [
     name: 'Perceptras Accel',
     role: 'Inference Optimization Engine',
     description:
-      'Compiles PyTorch and ONNX models into hardware-optimized execution graphs with automated INT8/FP8 quantization and dynamic batching.',
+      'Compiles PyTorch and ONNX models into ultra-fast execution graphs with automated INT8 and FP8 quantization.',
     icon: Zap,
   },
   {
@@ -44,7 +44,7 @@ const PRODUCT_SUMMARY = [
     name: 'Perceptras Zone',
     role: 'Spatial Intelligence & Tracking',
     description:
-      'Transforms multi-camera detections into unified 3D coordinates. Delivers continuous trajectory tracking, occlusion handling, and zone analytics.',
+      'Maps multiple camera angles into unified 3D physical coordinates with continuous tracking across blind spots.',
     icon: Compass,
   },
   {
@@ -53,7 +53,7 @@ const PRODUCT_SUMMARY = [
     name: 'Perceptras Grid',
     role: 'Cluster Inference Orchestrator',
     description:
-      'Enterprise orchestration layer that manages multi-model deployment, load balancing, fault tolerance, and event streaming across GPU clusters.',
+      'Orchestrates model deployments across edge devices and centralized GPU servers with automated load balancing.',
     icon: Network,
   },
 ];
@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="pt-24 md:pt-32">
+      <Section className="pt-24 md:pt-32 pb-16 md:pb-20">
         <Container>
           <div className="flex flex-wrap gap-3 mb-8">
             <MonoTag>Physical AI Infrastructure</MonoTag>
@@ -106,13 +106,13 @@ export default function Home() {
           </Display>
 
           <p className="font-mono text-sm text-muted max-w-2xl mt-8 leading-relaxed">
-            Perceptras provides the foundational software infrastructure that connects physical cameras and sensors to real-time AI models. Engineered for autonomous machines, industrial automation, and spatial intelligence at scale.
+            Perceptras is the software platform that connects cameras and sensors to real-time AI models. Engineered for autonomous robotics, smart manufacturing, and spatial intelligence at scale.
           </p>
 
           <div className="flex flex-wrap gap-4 mt-10">
             <Link href="/auth/register/">
               <Button variant="primary" size="lg">
-                Get Started
+                Start Free Trial
               </Button>
             </Link>
             <Link href="/products/">
@@ -124,68 +124,13 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── Telemetry Stats Strip ────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="bg-surface/50">
+      {/* ── Credibility & Recognition Strip ──────────────────── */}
+      <CredibilityStrip />
+
+      {/* ── Feature Showcase & Narrative ───────────────────── */}
+      <Section borders={{ bottom: true }} className="py-20 md:py-28">
         <Container>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <MetricCard label="Inference Latency" value="1.2" unit="ms" />
-            <MetricCard label="Throughput" value="240" unit="FPS" />
-            <MetricCard label="Streams per Node" value="128" unit="CH" />
-            <MetricCard label="Quantization" value="INT8 / FP8" />
-          </div>
-
-          <div className="flex flex-wrap gap-6 mt-8 pt-6 border-t border-border">
-            <DataBadge label="Hardware" value="Edge GPU &amp; Cluster" />
-            <DataBadge label="Memory Architecture" value="Zero-Copy DMA" />
-            <DataBadge label="Streaming Bus" value="gRPC / Kafka / MQTT" />
-            <DataBadge label="Deployment" value="Lightweight Containers" />
-          </div>
-        </Container>
-      </Section>
-
-      {/* ── What We Do / Platform Value ──────────────────────── */}
-      <Section borders={{ bottom: true }}>
-        <Container>
-          <AsymmetricGrid ratio="40/60" divider>
-            <div>
-              <MonoTag className="mb-4">THE PERCEPTRAS ADVANTAGE</MonoTag>
-              <Heading as="h2" className="text-2xl md:text-3xl mb-4">
-                Bridging Physical Sensors to Intelligent Action
-              </Heading>
-              <p className="font-mono text-sm text-muted leading-relaxed">
-                Raw video is heavy, distributed, and compute-intensive. Perceptras eliminates the bottleneck between physical hardware and AI models with a high-performance compiled pipeline.
-              </p>
-            </div>
-
-            <div className="space-y-6">
-              <div className="border-l-2 border-border pl-4">
-                <p className="font-mono text-xs uppercase tracking-widest text-foreground font-semibold">
-                  Zero-Copy Data Pipelines
-                </p>
-                <p className="font-mono text-xs text-muted mt-1 leading-relaxed">
-                  Decodes high-bitrate video directly into inference-ready tensor memory without host-to-device memory copy penalties.
-                </p>
-              </div>
-
-              <div className="border-l-2 border-border pl-4">
-                <p className="font-mono text-xs uppercase tracking-widest text-foreground font-semibold">
-                  Compiled Graph Optimization
-                </p>
-                <p className="font-mono text-xs text-muted mt-1 leading-relaxed">
-                  Fuses neural network layers and auto-tunes execution kernels for up to 6x latency reduction on edge accelerators.
-                </p>
-              </div>
-
-              <div className="border-l-2 border-border pl-4">
-                <p className="font-mono text-xs uppercase tracking-widest text-foreground font-semibold">
-                  Unified 3D Spatial Tracking
-                </p>
-                <p className="font-mono text-xs text-muted mt-1 leading-relaxed">
-                  Fuses disjoint camera perspectives into a single global 3D world coordinate map with automatic extrinsic calibration.
-                </p>
-              </div>
-            </div>
-          </AsymmetricGrid>
+          <FeatureShowcase />
         </Container>
       </Section>
 
@@ -255,10 +200,10 @@ export default function Home() {
           <div className="max-w-3xl mb-12">
             <MonoTag className="mb-3">DEPLOYMENT SCENARIOS</MonoTag>
             <Heading as="h2" className="text-3xl md:text-4xl mb-4">
-              Engineered for Mission-Critical Operations
+              Engineered for Demanding Environments
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              From high-density warehouse robotics to manufacturing line inspection, Perceptras delivers sub-second perception intelligence across demanding environments.
+              From mobile warehouse robotics to continuous factory line inspection, Perceptras delivers dependable perception across critical operations.
             </p>
           </div>
 
@@ -278,36 +223,54 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── Technical Architecture Pillars ───────────────────── */}
+      {/* ── Customer Testimonials ────────────────────────────── */}
       <Section borders={{ bottom: true }}>
         <Container>
-          <Heading index="03" className="mb-10">
-            Enterprise Architecture
-          </Heading>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Cpu className="h-5 w-5 text-foreground stroke-[1.5]" />
-              <p className="font-syne text-sm font-bold uppercase">Hardware Acceleration</p>
-              <p className="font-mono text-xs text-muted leading-relaxed">
-                Native support for embedded edge accelerators, Jetson/IGX devices, and data-center GPU clusters with unified tensor runtimes.
-              </p>
-            </div>
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Layers className="h-5 w-5 text-foreground stroke-[1.5]" />
-              <p className="font-syne text-sm font-bold uppercase">Standardized Streaming</p>
-              <p className="font-mono text-xs text-muted leading-relaxed">
-                Seamless real-time output integration via gRPC, Kafka topics, MQTT brokers, and WebSocket feeds with zero format translation lag.
-              </p>
-            </div>
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Activity className="h-5 w-5 text-foreground stroke-[1.5]" />
-              <p className="font-syne text-sm font-bold uppercase">Self-Healing Clusters</p>
-              <p className="font-mono text-xs text-muted leading-relaxed">
-                Automatic node failover, stream reconnection, and dynamic load balancing ensuring 99.99% operational uptime.
-              </p>
-            </div>
+          <div className="max-w-3xl mb-12">
+            <MonoTag className="mb-3">CUSTOMER VALIDATION</MonoTag>
+            <Heading as="h2" className="text-3xl md:text-4xl mb-4">
+              Trusted by Vision &amp; Robotics Teams
+            </Heading>
+            <p className="font-mono text-sm text-muted leading-relaxed">
+              Discover how engineering leaders build real-time spatial intelligence into their physical systems with Perceptras.
+            </p>
           </div>
+
+          <TestimonialsSection />
+        </Container>
+      </Section>
+
+      {/* ── Pricing Plans ────────────────────────────────────── */}
+      <Section borders={{ bottom: true }} className="bg-surface/30">
+        <Container>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <MonoTag className="mb-3">PLANS &amp; PRICING</MonoTag>
+            <Heading as="h2" className="text-3xl md:text-4xl mb-4">
+              Transparent, Scalable Pricing
+            </Heading>
+            <p className="font-mono text-sm text-muted leading-relaxed">
+              Choose the right tier for your deployment scale. Switch or scale anytime.
+            </p>
+          </div>
+
+          <PricingSection />
+        </Container>
+      </Section>
+
+      {/* ── Frequently Asked Questions ───────────────────────── */}
+      <Section borders={{ bottom: true }}>
+        <Container>
+          <div className="max-w-3xl mb-12">
+            <MonoTag className="mb-3">COMMON QUESTIONS</MonoTag>
+            <Heading as="h2" className="text-3xl md:text-4xl mb-4">
+              Frequently Asked Questions
+            </Heading>
+            <p className="font-mono text-sm text-muted leading-relaxed">
+              Answers to common questions about deployment, hardware support, and architecture.
+            </p>
+          </div>
+
+          <FAQSection />
         </Container>
       </Section>
 
@@ -315,15 +278,15 @@ export default function Home() {
       <Section className="py-24 md:py-32">
         <Container className="text-center">
           <Display as="h2" className="text-3xl md:text-5xl lg:text-6xl mb-6">
-            Deploy Perception Infrastructure
+            Ready to Deploy Perceptras?
           </Display>
           <p className="font-mono text-sm text-muted max-w-lg mx-auto mb-10">
-            Set up your account today or connect with our solutions engineers to architect your custom deployment.
+            Start your free trial today or connect with our solutions engineers to size your custom camera deployment.
           </p>
           <div className="flex justify-center gap-4">
             <Link href="/auth/register/">
               <Button variant="primary" size="lg">
-                Create Account
+                Start Free Trial
               </Button>
             </Link>
             <Link href="/contact/">
