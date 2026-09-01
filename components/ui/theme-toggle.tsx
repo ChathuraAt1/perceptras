@@ -1,8 +1,8 @@
 'use client';
 
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
-import { useTheme } from 'next-themes';
 import { useEffect, useState, type ReactNode } from 'react';
+import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   return (
@@ -13,7 +13,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -22,27 +22,41 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button className="font-mono text-xs text-muted" aria-hidden>
-        [---]
-      </button>
+      <div className="flex items-center border border-border bg-surface p-0.5 w-[62px] h-[28px]" />
     );
   }
 
-  const cycle = () => {
-    if (theme === 'system') setTheme('light');
-    else if (theme === 'light') setTheme('dark');
-    else setTheme('system');
-  };
-
-  const label = theme === 'light' ? 'LT' : theme === 'dark' ? 'DK' : 'SYS';
+  const isDark = resolvedTheme === 'dark';
 
   return (
-    <button
-      onClick={cycle}
-      className="font-mono text-xs text-muted hover:text-foreground transition-colors cursor-pointer"
-      aria-label={`Current theme: ${theme}. Click to toggle.`}
-    >
-      [{label}]
-    </button>
+    <div className="flex items-center border border-border bg-surface p-0.5 transition-colors">
+      <button
+        type="button"
+        onClick={() => setTheme('light')}
+        title="Light Mode"
+        className={`p-1 transition-colors cursor-pointer flex items-center justify-center ${
+          !isDark
+            ? 'bg-foreground text-background'
+            : 'text-muted hover:text-foreground'
+        }`}
+        aria-label="Switch to light mode"
+      >
+        <Sun className="h-3.5 w-3.5 stroke-[1.75]" />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => setTheme('dark')}
+        title="Dark Mode"
+        className={`p-1 transition-colors cursor-pointer flex items-center justify-center ${
+          isDark
+            ? 'bg-foreground text-background'
+            : 'text-muted hover:text-foreground'
+        }`}
+        aria-label="Switch to dark mode"
+      >
+        <Moon className="h-3.5 w-3.5 stroke-[1.75]" />
+      </button>
+    </div>
   );
 }
