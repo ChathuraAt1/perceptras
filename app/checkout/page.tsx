@@ -16,7 +16,6 @@ import {
   AlertCircle,
   ArrowRight,
   ArrowLeft,
-  Sparkles,
 } from 'lucide-react';
 
 interface PlanDetails {
@@ -102,7 +101,7 @@ function CheckoutContent() {
   const [city, setCity] = useState('');
   const [stateCode, setStateCode] = useState('');
   const [zip, setZip] = useState('');
-  const [country, setCountry] = useState('US');
+  const country = 'US';
 
   // Checkout Flow Stages
   // 'payment' -> 'account_setup' (if guest) -> 'success'
@@ -127,20 +126,6 @@ function CheckoutContent() {
     const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
     const formatted = raw.replace(/(\d{4})(?=\d)/g, '$1 ');
     setCardNumber(formatted);
-  };
-
-  // One-click sandbox card filler
-  const fillSandboxCard = () => {
-    setCardNumber('4242 4242 4242 4242');
-    setCardHolder(firstName && lastName ? `${firstName} ${lastName}` : 'Lead Vision Engineer');
-    setExpiryMonth('12');
-    setExpiryYear('28');
-    setCvv('123');
-    setStreet('742 Physical AI Way');
-    setCity('San Francisco');
-    setStateCode('CA');
-    setZip('94107');
-    setCountry('US');
   };
 
   const handlePaymentSubmit = async (e: React.FormEvent) => {
@@ -388,14 +373,6 @@ function CheckoutContent() {
                           Payment Method
                         </h3>
                       </div>
-                      <button
-                        type="button"
-                        onClick={fillSandboxCard}
-                        className="font-mono text-[11px] text-muted hover:text-foreground inline-flex items-center gap-1 border border-border px-2.5 py-1 bg-surface/50 cursor-pointer transition-colors"
-                      >
-                        <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
-                        <span>Fill Test Card</span>
-                      </button>
                     </div>
 
                     {errorMsg && (
