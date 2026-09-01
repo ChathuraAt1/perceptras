@@ -30,6 +30,13 @@ export function Header() {
             About
           </Link>
           <Link
+            href="/dashboard/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors flex items-center gap-1"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            Dashboard
+          </Link>
+          <Link
             href="/contact/"
             className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
           >

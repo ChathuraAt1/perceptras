@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ui/theme-toggle';
 import { RecaptchaProvider } from '@/lib/recaptcha';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { Chatbot } from '@/components/ai/chatbot';
 import './globals.css';
 
 const syne = Syne({
@@ -33,6 +34,7 @@ export default function RootLayout({
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />
+              <Chatbot />
             </div>
           </RecaptchaProvider>
         </ThemeProvider>
