@@ -29,6 +29,13 @@ export default function ContactPage() {
 
     try {
       const recaptchaToken = await executeRecaptcha('contact');
+      if (!recaptchaToken) {
+        setStatus('error');
+        setErrorMessage('Please complete the reCAPTCHA verification below before sending.');
+        setLoading(false);
+        return;
+      }
+
       const combinedMessage = subject ? `[Topic: ${subject}]\n\n${message}` : message;
 
       const response = await fetch(PORTAL_CONTACT_URL, {
@@ -41,7 +48,7 @@ export default function ContactPage() {
           name: name.trim(),
           email: email.trim(),
           message: combinedMessage,
-          recaptcha_token: recaptchaToken || undefined,
+          recaptcha_token: recaptchaToken,
         }),
       });
 
@@ -54,11 +61,17 @@ export default function ContactPage() {
         setMessage('');
       } else {
         setStatus('error');
-        setErrorMessage(data?.message || 'Failed to send message. Please try again.');
+        if (data?.errors) {
+          const firstErr = Object.values(data.errors).flat()[0];
+          setErrorMessage(typeof firstErr === 'string' ? firstErr : data.message || 'Validation failed.');
+        } else {
+          setErrorMessage(data?.message || 'Failed to send message. Please try again.');
+        }
       }
-    } catch {
+    } catch (err) {
+      console.error('Contact submission error:', err);
       setStatus('error');
-      setErrorMessage('Unable to connect to server. Please try again.');
+      setErrorMessage('Unable to connect to server. Please try again or email us directly at contact@perceptras.net.');
     } finally {
       setLoading(false);
     }

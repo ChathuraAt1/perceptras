@@ -56,9 +56,15 @@ export default function LoginPage() {
         }
       } else {
         setStatus('error');
-        setErrorMessage(data?.message || 'Invalid email or password.');
+        if (data?.errors) {
+          const firstErr = Object.values(data.errors).flat()[0];
+          setErrorMessage(typeof firstErr === 'string' ? firstErr : data.message || 'Invalid email or password.');
+        } else {
+          setErrorMessage(data?.message || 'Invalid email or password.');
+        }
       }
-    } catch {
+    } catch (err) {
+      console.error('Login error:', err);
       setStatus('error');
       setErrorMessage('Unable to connect to server. Please try again.');
     } finally {
