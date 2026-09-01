@@ -31,37 +31,37 @@ const NODES: PipelineNode[] = [
   },
   {
     id: 'nvdec',
-    label: 'NVDEC',
+    label: 'DECODE',
     sublabel: 'HW Decoder',
     icon: Monitor,
     config: {
-      'nvbuf-memory-type': 'NVBUF_MEM_CUDA_UNIFIED',
-      'gpu-id': '0',
-      'cudadec-memtype': 'unified',
+      'buffer-memory-type': 'MEM_CUDA_UNIFIED',
+      'device-id': '0',
+      'decoder-surface': 'unified',
       'num-surfaces': '4',
     },
   },
   {
     id: 'infer',
     label: 'INFER',
-    sublabel: 'TensorRT Engine',
+    sublabel: 'Accel Engine',
     icon: Cpu,
     config: {
-      'model-engine': 'PeopleNet v2.6',
+      'model-engine': 'Perceptras PersonNet v2',
       precision: 'INT8',
       'batch-size': 'dynamic',
       'workspace-size': '2048 MB',
-      'dla-core': '-1 (GPU)',
+      'accelerator-core': 'GPU (Primary)',
     },
   },
   {
     id: 'tracker',
     label: 'TRACKER',
-    sublabel: 'NvDCF',
+    sublabel: 'DCF Tracker',
     icon: Scan,
     config: {
-      'tracker-type': 'NvDCF',
-      'lib-file': 'libnvds_nvdcf.so',
+      'tracker-type': 'Perceptras-DCF',
+      'lib-file': 'libpx_tracker.so',
       'max-shadow-trail': '50',
       'batch-process': '1',
     },
@@ -72,10 +72,10 @@ const NODES: PipelineNode[] = [
     sublabel: 'Structured Data',
     icon: Database,
     config: {
-      'output-format': 'NvDsAnalytics',
-      'msg-broker': 'Kafka',
+      'output-format': 'Perceptras-Telemetry',
+      'msg-broker': 'Kafka / gRPC',
       topic: 'perception.events',
-      'proto-lib': 'libnvds_kafka_proto.so',
+      'proto-lib': 'libpx_kafka_proto.so',
     },
   },
 ];
@@ -84,7 +84,7 @@ const NODES: PipelineNode[] = [
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export function StreamCanvas() {
+export function FlowCanvas() {
   const [channels, setChannels] = useState(16);
   const [resolution, setResolution] = useState<'1080p' | '4K'>('1080p');
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
@@ -118,10 +118,10 @@ export function StreamCanvas() {
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div>
           <p className="font-syne text-sm font-semibold uppercase tracking-wide">
-            DeepStream Pipeline
+            Perceptras Flow Pipeline
           </p>
           <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
-            Multi-Stream Decode → Infer → Track → Output
+            Multi-Stream Ingest → Decode → Infer → Track → Telemetry Out
           </p>
         </div>
         <span className="font-mono text-[10px] text-muted border border-border px-2 py-0.5">
@@ -270,3 +270,5 @@ export function StreamCanvas() {
     </div>
   );
 }
+
+export const StreamCanvas = FlowCanvas;

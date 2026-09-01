@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Syne } from 'next/font/google';
 import { GeistMono } from 'geist/font/mono';
 import { ThemeProvider } from '@/components/ui/theme-toggle';
+import { RecaptchaProvider } from '@/lib/recaptcha';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import './globals.css';
@@ -27,11 +28,13 @@ export default function RootLayout({
     <html lang="en" className={`${syne.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <RecaptchaProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </RecaptchaProvider>
         </ThemeProvider>
       </body>
     </html>

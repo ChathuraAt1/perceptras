@@ -1,9 +1,13 @@
+import Link from 'next/link';
 import { Section, Container } from '@/components/layout/section-container';
 import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
 import { Display, Heading, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { MetricCard, DataBadge } from '@/components/ui/metric-card';
-import { MediaFrame } from '@/components/ui/media-frame';
+import { FlowCanvas } from '@/components/interactive/stream-canvas';
+import { AccelBench } from '@/components/interactive/inference-bench';
+import { ZoneIntel } from '@/components/interactive/metropolis-zone';
+import { GridMatrix } from '@/components/interactive/triton-node-matrix';
 import { Cpu, Radio, Eye } from 'lucide-react';
 
 export default function Home() {
@@ -33,12 +37,16 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap gap-4 mt-10">
-            <Button variant="primary" size="lg">
-              Get Started
-            </Button>
-            <Button variant="outline" size="lg">
-              Documentation
-            </Button>
+            <Link href="/auth/register/">
+              <Button variant="primary" size="lg">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/contact/">
+              <Button variant="outline" size="lg">
+                Contact Engineering
+              </Button>
+            </Link>
           </div>
         </Container>
       </Section>
@@ -47,7 +55,7 @@ export default function Home() {
       <Section borders={{ bottom: true }}>
         <Container>
           <Heading index="01" className="mb-10">
-            Performance
+            Performance Telemetry
           </Heading>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -66,53 +74,103 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* ── Architecture ─────────────────────────────────────── */}
+      {/* ── Interactive Systems Showcase ─────────────────────── */}
       <Section borders={{ bottom: true }}>
         <Container>
-          <Heading index="02" className="mb-10">
-            Architecture
+          <Heading index="02" className="mb-4">
+            Product Showcase
+          </Heading>
+          <p className="font-mono text-xs text-muted mb-12 max-w-2xl">
+            Interactive instrumentation and live architectural simulators for the Perceptras perception stack.
+          </p>
+
+          <div className="space-y-16">
+            {/* Flow */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <MonoTag>MODULE 01</MonoTag>
+                <span className="font-syne text-sm font-bold uppercase">Perceptras Flow</span>
+              </div>
+              <FlowCanvas />
+            </div>
+
+            {/* Accel */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <MonoTag>MODULE 02</MonoTag>
+                <span className="font-syne text-sm font-bold uppercase">Perceptras Accel</span>
+              </div>
+              <AccelBench />
+            </div>
+
+            {/* Zone */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <MonoTag>MODULE 03</MonoTag>
+                <span className="font-syne text-sm font-bold uppercase">Perceptras Zone</span>
+              </div>
+              <ZoneIntel />
+            </div>
+
+            {/* Grid */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <MonoTag>MODULE 04</MonoTag>
+                <span className="font-syne text-sm font-bold uppercase">Perceptras Grid</span>
+              </div>
+              <GridMatrix />
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ── Architecture Overview ────────────────────────────── */}
+      <Section borders={{ bottom: true }}>
+        <Container>
+          <Heading index="03" className="mb-10">
+            Pipeline Architecture
           </Heading>
 
           <AsymmetricGrid ratio="60/40" divider>
-            <div>
-              <MediaFrame caption="SYS.ARCH — Perception Pipeline v3.2">
-                <div className="flex flex-col items-center justify-center gap-4 text-muted">
-                  <Cpu className="h-12 w-12 stroke-1" />
-                  <span className="font-mono text-[10px] uppercase tracking-widest">
-                    Pipeline Topology
-                  </span>
-                </div>
-              </MediaFrame>
-            </div>
-
             <div className="space-y-6">
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Ingest Layer
+                  Ingest & Normalization
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
                   Multi-modal sensor fusion with hardware-accelerated decode.
-                  RTSP, USB3 Vision, GigE Vision protocols.
+                  RTSP, USB3 Vision, and GigE Vision protocols at line rate.
                 </p>
               </div>
 
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Inference Engine
+                  Spatial Inference Engine
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
-                  TensorRT-optimised models with dynamic batching.
-                  INT8/FP8 quantisation for edge deployment.
+                  Hardware-optimized compiled execution graphs with dynamic batching.
+                  INT8/FP8 quantization for edge perception and robotics.
                 </p>
               </div>
 
               <div className="border-l-2 border-border pl-4">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-                  Output Bus
+                  Distributed Telemetry Bus
                 </p>
                 <p className="font-mono text-sm text-foreground mt-1">
-                  Structured metadata, event streams, and analytics export
-                  via gRPC and MQTT.
+                  Structured metadata, spatial bounding trajectories, and perception analytics exported
+                  via gRPC, Kafka, and MQTT.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="border border-border p-6 bg-surface">
+                <p className="font-mono text-[10px] text-muted uppercase tracking-widest mb-2">
+                  Target Infrastructure
+                </p>
+                <p className="font-mono text-xs text-foreground leading-relaxed">
+                  Engineered for embedded edge perception computers, ruggedized robotics hardware, and multi-node GPU inference clusters with unified container deployment.
                 </p>
               </div>
             </div>
@@ -123,7 +181,7 @@ export default function Home() {
       {/* ── Capabilities ─────────────────────────────────────── */}
       <Section borders={{ bottom: true }}>
         <Container>
-          <Heading index="03" className="mb-10">
+          <Heading index="04" className="mb-10">
             Capabilities
           </Heading>
 
@@ -142,7 +200,7 @@ export default function Home() {
               {
                 icon: Cpu,
                 title: 'Edge Compute',
-                desc: 'Optimised inference on NVIDIA Jetson, IGX, and data-centre GPUs with unified deployment.',
+                desc: 'Optimised inference on edge perception nodes and data-centre GPU clusters with unified deployment.',
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div
@@ -169,15 +227,19 @@ export default function Home() {
             Build Perception Systems
           </Display>
           <p className="font-mono text-sm text-muted max-w-lg mx-auto mb-10">
-            Deploy production-grade perception infrastructure in minutes.
+            Deploy production-grade physical AI perception infrastructure in minutes.
           </p>
           <div className="flex justify-center gap-4">
-            <Button variant="primary" size="lg">
-              Start Building
-            </Button>
-            <Button variant="ghost" size="lg">
-              View Docs →
-            </Button>
+            <Link href="/auth/register/">
+              <Button variant="primary" size="lg">
+                Create Account
+              </Button>
+            </Link>
+            <Link href="/contact/">
+              <Button variant="outline" size="lg">
+                Contact Solutions →
+              </Button>
+            </Link>
           </div>
         </Container>
       </Section>

@@ -17,19 +17,30 @@ export function Header() {
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          {['Platform', 'Solutions', 'Docs', 'About'].map((item) => (
-            <Link
-              key={item}
-              href={`/${item.toLowerCase()}/`}
-              className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
-            >
-              {item}
-            </Link>
-          ))}
+          <Link
+            href="/contact/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            Contact
+          </Link>
+          <Link
+            href="/auth/login/"
+            className="font-mono text-[10px] uppercase tracking-widest text-muted hover:text-foreground transition-colors"
+          >
+            [ Portal Login ]
+          </Link>
         </nav>
 
-        {/* Theme toggle */}
-        <ThemeToggle />
+        {/* Theme toggle & Mobile portal */}
+        <div className="flex items-center gap-4">
+          <Link
+            href="/auth/login/"
+            className="md:hidden font-mono text-[10px] uppercase text-muted hover:text-foreground"
+          >
+            [ Login ]
+          </Link>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

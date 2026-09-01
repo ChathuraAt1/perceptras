@@ -132,7 +132,7 @@ const STATUS_BADGE: Record<string, string> = {
   scaling: 'SCALING',
 };
 
-export function TritonNodeMatrix() {
+export function GridMatrix() {
   const [rps, setRps] = useState(5000);
   const [logs, setLogs] = useState<string[]>(() =>
     Array.from({ length: 8 }, () => generateLog(5000)),
@@ -163,10 +163,10 @@ export function TritonNodeMatrix() {
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div>
           <p className="font-syne text-sm font-semibold uppercase tracking-wide">
-            Triton Cluster
+            Perceptras Grid
           </p>
           <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
-            Multi-Model Inference Orchestrator
+            Multi-Model Inference Cluster Orchestrator
           </p>
         </div>
         <span className="font-mono text-sm text-foreground font-bold">
@@ -278,3 +278,5 @@ export function TritonNodeMatrix() {
     </div>
   );
 }
+
+export const TritonNodeMatrix = GridMatrix;

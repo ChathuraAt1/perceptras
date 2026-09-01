@@ -89,7 +89,7 @@ const DATA: Record<Model, Record<Precision, Record<BatchSize, BenchEntry>>> = {
 
 const MODEL_LABELS: Record<Model, string> = {
   yolov10: 'YOLOv10 / RT-DETR',
-  peoplenet: 'PeopleNet v2.6',
+  peoplenet: 'PersonNet v2.6',
   dinov2: 'DINOv2-ViT-L',
 };
 
@@ -100,7 +100,7 @@ const PRECISIONS: Precision[] = ['FP32', 'FP16', 'INT8'];
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export function InferenceBench() {
+export function AccelBench() {
   const [model, setModel] = useState<Model>('yolov10');
   const [precision, setPrecision] = useState<Precision>('INT8');
   const [batchSize, setBatchSize] = useState<BatchSize>(8);
@@ -122,10 +122,10 @@ export function InferenceBench() {
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div>
           <p className="font-syne text-sm font-semibold uppercase tracking-wide">
-            TensorRT Benchmark
+            Perceptras Accel Benchmark
           </p>
           <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
-            Model Optimization Performance Comparison
+            Spatial Inference Optimization & Performance Profiler
           </p>
         </div>
         <span className="font-mono text-sm text-foreground font-bold">
@@ -229,7 +229,7 @@ export function InferenceBench() {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <span className="font-mono text-[10px] text-foreground font-bold uppercase tracking-widest">
-              TensorRT {precision}
+              Accel Engine ({precision})
             </span>
             <span className="font-mono text-xs text-foreground font-bold">
               {result.tensorrt.fps.toLocaleString()} FPS
@@ -288,3 +288,5 @@ export function InferenceBench() {
     </div>
   );
 }
+
+export const InferenceBench = AccelBench;

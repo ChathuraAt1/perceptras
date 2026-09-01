@@ -98,7 +98,7 @@ const SECTORS: Record<Sector, SectorData> = {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export function MetropolisZone() {
+export function ZoneIntel() {
   const [sector, setSector] = useState<Sector>('logistics');
   const [overlays, setOverlays] = useState({
     coverage: true,
@@ -120,10 +120,10 @@ export function MetropolisZone() {
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div>
           <p className="font-syne text-sm font-semibold uppercase tracking-wide">
-            Metropolis Zone
+            Perceptras Zone
           </p>
           <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
-            Edge Perception — Spatial Intelligence
+            Spatial Intelligence & Edge Perception Mapping
           </p>
         </div>
         <span className="font-mono text-[10px] text-muted border border-border px-2 py-0.5">
@@ -339,3 +339,5 @@ export function MetropolisZone() {
     </div>
   );
 }
+
+export const MetropolisZone = ZoneIntel;
