@@ -104,32 +104,34 @@ export default function ProductsPage() {
   return (
     <>
       {/* ── Products Hero ────────────────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="pt-20 md:pt-28">
-        <Container>
-          <div className="mb-6">
-            <MonoTag>INFRASTRUCTURE SUITE // 4 CORE MODULES</MonoTag>
-          </div>
-          <Display className="max-w-5xl">
-            Perception Stack
-            <br />
-            Product Suite
-          </Display>
-          <p className="font-mono text-sm text-muted max-w-2xl mt-6 leading-relaxed">
-            A modular, high-performance infrastructure designed for real-time physical AI. From high-density video ingest and hardware-compiled inference to multi-camera spatial tracking and cluster orchestration.
-          </p>
+      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-16 md:pb-24">
+        <Container className="text-center">
+          <div className="max-w-3xl mx-auto flex flex-col items-center">
+            <div className="mb-6">
+              <MonoTag>INFRASTRUCTURE SUITE // 4 CORE MODULES</MonoTag>
+            </div>
+            <Display className="max-w-4xl">
+              Perception Stack
+              <br />
+              Product Suite
+            </Display>
+            <p className="font-mono text-sm text-muted max-w-2xl mt-6 leading-relaxed mx-auto">
+              A modular, high-performance infrastructure designed for real-time physical AI. From high-density video ingest and hardware-compiled inference to multi-camera spatial tracking and cluster orchestration.
+            </p>
 
-          <div className="flex flex-wrap gap-4 mt-8">
-            <Link href="/dashboard/">
-              <Button variant="primary" size="lg" className="flex items-center gap-2">
-                <span>Launch Controller Dashboard</span>
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/contact/">
-              <Button variant="outline" size="lg">
-                Contact Sales
-              </Button>
-            </Link>
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+              <Link href="/dashboard/">
+                <Button variant="primary" size="lg" className="flex items-center gap-2">
+                  <span>Launch Controller Dashboard</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/contact/">
+                <Button variant="outline" size="lg">
+                  Contact Sales
+                </Button>
+              </Link>
+            </div>
           </div>
         </Container>
       </Section>

@@ -72,19 +72,19 @@ export default function AboutPage() {
       {/* ── 1. Hero & Company Overview ───────────────────────── */}
       <Section className="pt-24 md:pt-36 pb-16 md:pb-24">
         <Container>
-          <div className="max-w-3xl space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-6 flex flex-col items-center">
             <MonoTag>ABOUT PERCEPTRAS</MonoTag>
 
             <Display className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
               Giving machines the ability to see and understand the physical world.
             </Display>
 
-            <p className="font-mono text-base text-muted leading-relaxed pt-2">
+            <p className="font-mono text-base text-muted leading-relaxed pt-2 max-w-2xl mx-auto">
               Perceptras is a software company that helps businesses connect their cameras to artificial intelligence. We make it easy for robots, factories, and smart facilities to understand movement, prevent accidents, and operate with precision in real time.
             </p>
 
             {/* Company Profile Directory Links */}
-            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-border font-mono text-xs">
+            <div className="flex flex-wrap items-center justify-center gap-6 pt-6 border-t border-border font-mono text-xs w-full max-w-xl">
               <span className="text-muted uppercase text-[10px] tracking-widest">
                 Verified Company Profiles:
               </span>

@@ -80,14 +80,16 @@ export default function ContactPage() {
 
   return (
     <>
-      <Section borders={{ bottom: true }} className="pt-20 md:pt-28">
-        <Container>
-          <Display className="max-w-4xl">
-            Contact Us
-          </Display>
-          <p className="font-mono text-sm text-muted max-w-xl mt-6">
-            Get in touch with our team for questions about the Perceptras platform, custom integration, enterprise licensing, or technical support.
-          </p>
+      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-12 md:pb-16">
+        <Container className="text-center">
+          <div className="max-w-2xl mx-auto flex flex-col items-center">
+            <Display>
+              Contact Us
+            </Display>
+            <p className="font-mono text-sm text-muted mt-6 max-w-xl mx-auto leading-relaxed">
+              Get in touch with our team for questions about the Perceptras platform, custom integration, enterprise licensing, or technical support.
+            </p>
+          </div>
         </Container>
       </Section>
 
