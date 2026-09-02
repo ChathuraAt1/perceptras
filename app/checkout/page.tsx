@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import { sha256Hex } from "@/lib/crypto";
 import {
   CreditCard,
-  ShieldCheck,
   Lock,
   Check,
   AlertCircle,

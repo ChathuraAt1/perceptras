@@ -91,7 +91,6 @@ export function Chatbot() {
         },
         body: JSON.stringify({
           messages: conversationPayload,
-          model: 'gpt-4o-mini',
           max_tokens: 512,
           async: false,
         }),
@@ -182,7 +181,7 @@ export function Chatbot() {
                 <p className="font-syne text-xs font-bold uppercase text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
                   Perceptras AI Assistant
                 </p>
-                <p className="font-mono text-[9px] text-zinc-500 dark:text-zinc-400">Model: gpt-4o-mini // Live Gateway</p>
+                <p className="font-mono text-[9px] text-zinc-500 dark:text-zinc-400">Backend AI Engine // Live Gateway</p>
               </div>
             </div>
 

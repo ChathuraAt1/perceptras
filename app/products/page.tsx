@@ -139,18 +139,29 @@ export default function ProductsPage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-border">
             {[
-              { title: '1. Ingest', desc: 'Hardware-decoded multi-stream video and sensor ingest at line rate.', icon: Video },
-              { title: '2. Accelerate', desc: 'Compiled execution graphs with INT8/FP8 quantization.', icon: Zap },
-              { title: '3. Spatial Intel', desc: 'Multi-camera 3D coordinate tracking and zone analytics.', icon: Compass },
-              { title: '4. Orchestrate', desc: 'Distributed cluster load balancing and streaming telemetry.', icon: Network },
-            ].map(({ title, desc, icon: Icon }) => (
-              <div key={title} className="bg-surface p-6 flex flex-col justify-between gap-4">
+              { title: '1. Ingest', desc: 'Hardware-decoded multi-stream video and sensor ingest at line rate.', icon: Video, href: '/dashboard/flow/' },
+              { title: '2. Accelerate', desc: 'Compiled execution graphs with INT8/FP8 quantization.', icon: Zap, href: '/dashboard/accel/' },
+              { title: '3. Spatial Intel', desc: 'Multi-camera 3D coordinate tracking and zone analytics.', icon: Compass, href: '/dashboard/zone/' },
+              { title: '4. Orchestrate', desc: 'Distributed cluster load balancing and streaming telemetry.', icon: Network, href: '/dashboard/grid/' },
+            ].map(({ title, desc, icon: Icon, href }) => (
+              <Link
+                key={title}
+                href={href}
+                className="bg-surface p-6 flex flex-col justify-between gap-4 hover:bg-foreground/5 transition-colors group cursor-pointer"
+              >
                 <div>
-                  <Icon className="h-5 w-5 text-foreground mb-3 stroke-[1.5]" />
-                  <p className="font-syne text-sm font-bold uppercase">{title}</p>
+                  <Icon className="h-5 w-5 text-foreground mb-3 stroke-[1.5] group-hover:scale-110 transition-transform" />
+                  <div className="flex items-center justify-between">
+                    <p className="font-syne text-sm font-bold uppercase">{title}</p>
+                    <ArrowRight className="h-3.5 w-3.5 text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
                   <p className="font-mono text-xs text-muted mt-2 leading-relaxed">{desc}</p>
                 </div>
-              </div>
+                <div className="font-mono text-[10px] text-emerald-500 uppercase tracking-wider flex items-center gap-1 font-bold pt-2">
+                  <span>Open Telemetry</span>
+                  <ArrowRight className="h-3 w-3" />
+                </div>
+              </Link>
             ))}
           </div>
         </Container>
@@ -219,7 +230,7 @@ export default function ProductsPage() {
                   </div>
 
                   <div className="pt-2 flex flex-col gap-2">
-                    <Link href={`/dashboard?pipeline=${product.id}`}>
+                    <Link href={`/dashboard/${product.id}/`}>
                       <Button variant="primary" size="md" className="w-full flex items-center justify-center gap-2">
                         <span>Launch {product.name} in Dashboard</span>
                         <ArrowRight className="h-3.5 w-3.5" />
@@ -284,12 +295,13 @@ export default function ProductsPage() {
             Deploy Perceptras
           </Display>
           <p className="font-mono text-sm text-muted max-w-xl mx-auto mb-10">
-            Talk to our engineering team to review system sizing, sensor topology, and deployment architecture.
+            Explore our interactive simulation environments or talk to our engineering team to review system sizing, sensor topology, and deployment architecture.
           </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/auth/register/">
-              <Button variant="primary" size="lg">
-                Create Account
+          <div className="flex justify-center flex-wrap gap-4">
+            <Link href="/dashboard/">
+              <Button variant="primary" size="lg" className="flex items-center gap-2">
+                <span>Launch Controller Dashboard</span>
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact/">
