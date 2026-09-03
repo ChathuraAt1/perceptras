@@ -253,7 +253,7 @@ export default function Home() {
               Built for Where Physical AI Actually Runs.
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              Description: Perceptras adapts to the environment it's deployed in
+              Description: Perceptras adapts to the environment it&apos;s deployed in
               same pipeline architecture, different cameras, sites, and
               operational rules.
             </p>
@@ -298,7 +298,7 @@ export default function Home() {
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
               Early adopters across industrial, logistics, and retail
-              environments are putting Perceptras to work here's what standing
+              environments are putting Perceptras to work here&apos;s what standing
               up a shared perception layer has meant for their teams.
             </p>
           </div>
@@ -352,7 +352,7 @@ export default function Home() {
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
               Straight answers about how Perceptras works, what it does, and
-              what it doesn't promise.
+              what it doesn&apos;t promise.
             </p>
           </div>
 
@@ -378,8 +378,8 @@ export default function Home() {
             Turn Pixels Into Decisions Without Reinventing How
           </Display>
           <p className="font-mono text-sm text-muted max-w-lg mx-auto mb-10">
-            Every new site doesn't need to mean new infrastructure. Perceptras
-            gives your team a perception layer that's already built —
+            Every new site doesn&apos;t need to mean new infrastructure. Perceptras
+            gives your team a perception layer that&apos;s already built —
             configurable, observable, and ready to extend across your next
             deployment instead of starting from zero.
           </p>

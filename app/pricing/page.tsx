@@ -28,7 +28,7 @@ export default function PricingPage() {
             Infrastructure Scales With You So Should Pricing.
           </Display>
           <p className="font-mono text-sm md:text-base text-muted max-w-2xl mx-auto leading-relaxed">
-            Whether you're running perception on a single site or across a
+            Whether you&apos;re running perception on a single site or across a
             distributed fleet, Perceptras scales with your streams, sites, and
             deployment footprint not a one-size-fits-all license.
           </p>

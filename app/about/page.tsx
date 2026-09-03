@@ -99,7 +99,7 @@ export default function AboutPage() {
               Every site had its own cameras, its own quirks, its own
               from-scratch buildand the same infrastructure problem hiding
               underneath all of it. Perceptras exist because that repetition
-              wasn't necessary. We built the perception layer once, so your team
+              wasn&apos;t necessary. We built the perception layer once, so your team
               can spend its time on what the data means, not on plumbing it into
               existence.
             </p>
@@ -160,8 +160,8 @@ export default function AboutPage() {
                 the operational insight that plumbing was supposed to deliver.
               </p>
               <p>
-                That's the gap Perceptras was built to close. Stream ingestion,
-                tracking, event generation, and observability don't change
+                That&apos;s the gap Perceptras was built to close. Stream ingestion,
+                tracking, event generation, and observability don&apos;t change
                 fundamentally from one deployment to the nextonly the surface
                 does. So we standardized the layer underneath, once, so that the
                 surface could shift freelynew site, new camera, new use case
