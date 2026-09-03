@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Section, Container } from "@/components/layout/section-container";
@@ -54,6 +54,37 @@ const PLAN_DATA: Record<string, PlanDetails> = {
       "Standard SLA & priority support",
     ],
   },
+  node: {
+    slug: "node",
+    name: "Node Plan",
+    monthlyPrice: 249,
+    yearlyMonthlyPrice: 199,
+    features: [
+      "Up to 5 authorized video/sensor streams",
+      "Core perception pipeline (ingestion, detection, tracking)",
+      "Standard model runtime and serving",
+      "Zone and dwell event rules",
+      "Structured event API access",
+      "Email support",
+      "Single-site deployment management",
+    ],
+  },
+  network: {
+    slug: "network",
+    name: "Network Plan",
+    monthlyPrice: 899,
+    yearlyMonthlyPrice: 749,
+    features: [
+      "Up to 50 authorized video/sensor streams",
+      "Full pipeline orchestration across sites",
+      "Priority model runtime with batching/concurrency controls",
+      "Full spatial event intelligence suite",
+      "Edge-to-core infrastructure manager access",
+      "Perception operations dashboard",
+      "Configuration distribution across sites",
+      "Priority support with SLA",
+    ],
+  },
   enterprise: {
     slug: "enterprise",
     name: "Enterprise Plan",
@@ -77,8 +108,15 @@ function CheckoutContent() {
   const intervalParam =
     searchParams.get("interval") || searchParams.get("billing") || "yearly";
 
+  // Redirect enterprise grid inquiries to contact sales
+  useEffect(() => {
+    if (planParam === "grid") {
+      window.location.href = "/contact?subject=Grid%20Plan%20Inquiry";
+    }
+  }, [planParam]);
+
   const [selectedPlanSlug, setSelectedPlanSlug] = useState<string>(
-    PLAN_DATA[planParam] ? planParam : "professional",
+    PLAN_DATA[planParam] ? planParam : "network",
   );
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
     intervalParam === "monthly" ? "monthly" : "yearly",

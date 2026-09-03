@@ -18,53 +18,59 @@ interface Plan {
 
 const DEFAULT_PLANS: Plan[] = [
   {
-    id: 'starter',
-    name: 'Starter',
-    slug: 'starter',
-    description: 'Essential real-time video ingest and AI inference for prototypes and single-facility pilots.',
-    monthly_price: '49',
-    yearly_price: '39',
+    id: 1,
+    name: 'NODE',
+    slug: 'node',
+    description: 'For teams standardizing perception on a single site or use case.',
+    monthly_price: '249',
+    yearly_price: '199',
     popular: false,
     features: [
-      'Up to 8 concurrent camera streams',
-      'Perceptras Flow zero-copy pipeline',
-      'Perceptras Accel standard runtime',
-      'gRPC & WebSocket telemetry output',
-      'Community & email support',
+      'Up to 5 authorized video/sensor streams',
+      'Core perception pipeline (ingestion, detection, tracking)',
+      'Standard model runtime and serving',
+      'Zone and dwell event rules',
+      'Structured event API access',
+      'Email support',
+      'Single-site deployment management',
     ],
   },
   {
-    id: 'professional',
-    name: 'Professional',
-    slug: 'professional',
-    description: 'High-density multi-camera perception and 3D spatial analytics for production deployments.',
-    monthly_price: '199',
-    yearly_price: '159',
+    id: 2,
+    name: 'NETWORK',
+    slug: 'network',
+    description: 'For teams running perception across multiple sites and edge locations.',
+    monthly_price: '899',
+    yearly_price: '749',
     popular: true,
     features: [
-      'Up to 64 concurrent camera streams',
-      'Perceptras Zone 3D spatial tracking',
-      'INT8 & FP8 automatic quantization',
-      'Kafka & MQTT event stream brokers',
-      'Sub-2ms line-rate inference',
-      'Standard SLA & priority support',
+      'Up to 50 authorized video/sensor streams',
+      'Full pipeline orchestration across sites',
+      'Priority model runtime with batching/concurrency controls',
+      'Full spatial event intelligence suite',
+      'Edge-to-core infrastructure manager access',
+      'Perception operations dashboard',
+      'Configuration distribution across sites',
+      'Priority support with SLA',
     ],
   },
   {
-    id: 'enterprise',
-    name: 'Enterprise',
-    slug: 'enterprise',
-    description: 'Custom cluster orchestration, multi-node edge grid, and dedicated architectural support.',
+    id: 3,
+    name: 'GRID',
+    slug: 'grid',
+    description: 'For enterprises deploying perception infrastructure at scale, across regions and business units.',
     monthly_price: 'Custom',
     yearly_price: 'Custom',
     popular: false,
     features: [
-      'Unlimited camera & sensor streams',
-      'Perceptras Grid distributed cluster',
-      'Multi-node failover & load balancing',
-      'Custom hardware kernel auto-tuning',
-      'Air-gapped on-premise deployment',
-      '24/7 dedicated engineering support & custom SLA',
+      'Unlimited streams and site deployments',
+      'Dedicated infrastructure and inference capacity',
+      'Custom model registration and runtime tuning',
+      'Advanced edge-to-core topology management',
+      'Full observability, validation, and health monitoring',
+      'API and developer platform access',
+      'Dedicated integration and support engineering',
+      'Custom contractual SLAs and onboarding',
     ],
   },
 ];
@@ -91,16 +97,20 @@ export function PricingSection() {
             popular?: boolean;
             features?: string[];
           }
-          const formatted: Plan[] = (data.data as BackendPlan[]).map((item) => ({
-            id: item.id || item.slug,
-            name: item.name,
-            slug: item.slug,
-            description: item.description || '',
-            monthly_price: item.monthly_price ?? item.price ?? '0',
-            yearly_price: item.yearly_price ?? Math.round(Number(item.price || 0) * 0.8),
-            popular: Boolean(item.popular),
-            features: Array.isArray(item.features) ? item.features : [],
-          }));
+          const formatted: Plan[] = (data.data as BackendPlan[]).map((item) => {
+            const isGrid = item.slug?.toLowerCase() === 'grid';
+            return {
+              id: item.id || item.slug,
+              name: item.name,
+              slug: item.slug,
+              description: item.description || '',
+              // Frontend override: slug 'grid' does not display prices
+              monthly_price: isGrid ? 'Custom' : (item.monthly_price ?? item.price ?? '0'),
+              yearly_price: isGrid ? 'Custom' : (item.yearly_price ?? Math.round(Number(item.price || 0) * 0.8)),
+              popular: Boolean(item.popular),
+              features: Array.isArray(item.features) ? item.features : [],
+            };
+          });
           if (formatted.length >= 3) {
             setPlans(formatted);
           }
@@ -150,7 +160,8 @@ export function PricingSection() {
       {/* Pricing Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
         {plans.map((plan) => {
-          const isCustom = plan.monthly_price === 'Custom';
+          const isGrid = plan.slug?.toLowerCase() === 'grid';
+          const isCustom = isGrid || plan.monthly_price === 'Custom';
           const price = billingCycle === 'yearly' ? plan.yearly_price : plan.monthly_price;
 
           return (
@@ -178,7 +189,7 @@ export function PricingSection() {
 
                 <div className="mb-8 pb-6 border-b border-border">
                   <div className="flex items-baseline gap-1">
-                    {isCustom ? (
+                    {isGrid || isCustom ? (
                       <span className="font-syne text-3xl font-bold">Custom</span>
                     ) : (
                       <>
@@ -191,8 +202,8 @@ export function PricingSection() {
                     )}
                   </div>
                   <p className="font-mono text-[10px] text-muted mt-1">
-                    {isCustom
-                      ? 'Tailored to your camera topology'
+                    {isGrid || isCustom
+                      ? 'Tailored to your enterprise deployment footprint'
                       : billingCycle === 'yearly'
                       ? 'Billed annually'
                       : 'Billed monthly'}
@@ -215,8 +226,8 @@ export function PricingSection() {
               <div>
                 <Link
                   href={
-                    isCustom
-                      ? '/contact?subject=Enterprise%20Inquiry'
+                    isGrid || isCustom
+                      ? '/contact?subject=Grid%20Plan%20Inquiry'
                       : `/checkout?plan=${plan.slug}&interval=${billingCycle}`
                   }
                 >
@@ -225,7 +236,7 @@ export function PricingSection() {
                     size="md"
                     className="w-full flex items-center justify-center gap-2"
                   >
-                    <span>{isCustom ? 'Contact Solutions' : 'Get Started'}</span>
+                    <span>{isGrid || isCustom ? 'Contact Sales' : 'Get Started'}</span>
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Button>
                 </Link>
