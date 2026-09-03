@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { Logo } from '@/components/ui/logo';
 import { ArrowRight } from 'lucide-react';
 
 export function Header() {
@@ -15,13 +16,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/80 backdrop-blur-sm">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6 md:px-8">
-        {/* Wordmark */}
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:px-8">
+        {/* Brand Logo */}
         <Link
           href="/"
-          className="font-mono text-sm font-bold uppercase tracking-[0.25em] text-foreground"
+          className="inline-flex items-center hover:opacity-90 transition-opacity py-1"
         >
-          Perceptras
+          <Logo className="h-8 sm:h-9 w-auto" priority />
         </Link>
 
         {/* Navigation */}

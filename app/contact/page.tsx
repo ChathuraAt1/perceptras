@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input, Textarea } from '@/components/ui/input';
 import { useRecaptcha, EnterpriseRecaptchaWidget } from '@/lib/recaptcha';
 import { Send, CheckCircle2, AlertCircle, Mail, MapPin, Phone } from 'lucide-react';
+import { FaXTwitter, FaFacebookF, FaYoutube } from 'react-icons/fa6';
 
 const PORTAL_CONTACT_URL = 'https://portal.perceptras.net/api/mail/contact';
 
@@ -314,6 +315,45 @@ export default function ContactPage() {
                     </div>
                   </>
                 )}
+              </div>
+
+              {/* Official Social Channels */}
+              <div className="border border-border bg-surface p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
+                <span className="text-muted uppercase text-[10px] tracking-widest font-bold">
+                  Official Channels:
+                </span>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://x.com/Perceptras46"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Follow Perceptras on X"
+                    className="flex items-center gap-1.5 px-2.5 py-1 border border-border bg-surface text-muted hover:text-foreground hover:border-foreground/50 transition-colors text-[11px]"
+                  >
+                    <FaXTwitter className="h-3 w-3" />
+                    <span>X</span>
+                  </a>
+                  <a
+                    href="https://www.facebook.com/perceptras/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Follow Perceptras on Facebook"
+                    className="flex items-center gap-1.5 px-2.5 py-1 border border-border bg-surface text-muted hover:text-foreground hover:border-foreground/50 transition-colors text-[11px]"
+                  >
+                    <FaFacebookF className="h-3 w-3" />
+                    <span>Facebook</span>
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@Perceptras"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Subscribe to Perceptras on YouTube"
+                    className="flex items-center gap-1.5 px-2.5 py-1 border border-border bg-surface text-muted hover:text-foreground hover:border-foreground/50 transition-colors text-[11px]"
+                  >
+                    <FaYoutube className="h-3 w-3" />
+                    <span>YouTube</span>
+                  </a>
+                </div>
               </div>
 
               {/* Google Map Embed */}

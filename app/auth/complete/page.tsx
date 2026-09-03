@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Section, Container } from '@/components/layout/section-container';
 import { MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
 import { Check, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 
 function AuthCompleteContent() {
@@ -59,6 +60,12 @@ function AuthCompleteContent() {
     <Section className="pt-28 md:pt-40 pb-24">
       <Container className="max-w-md mx-auto">
         <div className="border border-border bg-surface p-8 md:p-10 space-y-6 text-center shadow-2xl relative">
+          <div className="flex justify-center pb-2 border-b border-border">
+            <Link href="/" className="inline-flex items-center hover:opacity-80 transition-opacity">
+              <Logo className="h-7 w-auto" priority />
+            </Link>
+          </div>
+
           {status === 'processing' && (
             <>
               <div className="w-14 h-14 border border-border bg-surface flex items-center justify-center mx-auto">

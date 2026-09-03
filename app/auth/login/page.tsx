@@ -7,6 +7,7 @@ import { Display } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { GoogleButton } from '@/components/ui/google-button';
+import { Logo } from '@/components/ui/logo';
 import { useRecaptcha, EnterpriseRecaptchaWidget } from '@/lib/recaptcha';
 import { sha256Hex } from '@/lib/crypto';
 import { ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -28,8 +29,8 @@ export default function LoginPage() {
     setErrorMessage('');
 
     try {
-      const recaptchaToken = await executeRecaptcha('login');
       const passwordHash = await sha256Hex(password);
+      const recaptchaToken = await executeRecaptcha('login');
 
       const response = await fetch(PORTAL_API_URL, {
         method: 'POST',
@@ -75,6 +76,12 @@ export default function LoginPage() {
   return (
     <Section className="py-20 md:py-28">
       <Container className="max-w-md">
+        <div className="mb-6">
+          <Link href="/" className="inline-flex items-center hover:opacity-80 transition-opacity">
+            <Logo className="h-9 sm:h-10 w-auto" priority />
+          </Link>
+        </div>
+
         <Display as="h1" className="text-3xl md:text-4xl mb-3">
           Sign In
         </Display>

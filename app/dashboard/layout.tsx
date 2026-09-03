@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
 import {
   LayoutDashboard,
   Video,
@@ -134,9 +135,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <div className="min-h-screen w-full bg-background flex flex-col items-center justify-center p-6 text-foreground">
         <div className="max-w-md w-full border border-border bg-surface p-8 space-y-6 shadow-2xl relative">
           <div className="flex items-center justify-between border-b border-border pb-4">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-muted">
-              PERCEPTRAS // CONTROLLER ACCESS
-            </span>
+            <Link href="/" className="inline-flex items-center hover:opacity-80 transition-opacity">
+              <Logo className="h-6 w-auto" />
+            </Link>
             <div className="flex items-center gap-1.5 text-amber-500 font-mono text-[10px] font-bold uppercase">
               <Lock className="h-3.5 w-3.5" />
               <span>401 Unauthorized</span>
@@ -197,8 +198,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className="overflow-y-auto">
           {/* Brand Header */}
           <div className="h-16 border-b border-border px-6 flex items-center justify-between">
-            <Link href="/" className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-foreground">
-              Perceptras
+            <Link href="/" className="inline-flex items-center hover:opacity-80 transition-opacity">
+              <Logo className="h-7 sm:h-8 w-auto" />
             </Link>
             <span className="flex h-2 w-2 relative" title="Edge Controller Online">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />

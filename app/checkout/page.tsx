@@ -7,6 +7,7 @@ import { Section, Container } from "@/components/layout/section-container";
 import { Heading, MonoTag } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Logo } from "@/components/ui/logo";
 import { sha256Hex } from "@/lib/crypto";
 import {
   CreditCard,
@@ -330,6 +331,9 @@ function CheckoutContent() {
                 Perceptras Subscription Checkout
               </Heading>
             </div>
+            <Link href="/" className="inline-flex items-center hover:opacity-80 transition-opacity">
+              <Logo className="h-8 sm:h-9 w-auto" priority />
+            </Link>
           </div>
         </Container>
       </Section>
