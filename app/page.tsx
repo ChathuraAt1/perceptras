@@ -97,19 +97,8 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <Section className="pt-20 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
-        {/* Subtle Ambient Background Watermark using hero.webp */}
-        <div className="absolute -right-20 top-0 bottom-0 w-3/5 pointer-events-none overflow-hidden hidden lg:block opacity-[0.035] dark:opacity-[0.07] select-none">
-          <Image
-            src="/images/home/hero.webp"
-            alt=""
-            fill
-            priority
-            className="object-contain object-right"
-          />
-        </div>
-
-        <Container className="relative z-10">
+      <Section className="pt-20 md:pt-28 pb-16 md:pb-24">
+        <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left Column: Typography & CTAs */}
             <div className="lg:col-span-7 space-y-6">
@@ -146,44 +135,17 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Sensor Rig Hardware & Autonomous Drone Telemetry Visual */}
+            {/* Right Column: Hero Visual Asset Only */}
             <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-md border border-border bg-surface/80 backdrop-blur-sm p-4 sm:p-5 shadow-2xl space-y-3">
-                {/* Visual Status Header */}
-                <div className="flex items-center justify-between pb-3 border-b border-border font-mono text-[10px] text-muted">
-                  <span className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                    </span>
-                    <span className="font-bold text-foreground">PERCEPTRAS RIG TELEMETRY</span>
-                  </span>
-                  <span className="border border-border px-1.5 py-0.5 text-[9px] uppercase tracking-wider">
-                    Node: #01-AMR
-                  </span>
-                </div>
-
-                {/* Hero Hardware Image */}
-                <div className="relative aspect-square w-full overflow-hidden bg-surface/50 border border-border/60 flex items-center justify-center p-3">
-                  <Image
-                    src="/images/home/hero (2).webp"
-                    alt="Perceptras autonomous robotics camera sensor rig and drone telemetry"
-                    width={1080}
-                    height={1080}
-                    priority
-                    className="object-contain w-full h-full drop-shadow-xl"
-                  />
-                  {/* Subtle edge coordinates overlay */}
-                  <div className="absolute bottom-2 left-2 font-mono text-[9px] text-muted/90 bg-background/90 px-2 py-0.5 border border-border/60 backdrop-blur-xs">
-                    FOV: 360° // MULTI-CAM FUSION
-                  </div>
-                </div>
-
-                {/* Bottom Metadata Bar */}
-                <div className="pt-2.5 border-t border-border flex items-center justify-between font-mono text-[10px] text-muted">
-                  <span>LATENCY: &lt; 4.2ms</span>
-                  <span className="text-emerald-500 font-bold">ZERO-COPY ACTIVE</span>
-                </div>
+              <div className="relative w-full max-w-lg flex items-center justify-center">
+                <Image
+                  src="/images/home/hero (2).webp"
+                  alt="Perceptras autonomous robotics camera sensor rig and drone"
+                  width={1080}
+                  height={1080}
+                  priority
+                  className="w-full h-auto max-h-[520px] object-contain drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
@@ -374,8 +336,8 @@ export default function Home() {
 
       {/* ── Call to Action ───────────────────────────────────── */}
       <Section className="py-24 md:py-32 relative overflow-hidden">
-        {/* Atmospheric subtle background watermark */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.05] select-none flex items-center justify-center">
+        {/* Atmospheric background watermark */}
+        <div className="absolute inset-0 pointer-events-none opacity-15 dark:opacity-25 select-none flex items-center justify-center">
           <Image
             src="/images/home/hero.webp"
             alt=""

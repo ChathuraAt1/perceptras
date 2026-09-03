@@ -84,7 +84,7 @@ export default function ContactPage() {
     <>
       <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-12 md:pb-16 relative overflow-hidden">
         {/* Ambient 3D Grid Perception Lens Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+        <div className="absolute inset-0 pointer-events-none dark:invert-0 invert opacity-25 dark:opacity-45 select-none flex items-center justify-center">
           <Image
             src="/images/contact/hero.webp"
             alt=""

@@ -111,7 +111,7 @@ export default function ProductsPage() {
       {/* ── Products Hero ────────────────────────────────────────────── */}
       <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
         {/* Ambient 3D Grid Perception Lens Background */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.14] select-none flex items-center justify-center">
+        <div className="absolute inset-0 pointer-events-none dark:invert-0 invert opacity-25 dark:opacity-45 select-none flex items-center justify-center">
           <Image
             src="/images/products/hero.webp"
             alt=""
@@ -354,7 +354,7 @@ export default function ProductsPage() {
       {/* ── Call to Action ───────────────────────────────────────────── */}
       <Section className="py-24 md:py-32 relative overflow-hidden">
         {/* Atmospheric volumetric light ray background */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+        <div className="absolute inset-0 pointer-events-none dark:invert-0 invert opacity-20 dark:opacity-35 select-none flex items-center justify-center">
           <Image
             src="/images/products/deploy.webp"
             alt=""
