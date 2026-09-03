@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: 'Perceptras — Physical AI Perception Infrastructure',
   description:
     'High-performance perception infrastructure for physical AI systems. Real-time sensor fusion, edge inference, and spatial intelligence.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/images/branding/r_icon_light.webp',
+    apple: '/images/branding/r_icon_light.webp',
+  },
 };
 
 export default function RootLayout({

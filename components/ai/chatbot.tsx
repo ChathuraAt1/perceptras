@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import {
   X,
   Send,
-  Sparkles,
-  Bot,
   User,
   RefreshCw,
   Minimize2,
@@ -156,11 +155,31 @@ export function Chatbot() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-zinc-800 dark:border-zinc-200 font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:opacity-90 transition-all cursor-pointer"
+          className="group flex items-center gap-2.5 px-3.5 py-2.5 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-zinc-800 dark:border-zinc-200 font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:opacity-95 transition-all cursor-pointer"
         >
-          <Sparkles className="h-4 w-4 animate-pulse text-emerald-400 dark:text-emerald-600" />
+          <div className="relative h-5 w-5 shrink-0 flex items-center justify-center">
+            {/* White R icon on dark button in light mode */}
+            <Image
+              src="/images/branding/r_icon_dark.webp"
+              alt="Perceptras AI"
+              width={20}
+              height={20}
+              className="h-full w-full object-contain block dark:hidden group-hover:scale-110 transition-transform"
+            />
+            {/* Dark R icon on light button in dark mode */}
+            <Image
+              src="/images/branding/r_icon_light.webp"
+              alt="Perceptras AI"
+              width={20}
+              height={20}
+              className="h-full w-full object-contain hidden dark:block group-hover:scale-110 transition-transform"
+            />
+          </div>
           <span>Perceptras AI</span>
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
         </button>
       )}
 
@@ -176,7 +195,22 @@ export function Chatbot() {
           {/* Header */}
           <div className="border-b border-zinc-200 dark:border-zinc-800 px-4 py-3 bg-zinc-50 dark:bg-zinc-950 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+              <div className="relative h-6 w-6 shrink-0 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-0.5 flex items-center justify-center">
+                <Image
+                  src="/images/branding/r_icon_light.webp"
+                  alt="Perceptras R"
+                  width={24}
+                  height={24}
+                  className="h-full w-full object-contain block dark:hidden"
+                />
+                <Image
+                  src="/images/branding/r_icon_dark.webp"
+                  alt="Perceptras R"
+                  width={24}
+                  height={24}
+                  className="h-full w-full object-contain hidden dark:block"
+                />
+              </div>
               <div>
                 <p className="font-syne text-xs font-bold uppercase text-zinc-900 dark:text-zinc-100 flex items-center gap-1.5">
                   Perceptras AI Assistant
@@ -221,8 +255,21 @@ export function Chatbot() {
                 className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {m.role === 'assistant' && (
-                  <div className="h-6 w-6 rounded-none bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 flex items-center justify-center shrink-0 mt-0.5 font-bold">
-                    <Bot className="h-3.5 w-3.5" />
+                  <div className="h-6 w-6 rounded-none border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 flex items-center justify-center shrink-0 mt-0.5 p-0.5 shadow-xs">
+                    <Image
+                      src="/images/branding/r_icon_light.webp"
+                      alt="AI"
+                      width={20}
+                      height={20}
+                      className="h-full w-full object-contain block dark:hidden"
+                    />
+                    <Image
+                      src="/images/branding/r_icon_dark.webp"
+                      alt="AI"
+                      width={20}
+                      height={20}
+                      className="h-full w-full object-contain hidden dark:block"
+                    />
                   </div>
                 )}
 
