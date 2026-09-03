@@ -1,29 +1,29 @@
-import { Quote } from 'lucide-react';
+import { Quote } from "lucide-react";
 
 const TESTIMONIALS = [
   {
     quote:
-      'Perceptras reduced our multi-camera video ingestion latency from seconds to under 2 milliseconds. It allowed us to deploy real-time spatial collision avoidance on our autonomous warehouse vehicles without replacing our existing camera hardware.',
-    author: 'Marcus Vance',
-    role: 'VP of Robotics Engineering',
-    company: 'Apex Autonomous Systems',
-    industry: 'Warehouse & Robotics',
+      "We stopped rebuilding tracking logic for every production line. Perceptras gave us one pipeline we could configure per site instead of engineering from scratch each time.",
+    author: "Marcus Vance",
+    role: "Operations Lead",
+    company: "Apex Autonomous Systems",
+    industry: "Industrial Automation",
   },
   {
     quote:
-      'The speed of setup was unprecedented. We connected 64 RTSP production line cameras across two manufacturing plants and had unified 3D coordinate tracking running within 48 hours.',
-    author: 'Elena Rostova',
-    role: 'Head of Vision Systems',
-    company: 'Synapse Industrial Solutions',
-    industry: 'Smart Manufacturing',
+      "Dock activity and zone occupancy used to live in three different tools. Now it's one structured event feed our warehouse systems can actually consume.",
+    author: "Elena Rostova",
+    role: "Systems Integrator",
+    company: "Synapse Industrial Solutions",
+    industry: "Logistics",
   },
   {
     quote:
-      'Other vision tools required proprietary cloud servers. Perceptras gave us a self-contained, high-throughput edge perception stack that runs 100% on-premise with zero data leaks.',
-    author: 'David Chen',
-    role: 'Chief Infrastructure Architect',
-    company: 'OmniSpatial Labs',
-    industry: 'Spatial Intelligence',
+      "What sold us wasn't a single camera feature it was the infrastructure underneath. We plug in our own models and Perceptras handles the pipeline around them.",
+    author: "David Chen",
+    role: "Computer Vision Engineer",
+    company: "OmniSpatial Labs",
+    industry: "Retail Tech",
   },
 ];
 
@@ -47,7 +47,7 @@ export function TestimonialsSection() {
               {t.author}
             </p>
             <p className="font-mono text-[11px] text-muted">
-              {t.role} — <span className="text-foreground">{t.company}</span>
+              {t.role} <span className="text-foreground">{t.company}</span>
             </p>
             <span className="font-mono text-[9px] uppercase tracking-wider text-muted mt-1">
               {t.industry}

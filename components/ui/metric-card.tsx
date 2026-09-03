@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
-/*  DataBadge — Inline metric readout                                  */
+/*  DataBadge Inline metric readout                                  */
 /* ------------------------------------------------------------------ */
 
 interface DataBadgeProps {
@@ -14,7 +14,7 @@ export function DataBadge({ label, value, className }: DataBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 font-mono text-xs uppercase',
+        "inline-flex items-center gap-1.5 font-mono text-xs uppercase",
         className,
       )}
     >
@@ -25,7 +25,7 @@ export function DataBadge({ label, value, className }: DataBadgeProps) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  MetricCard — Block-level telemetry card                            */
+/*  MetricCard Block-level telemetry card                            */
 /* ------------------------------------------------------------------ */
 
 interface MetricCardProps {
@@ -37,7 +37,7 @@ interface MetricCardProps {
 
 export function MetricCard({ label, value, unit, className }: MetricCardProps) {
   return (
-    <div className={cn('border-l-2 border-border pl-4 py-3', className)}>
+    <div className={cn("border-l-2 border-border pl-4 py-3", className)}>
       <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
         {label}
       </p>

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { Server } from 'lucide-react';
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { Server } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -18,7 +18,7 @@ interface ClusterNode {
   id: string;
   name: string;
   gpu: string;
-  status: 'online' | 'busy' | 'scaling';
+  status: "online" | "busy" | "scaling";
   models: GpuModel[];
 }
 
@@ -31,44 +31,80 @@ function generateNodes(rps: number): ClusterNode[] {
 
   return [
     {
-      id: 'alpha',
-      name: 'Node Alpha',
-      gpu: 'A100 80 GB',
-      status: lf > 0.8 ? 'scaling' : lf > 0.4 ? 'busy' : 'online',
+      id: "alpha",
+      name: "Node Alpha",
+      gpu: "A100 80 GB",
+      status: lf > 0.8 ? "scaling" : lf > 0.4 ? "busy" : "online",
       models: [
-        { name: 'Vision Transformer',  vram: `${(12.4 + lf * 8).toFixed(1)} GB`,   utilization: Math.min(99, Math.round(20 + lf * 75)) },
-        { name: 'Spatial Detector',     vram: `${(8.2 + lf * 4).toFixed(1)} GB`,    utilization: Math.min(95, Math.round(15 + lf * 65)) },
+        {
+          name: "Vision Transformer",
+          vram: `${(12.4 + lf * 8).toFixed(1)} GB`,
+          utilization: Math.min(99, Math.round(20 + lf * 75)),
+        },
+        {
+          name: "Spatial Detector",
+          vram: `${(8.2 + lf * 4).toFixed(1)} GB`,
+          utilization: Math.min(95, Math.round(15 + lf * 65)),
+        },
       ],
     },
     {
-      id: 'beta',
-      name: 'Node Beta',
-      gpu: 'A100 80 GB',
-      status: lf > 0.7 ? 'scaling' : lf > 0.3 ? 'busy' : 'online',
+      id: "beta",
+      name: "Node Beta",
+      gpu: "A100 80 GB",
+      status: lf > 0.7 ? "scaling" : lf > 0.3 ? "busy" : "online",
       models: [
-        { name: 'Feature Embedding',   vram: `${(6.8 + lf * 5).toFixed(1)} GB`,    utilization: Math.min(97, Math.round(18 + lf * 70)) },
-        { name: 'NLP Encoder',          vram: `${(4.2 + lf * 3).toFixed(1)} GB`,    utilization: Math.min(92, Math.round(10 + lf * 60)) },
+        {
+          name: "Feature Embedding",
+          vram: `${(6.8 + lf * 5).toFixed(1)} GB`,
+          utilization: Math.min(97, Math.round(18 + lf * 70)),
+        },
+        {
+          name: "NLP Encoder",
+          vram: `${(4.2 + lf * 3).toFixed(1)} GB`,
+          utilization: Math.min(92, Math.round(10 + lf * 60)),
+        },
       ],
     },
     {
-      id: 'gamma',
-      name: 'Node Gamma',
-      gpu: 'H100 80 GB',
-      status: lf > 0.9 ? 'scaling' : lf > 0.5 ? 'busy' : 'online',
+      id: "gamma",
+      name: "Node Gamma",
+      gpu: "H100 80 GB",
+      status: lf > 0.9 ? "scaling" : lf > 0.5 ? "busy" : "online",
       models: [
-        { name: 'Vision Transformer',  vram: `${(14.1 + lf * 10).toFixed(1)} GB`,  utilization: Math.min(98, Math.round(22 + lf * 72)) },
-        { name: 'Spatial Detector',     vram: `${(9.6 + lf * 6).toFixed(1)} GB`,    utilization: Math.min(94, Math.round(16 + lf * 68)) },
-        { name: 'Ensemble Pipeline',    vram: `${(3.4 + lf * 2).toFixed(1)} GB`,    utilization: Math.min(90, Math.round(8 + lf * 55)) },
+        {
+          name: "Vision Transformer",
+          vram: `${(14.1 + lf * 10).toFixed(1)} GB`,
+          utilization: Math.min(98, Math.round(22 + lf * 72)),
+        },
+        {
+          name: "Spatial Detector",
+          vram: `${(9.6 + lf * 6).toFixed(1)} GB`,
+          utilization: Math.min(94, Math.round(16 + lf * 68)),
+        },
+        {
+          name: "Ensemble Pipeline",
+          vram: `${(3.4 + lf * 2).toFixed(1)} GB`,
+          utilization: Math.min(90, Math.round(8 + lf * 55)),
+        },
       ],
     },
     {
-      id: 'delta',
-      name: 'Node Delta',
-      gpu: 'H100 80 GB',
-      status: lf > 0.85 ? 'scaling' : lf > 0.35 ? 'busy' : 'online',
+      id: "delta",
+      name: "Node Delta",
+      gpu: "H100 80 GB",
+      status: lf > 0.85 ? "scaling" : lf > 0.35 ? "busy" : "online",
       models: [
-        { name: 'Feature Embedding',   vram: `${(7.2 + lf * 5.5).toFixed(1)} GB`,  utilization: Math.min(96, Math.round(14 + lf * 72)) },
-        { name: 'OCR Engine',           vram: `${(2.8 + lf * 1.5).toFixed(1)} GB`,  utilization: Math.min(88, Math.round(12 + lf * 58)) },
+        {
+          name: "Feature Embedding",
+          vram: `${(7.2 + lf * 5.5).toFixed(1)} GB`,
+          utilization: Math.min(96, Math.round(14 + lf * 72)),
+        },
+        {
+          name: "OCR Engine",
+          vram: `${(2.8 + lf * 1.5).toFixed(1)} GB`,
+          utilization: Math.min(88, Math.round(12 + lf * 58)),
+        },
       ],
     },
   ];
@@ -79,45 +115,48 @@ function generateNodes(rps: number): ClusterNode[] {
 /* ------------------------------------------------------------------ */
 
 const LOG_TEMPLATES = [
-  'gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK',
-  'HTTP  HEALTH   node={node}  gpu_util={util}%  vram_free={vram}GB',
-  'gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK',
-  'gRPC  BATCH    queue_depth={queue}  dynamic_batch={batch}  timeout=50ms',
-  'HTTP  METRICS  node={node}  req_count={count}  p99_lat={lat}ms',
-  'gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK',
+  "gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK",
+  "HTTP  HEALTH   node={node}  gpu_util={util}%  vram_free={vram}GB",
+  "gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK",
+  "gRPC  BATCH    queue_depth={queue}  dynamic_batch={batch}  timeout=50ms",
+  "HTTP  METRICS  node={node}  req_count={count}  p99_lat={lat}ms",
+  "gRPC  INFER    model={model}  batch={batch}  latency={lat}ms  status=OK",
 ];
 
 const MODEL_IDS = [
-  'vision-xformer',
-  'spatial-det-v3',
-  'feat-embed',
-  'nlp-enc',
-  'ensemble-pipe',
-  'ocr-engine',
+  "vision-xformer",
+  "spatial-det-v3",
+  "feat-embed",
+  "nlp-enc",
+  "ensemble-pipe",
+  "ocr-engine",
 ];
-const NODE_IDS = ['alpha', 'beta', 'gamma', 'delta'];
+const NODE_IDS = ["alpha", "beta", "gamma", "delta"];
 
 function generateLog(rps: number): string {
   const now = new Date();
-  const ts = [
-    String(now.getHours()).padStart(2, '0'),
-    String(now.getMinutes()).padStart(2, '0'),
-    String(now.getSeconds()).padStart(2, '0'),
-  ].join(':') + '.' + String(now.getMilliseconds()).padStart(3, '0');
+  const ts =
+    [
+      String(now.getHours()).padStart(2, "0"),
+      String(now.getMinutes()).padStart(2, "0"),
+      String(now.getSeconds()).padStart(2, "0"),
+    ].join(":") +
+    "." +
+    String(now.getMilliseconds()).padStart(3, "0");
 
   const lf = rps / 50000;
   const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
   const line = pick(LOG_TEMPLATES)
-    .replace('{model}', pick(MODEL_IDS))
-    .replace('{node}', pick(NODE_IDS))
-    .replace('{batch}', String(pick([1, 4, 8, 16, 32])))
-    .replace('{lat}', (0.5 + lf * 8 + Math.random() * 3).toFixed(1))
-    .replace('{util}', String(Math.round(20 + lf * 70 + Math.random() * 10)))
-    .replace('{vram}', (40 - lf * 30 + Math.random() * 10).toFixed(1))
-    .replace('{queue}', String(Math.round(lf * 200 + Math.random() * 50)))
-    .replace('{count}', String(Math.round(rps * (0.8 + Math.random() * 0.4))))
-    .replace('{lat}', (1 + lf * 12 + Math.random() * 4).toFixed(1));
+    .replace("{model}", pick(MODEL_IDS))
+    .replace("{node}", pick(NODE_IDS))
+    .replace("{batch}", String(pick([1, 4, 8, 16, 32])))
+    .replace("{lat}", (0.5 + lf * 8 + Math.random() * 3).toFixed(1))
+    .replace("{util}", String(Math.round(20 + lf * 70 + Math.random() * 10)))
+    .replace("{vram}", (40 - lf * 30 + Math.random() * 10).toFixed(1))
+    .replace("{queue}", String(Math.round(lf * 200 + Math.random() * 50)))
+    .replace("{count}", String(Math.round(rps * (0.8 + Math.random() * 0.4))))
+    .replace("{lat}", (1 + lf * 12 + Math.random() * 4).toFixed(1));
 
   return `[${ts}] ${line}`;
 }
@@ -127,9 +166,9 @@ function generateLog(rps: number): string {
 /* ------------------------------------------------------------------ */
 
 const STATUS_BADGE: Record<string, string> = {
-  online: 'ONLINE',
-  busy: 'BUSY',
-  scaling: 'SCALING',
+  online: "ONLINE",
+  busy: "BUSY",
+  scaling: "SCALING",
 };
 
 export function GridMatrix() {
@@ -177,7 +216,7 @@ export function GridMatrix() {
       {/* ── RPS slider ─────────────────────────────────────────────── */}
       <div className="border-b border-border px-4 py-4">
         <label className="font-mono text-[10px] text-muted uppercase tracking-widest block mb-2">
-          Concurrent Requests / Sec:{' '}
+          Concurrent Requests / Sec:{" "}
           <span className="text-foreground font-bold">
             {rps.toLocaleString()}
           </span>
@@ -203,9 +242,9 @@ export function GridMatrix() {
           <div
             key={node.id}
             className={cn(
-              'px-4 py-4',
-              i % 2 === 0 && 'md:border-r border-border',
-              i < 2 && 'border-b border-border md:border-b',
+              "px-4 py-4",
+              i % 2 === 0 && "md:border-r border-border",
+              i < 2 && "border-b border-border md:border-b",
             )}
           >
             {/* node header */}
@@ -259,7 +298,7 @@ export function GridMatrix() {
       {/* ── Terminal log feed ──────────────────────────────────────── */}
       <div className="px-4 py-2 border-b border-border">
         <p className="font-mono text-[10px] text-muted uppercase tracking-widest">
-          Request Log — gRPC / HTTP
+          Request Log gRPC / HTTP
         </p>
       </div>
       <div

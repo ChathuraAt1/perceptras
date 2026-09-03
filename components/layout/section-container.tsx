@@ -1,8 +1,8 @@
-import { cn } from '@/lib/utils';
-import type { ReactNode } from 'react';
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 /* ------------------------------------------------------------------ */
-/*  Container — Max-width wrapper with optional structural borders     */
+/*  Container Max-width wrapper with optional structural borders     */
 /* ------------------------------------------------------------------ */
 
 interface ContainerProps {
@@ -15,14 +15,19 @@ interface ContainerProps {
   };
 }
 
-export function Container({ children, id, className, borders }: ContainerProps) {
+export function Container({
+  children,
+  id,
+  className,
+  borders,
+}: ContainerProps) {
   return (
     <div
       id={id}
       className={cn(
-        'mx-auto w-full max-w-7xl px-6 md:px-8',
-        borders?.left && 'border-l border-border',
-        borders?.right && 'border-r border-border',
+        "mx-auto w-full max-w-7xl px-6 md:px-8",
+        borders?.left && "border-l border-border",
+        borders?.right && "border-r border-border",
         className,
       )}
     >
@@ -32,7 +37,7 @@ export function Container({ children, id, className, borders }: ContainerProps) 
 }
 
 /* ------------------------------------------------------------------ */
-/*  Section — Full-width section with optional border lines            */
+/*  Section Full-width section with optional border lines            */
 /* ------------------------------------------------------------------ */
 
 interface SectionProps {
@@ -50,9 +55,9 @@ export function Section({ children, id, className, borders }: SectionProps) {
     <section
       id={id}
       className={cn(
-        'py-16 md:py-24',
-        borders?.top && 'border-t border-border',
-        borders?.bottom && 'border-b border-border',
+        "py-16 md:py-24",
+        borders?.top && "border-t border-border",
+        borders?.bottom && "border-b border-border",
         className,
       )}
     >

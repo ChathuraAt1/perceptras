@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Camera, Eye, Flame, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Camera, Eye, Flame, EyeOff } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
 /* ------------------------------------------------------------------ */
 
-type Sector = 'logistics' | 'retail' | 'assembly';
+type Sector = "logistics" | "retail" | "assembly";
 
 interface CameraNode {
   id: string;
@@ -41,55 +41,175 @@ interface SectorData {
 
 const SECTORS: Record<Sector, SectorData> = {
   logistics: {
-    label: 'Logistics Loading Bay',
-    sublabel: 'Warehouse Zone B — 6 Camera Array',
+    label: "Logistics Loading Bay",
+    sublabel: "Warehouse Zone B 6 Camera Array",
     cameras: [
-      { id: 'L01', x: 10, y: 15, label: 'Gate Entry',    tracking: 8,  occlusion: 1, fps: 30 },
-      { id: 'L02', x: 40, y: 10, label: 'Dock A',        tracking: 14, occlusion: 3, fps: 30 },
-      { id: 'L03', x: 70, y: 12, label: 'Dock B',        tracking: 11, occlusion: 2, fps: 30 },
-      { id: 'L04', x: 25, y: 55, label: 'Forklift Lane', tracking: 6,  occlusion: 0, fps: 30 },
-      { id: 'L05', x: 60, y: 52, label: 'Staging Area',  tracking: 22, occlusion: 5, fps: 25 },
-      { id: 'L06', x: 88, y: 60, label: 'Exit Gate',     tracking: 4,  occlusion: 0, fps: 30 },
+      {
+        id: "L01",
+        x: 10,
+        y: 15,
+        label: "Gate Entry",
+        tracking: 8,
+        occlusion: 1,
+        fps: 30,
+      },
+      {
+        id: "L02",
+        x: 40,
+        y: 10,
+        label: "Dock A",
+        tracking: 14,
+        occlusion: 3,
+        fps: 30,
+      },
+      {
+        id: "L03",
+        x: 70,
+        y: 12,
+        label: "Dock B",
+        tracking: 11,
+        occlusion: 2,
+        fps: 30,
+      },
+      {
+        id: "L04",
+        x: 25,
+        y: 55,
+        label: "Forklift Lane",
+        tracking: 6,
+        occlusion: 0,
+        fps: 30,
+      },
+      {
+        id: "L05",
+        x: 60,
+        y: 52,
+        label: "Staging Area",
+        tracking: 22,
+        occlusion: 5,
+        fps: 25,
+      },
+      {
+        id: "L06",
+        x: 88,
+        y: 60,
+        label: "Exit Gate",
+        tracking: 4,
+        occlusion: 0,
+        fps: 30,
+      },
     ],
     zones: [
-      { x: 5,  y: 5,  w: 35, h: 30, label: 'RECEIVING' },
-      { x: 45, y: 5,  w: 50, h: 25, label: 'DOCKING' },
-      { x: 5,  y: 40, w: 40, h: 35, label: 'FORKLIFT CORRIDOR' },
-      { x: 50, y: 35, w: 45, h: 40, label: 'STAGING' },
+      { x: 5, y: 5, w: 35, h: 30, label: "RECEIVING" },
+      { x: 45, y: 5, w: 50, h: 25, label: "DOCKING" },
+      { x: 5, y: 40, w: 40, h: 35, label: "FORKLIFT CORRIDOR" },
+      { x: 50, y: 35, w: 45, h: 40, label: "STAGING" },
     ],
   },
   retail: {
-    label: 'Retail Floor Analytics',
-    sublabel: 'Store #1204 — 5 Camera Array',
+    label: "Retail Floor Analytics",
+    sublabel: "Store #1204 5 Camera Array",
     cameras: [
-      { id: 'R01', x: 15, y: 12, label: 'Entrance',    tracking: 32, occlusion: 4, fps: 30 },
-      { id: 'R02', x: 50, y: 10, label: 'Aisle North',  tracking: 18, occlusion: 6, fps: 30 },
-      { id: 'R03', x: 85, y: 15, label: 'Checkout',     tracking: 24, occlusion: 3, fps: 30 },
-      { id: 'R04', x: 30, y: 58, label: 'Aisle South',  tracking: 12, occlusion: 2, fps: 30 },
-      { id: 'R05', x: 72, y: 60, label: 'Stockroom',    tracking: 5,  occlusion: 1, fps: 25 },
+      {
+        id: "R01",
+        x: 15,
+        y: 12,
+        label: "Entrance",
+        tracking: 32,
+        occlusion: 4,
+        fps: 30,
+      },
+      {
+        id: "R02",
+        x: 50,
+        y: 10,
+        label: "Aisle North",
+        tracking: 18,
+        occlusion: 6,
+        fps: 30,
+      },
+      {
+        id: "R03",
+        x: 85,
+        y: 15,
+        label: "Checkout",
+        tracking: 24,
+        occlusion: 3,
+        fps: 30,
+      },
+      {
+        id: "R04",
+        x: 30,
+        y: 58,
+        label: "Aisle South",
+        tracking: 12,
+        occlusion: 2,
+        fps: 30,
+      },
+      {
+        id: "R05",
+        x: 72,
+        y: 60,
+        label: "Stockroom",
+        tracking: 5,
+        occlusion: 1,
+        fps: 25,
+      },
     ],
     zones: [
-      { x: 5,  y: 5,  w: 30, h: 35, label: 'ENTRY ZONE' },
-      { x: 38, y: 5,  w: 25, h: 70, label: 'AISLE BLOCK' },
-      { x: 68, y: 5,  w: 27, h: 35, label: 'CHECKOUT' },
-      { x: 5,  y: 45, w: 30, h: 30, label: 'DISPLAY' },
-      { x: 68, y: 45, w: 27, h: 30, label: 'STOCKROOM' },
+      { x: 5, y: 5, w: 30, h: 35, label: "ENTRY ZONE" },
+      { x: 38, y: 5, w: 25, h: 70, label: "AISLE BLOCK" },
+      { x: 68, y: 5, w: 27, h: 35, label: "CHECKOUT" },
+      { x: 5, y: 45, w: 30, h: 30, label: "DISPLAY" },
+      { x: 68, y: 45, w: 27, h: 30, label: "STOCKROOM" },
     ],
   },
   assembly: {
-    label: 'Automated Assembly',
-    sublabel: 'Line A — 4 Camera Array',
+    label: "Automated Assembly",
+    sublabel: "Line A 4 Camera Array",
     cameras: [
-      { id: 'A01', x: 12, y: 35, label: 'Station 1',  tracking: 3, occlusion: 0, fps: 60 },
-      { id: 'A02', x: 38, y: 30, label: 'Station 2',  tracking: 4, occlusion: 1, fps: 60 },
-      { id: 'A03', x: 62, y: 33, label: 'QC Inspect',  tracking: 2, occlusion: 0, fps: 60 },
-      { id: 'A04', x: 88, y: 36, label: 'Packaging',   tracking: 6, occlusion: 2, fps: 60 },
+      {
+        id: "A01",
+        x: 12,
+        y: 35,
+        label: "Station 1",
+        tracking: 3,
+        occlusion: 0,
+        fps: 60,
+      },
+      {
+        id: "A02",
+        x: 38,
+        y: 30,
+        label: "Station 2",
+        tracking: 4,
+        occlusion: 1,
+        fps: 60,
+      },
+      {
+        id: "A03",
+        x: 62,
+        y: 33,
+        label: "QC Inspect",
+        tracking: 2,
+        occlusion: 0,
+        fps: 60,
+      },
+      {
+        id: "A04",
+        x: 88,
+        y: 36,
+        label: "Packaging",
+        tracking: 6,
+        occlusion: 2,
+        fps: 60,
+      },
     ],
     zones: [
-      { x: 5,  y: 18, w: 20, h: 50, label: 'STATION 1' },
-      { x: 28, y: 15, w: 20, h: 55, label: 'STATION 2' },
-      { x: 52, y: 18, w: 20, h: 50, label: 'QC' },
-      { x: 75, y: 20, w: 20, h: 46, label: 'PACK' },
+      { x: 5, y: 18, w: 20, h: 50, label: "STATION 1" },
+      { x: 28, y: 15, w: 20, h: 55, label: "STATION 2" },
+      { x: 52, y: 18, w: 20, h: 50, label: "QC" },
+      { x: 75, y: 20, w: 20, h: 46, label: "PACK" },
     ],
   },
 };
@@ -99,7 +219,7 @@ const SECTORS: Record<Sector, SectorData> = {
 /* ------------------------------------------------------------------ */
 
 export function ZoneIntel() {
-  const [sector, setSector] = useState<Sector>('logistics');
+  const [sector, setSector] = useState<Sector>("logistics");
   const [overlays, setOverlays] = useState({
     coverage: true,
     heatmap: false,
@@ -141,10 +261,10 @@ export function ZoneIntel() {
               setSelectedCamera(null);
             }}
             className={cn(
-              'font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 border transition-colors cursor-pointer',
+              "font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 border transition-colors cursor-pointer",
               sector === s
-                ? 'border-foreground bg-foreground text-surface'
-                : 'border-border text-muted hover:text-foreground',
+                ? "border-foreground bg-foreground text-surface"
+                : "border-border text-muted hover:text-foreground",
             )}
           >
             {SECTORS[s].label}
@@ -160,16 +280,19 @@ export function ZoneIntel() {
 
         <div className="relative border border-border aspect-[2/1] bg-surface overflow-hidden">
           {/* crosshair corners */}
-          {['top-0 left-0', 'top-0 right-0', 'bottom-0 left-0', 'bottom-0 right-0'].map(
-            (pos) => (
-              <span
-                key={pos}
-                className={`absolute ${pos} font-mono text-[10px] text-muted p-1.5 leading-none select-none z-20`}
-              >
-                +
-              </span>
-            ),
-          )}
+          {[
+            "top-0 left-0",
+            "top-0 right-0",
+            "bottom-0 left-0",
+            "bottom-0 right-0",
+          ].map((pos) => (
+            <span
+              key={pos}
+              className={`absolute ${pos} font-mono text-[10px] text-muted p-1.5 leading-none select-none z-20`}
+            >
+              +
+            </span>
+          ))}
 
           {/* coordinate grid */}
           <svg
@@ -229,8 +352,8 @@ export function ZoneIntel() {
                 style={{
                   left: `${cam.x}%`,
                   top: `${cam.y}%`,
-                  width: '18%',
-                  height: '36%',
+                  width: "18%",
+                  height: "36%",
                 }}
               />
             ))}
@@ -277,11 +400,11 @@ export function ZoneIntel() {
                 setSelectedCamera(selectedCamera === cam.id ? null : cam.id)
               }
               className={cn(
-                'absolute -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center',
-                'w-6 h-6 border transition-colors cursor-pointer',
+                "absolute -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center",
+                "w-6 h-6 border transition-colors cursor-pointer",
                 selectedCamera === cam.id
-                  ? 'border-foreground bg-foreground text-surface'
-                  : 'border-foreground/50 bg-surface hover:bg-foreground hover:text-surface text-foreground',
+                  ? "border-foreground bg-foreground text-surface"
+                  : "border-foreground/50 bg-surface hover:bg-foreground hover:text-surface text-foreground",
               )}
               style={{ left: `${cam.x}%`, top: `${cam.y}%` }}
               title={`${cam.id}: ${cam.label}`}
@@ -294,23 +417,27 @@ export function ZoneIntel() {
 
       {/* ── Overlay toggles ────────────────────────────────────────── */}
       <div className="border-t border-border px-4 py-3 flex flex-wrap gap-2">
-        {([
-          { key: 'coverage' as const, label: 'Camera Coverage',     icon: Eye },
-          { key: 'heatmap' as const,  label: 'Heatmap Trajectories', icon: Flame },
-          { key: 'occlusion' as const, label: 'Occlusion Masks',    icon: EyeOff },
-        ]).map(({ key, label, icon: Icon }) => (
+        {[
+          { key: "coverage" as const, label: "Camera Coverage", icon: Eye },
+          {
+            key: "heatmap" as const,
+            label: "Heatmap Trajectories",
+            icon: Flame,
+          },
+          { key: "occlusion" as const, label: "Occlusion Masks", icon: EyeOff },
+        ].map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => toggleOverlay(key)}
             className={cn(
-              'flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 border transition-colors cursor-pointer',
+              "flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 border transition-colors cursor-pointer",
               overlays[key]
-                ? 'border-foreground text-foreground'
-                : 'border-border text-muted hover:text-foreground',
+                ? "border-foreground text-foreground"
+                : "border-border text-muted hover:text-foreground",
             )}
           >
             <Icon className="h-3 w-3" />
-            {overlays[key] ? '[−]' : '[+]'} {label}
+            {overlays[key] ? "[−]" : "[+]"} {label}
           </button>
         ))}
       </div>
@@ -319,18 +446,22 @@ export function ZoneIntel() {
       {camera && (
         <div className="border-t border-border px-4 py-4">
           <p className="font-mono text-[10px] text-muted uppercase tracking-widest mb-3">
-            Node #{camera.id} — {camera.label}
+            Node #{camera.id} {camera.label}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: 'Tracked Objects', value: String(camera.tracking) },
-              { label: 'Occlusion Rate',  value: `${camera.occlusion}%` },
-              { label: 'Frame Rate',       value: `${camera.fps} FPS` },
-              { label: 'Status',           value: 'ACTIVE' },
+              { label: "Tracked Objects", value: String(camera.tracking) },
+              { label: "Occlusion Rate", value: `${camera.occlusion}%` },
+              { label: "Frame Rate", value: `${camera.fps} FPS` },
+              { label: "Status", value: "ACTIVE" },
             ].map((m) => (
               <div key={m.label} className="border-l border-border pl-3">
-                <p className="font-mono text-[9px] text-muted uppercase">{m.label}</p>
-                <p className="font-mono text-sm font-bold text-foreground">{m.value}</p>
+                <p className="font-mono text-[9px] text-muted uppercase">
+                  {m.label}
+                </p>
+                <p className="font-mono text-sm font-bold text-foreground">
+                  {m.value}
+                </p>
               </div>
             ))}
           </div>

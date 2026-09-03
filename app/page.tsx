@@ -1,12 +1,12 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { Section, Container } from '@/components/layout/section-container';
-import { Display, Heading, MonoTag } from '@/components/ui/typography';
-import { Button } from '@/components/ui/button';
-import { CredibilityStrip } from '@/components/marketing/credibility-strip';
-import { FeatureShowcase } from '@/components/marketing/feature-showcase';
-import { TestimonialsSection } from '@/components/marketing/testimonials';
-import { FAQSection } from '@/components/marketing/faq-section';
+import Link from "next/link";
+import Image from "next/image";
+import { Section, Container } from "@/components/layout/section-container";
+import { Display, Heading, MonoTag } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
+import { CredibilityStrip } from "@/components/marketing/credibility-strip";
+import { FeatureShowcase } from "@/components/marketing/feature-showcase";
+import { TestimonialsSection } from "@/components/marketing/testimonials";
+import { FAQSection } from "@/components/marketing/faq-section";
 import {
   Video,
   Zap,
@@ -17,79 +17,79 @@ import {
   Warehouse,
   Factory,
   ShieldAlert,
-} from 'lucide-react';
+} from "lucide-react";
 
 const PRODUCT_SUMMARY = [
   {
-    id: 'flow',
-    number: '01',
-    name: 'Perceptras Flow',
-    role: 'Multi-Stream Ingest Pipeline',
+    id: "flow",
+    number: "01",
+    name: "Perception Pipeline Engine",
+    role: "Multi-Stream Ingest Pipeline",
     description:
-      'Connects up to 128 RTSP and industrial camera streams with zero-copy hardware decoding directly into AI tensor memory.',
+      "Handles stream decoding, preprocessing, detection, classification, and tracking turning raw visual input into structured, usable perception data.",
     icon: Video,
-    image: '/images/home/product ecosystem.webp',
+    image: "/images/home/product ecosystem.webp",
   },
   {
-    id: 'accel',
-    number: '02',
-    name: 'Perceptras Accel',
-    role: 'Inference Optimization Engine',
+    id: "accel",
+    number: "02",
+    name: "Model Runtime & Serving Layer",
+    role: "Inference Optimization Engine",
     description:
-      'Compiles PyTorch and ONNX models into ultra-fast execution graphs with automated INT8 and FP8 quantization.',
+      "Registers compatible models and manages inference endpoints, batching, concurrency, and version tracking across every deployed perception pipeline.",
     icon: Zap,
-    image: '/images/home/product ecosystem (2).webp',
+    image: "/images/home/product ecosystem (2).webp",
   },
   {
-    id: 'zone',
-    number: '03',
-    name: 'Perceptras Zone',
-    role: 'Spatial Intelligence & Tracking',
+    id: "zone",
+    number: "03",
+    name: "Perceptras Zone",
+    role: "Spatial Event Intelligence",
     description:
-      'Maps multiple camera angles into unified 3D physical coordinates with continuous tracking across blind spots.',
+      "Converts tracked objects into zone, dwell, and movement events, triggering operational alerts teams can actually act on.",
     icon: Compass,
-    image: '/images/home/product ecosystem (3).webp',
+    image: "/images/home/product ecosystem (3).webp",
   },
   {
-    id: 'grid',
-    number: '04',
-    name: 'Perceptras Grid',
-    role: 'Cluster Inference Orchestrator',
+    id: "grid",
+    number: "04",
+    name: "Edge-to-Core Infrastructure Manager",
+    role: "Cluster Inference Orchestrator",
     description:
-      'Orchestrates model deployments across edge devices and centralized GPU servers with automated load balancing.',
+      "Manages site inventory, deployment status, and configuration distribution across distributed edge devices and centralized core infrastructure.",
     icon: Network,
-    image: '/images/home/product ecosystem (4).webp',
+    image: "/images/home/product ecosystem (4).webp",
   },
 ];
 
 const USE_CASES = [
   {
     icon: Bot,
-    image: '/images/home/deployment.webp',
-    title: 'Autonomous Mobile Robots (AMR)',
+    image: "/images/home/deployment.webp",
+    title: "Industrial Automation",
     description:
-      'Low-latency multi-camera obstacle detection, visual SLAM fusion, and 360-degree situational awareness for warehouse robots and autonomous delivery units.',
+      "Tracks equipment, workflows, and safety zones across production floors using configurable detection and spatial rule sets.",
   },
   {
     icon: Warehouse,
-    image: '/images/home/deployment (2).webp',
-    title: 'Smart Logistics & Warehouses',
+    image: "/images/home/deployment (2).webp",
+    title: "Logistics & Warehousing",
     description:
-      'Continuous spatial tracking of packages, forklifts, and personnel across massive multi-camera facility arrays with automated dock telemetry.',
+      "Monitors dock activity, inventory movement, and zone occupancy across distributed warehouse sites from a single pipeline.",
   },
   {
     icon: Factory,
-    image: '/images/home/deployment (3).webp',
-    title: 'Robotic Manufacturing & QC',
+    image: "/images/home/deployment (3).webp",
+    title: "Retail Environments",
     description:
-      'Line-rate defect classification, automated assembly inspection, and robotic guidance operating under sub-5ms latency budgets.',
+      "Observes store zones, dwell patterns, and traffic flow to generate structured, store-level operational event data.",
   },
   {
     icon: ShieldAlert,
-    image: '/images/home/deployment (4).webp',
-    title: 'Smart Spaces & Perimeter Security',
+    image: "/images/home/deployment (4).webp",
+    title: "Edge-to-Core Deployments",
     description:
-      'Multi-camera tracking across blind spots, geofenced intrusion alerts, and occupancy density mapping without streaming raw video off-premise.',
+      "Runs inference at the edge while centralizing configuration, monitoring, and event delivery across every connected site.",
   },
 ];
 
@@ -109,15 +109,17 @@ export default function Home() {
               </div>
 
               <Display className="max-w-2xl text-4xl sm:text-5xl lg:text-6xl">
-                Physical AI
+                Reusable
                 <br />
-                Perception
+                Perception for
                 <br />
-                Infrastructure
+                the Real World
               </Display>
 
               <p className="font-mono text-sm text-muted max-w-xl leading-relaxed pt-2">
-                Perceptras is the software platform that connects cameras and sensors to real-time AI models. Engineered for autonomous robotics, smart manufacturing, and spatial intelligence at scale.
+                Perceptras is the infrastructure layer underneath Physical AI
+                the pipeline that turns raw visual streams into structured,
+                operational events. Built once, deployed everywhere.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
@@ -127,7 +129,11 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/products/">
-                  <Button variant="outline" size="lg" className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex items-center gap-2"
+                  >
                     <span>Explore Products</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -169,14 +175,15 @@ export default function Home() {
             <div>
               <MonoTag className="mb-3">PRODUCT ECOSYSTEM</MonoTag>
               <Heading as="h2" className="text-3xl md:text-4xl">
-                Modular Perception Suite
+                One Platform. Four Interlocking Modules.
               </Heading>
             </div>
             <Link
               href="/products/"
               className="font-mono text-xs uppercase tracking-widest text-foreground hover:underline inline-flex items-center gap-1 font-semibold"
             >
-              View Full Technical Specifications <ArrowRight className="h-3.5 w-3.5" />
+              View Full Technical Specifications{" "}
+              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
 
@@ -227,7 +234,9 @@ export default function Home() {
                   >
                     Learn More <ArrowRight className="h-3 w-3" />
                   </Link>
-                  <span className="font-mono text-[10px] text-muted">Edge-Compiled</span>
+                  <span className="font-mono text-[10px] text-muted">
+                    Edge-Compiled
+                  </span>
                 </div>
               </div>
             ))}
@@ -241,16 +250,21 @@ export default function Home() {
           <div className="max-w-3xl mb-12">
             <MonoTag className="mb-3">DEPLOYMENT SCENARIOS</MonoTag>
             <Heading as="h2" className="text-3xl md:text-4xl mb-4">
-              Engineered for Demanding Environments
+              Built for Where Physical AI Actually Runs.
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              From mobile warehouse robotics to continuous factory line inspection, Perceptras delivers dependable perception across critical operations.
+              Description: Perceptras adapts to the environment it's deployed in
+              same pipeline architecture, different cameras, sites, and
+              operational rules.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
             {USE_CASES.map(({ image, title, description }) => (
-              <div key={title} className="bg-surface p-8 flex flex-col justify-between gap-6 group hover:bg-surface/80 transition-colors">
+              <div
+                key={title}
+                className="bg-surface p-8 flex flex-col justify-between gap-6 group hover:bg-surface/80 transition-colors"
+              >
                 <div className="space-y-4">
                   <div className="h-14 w-14 border border-border bg-surface/90 p-2.5 flex items-center justify-center shrink-0 group-hover:border-foreground/40 transition-colors">
                     <Image
@@ -280,10 +294,12 @@ export default function Home() {
           <div className="max-w-3xl mb-12">
             <MonoTag className="mb-3">CUSTOMER VALIDATION</MonoTag>
             <Heading as="h2" className="text-3xl md:text-4xl mb-4">
-              Trusted by Vision &amp; Robotics Teams
+              Trusted by Teams Building the Next Wave of Physical AI
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              Discover how engineering leaders build real-time spatial intelligence into their physical systems with Perceptras.
+              Early adopters across industrial, logistics, and retail
+              environments are putting Perceptras to work here's what standing
+              up a shared perception layer has meant for their teams.
             </p>
           </div>
 
@@ -292,7 +308,10 @@ export default function Home() {
       </Section>
 
       {/* ── Pricing Teaser ──────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="bg-surface/30 py-20 md:py-28">
+      <Section
+        borders={{ bottom: true }}
+        className="bg-surface/30 py-20 md:py-28"
+      >
         <Container>
           <div className="border border-border bg-surface p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
@@ -301,13 +320,19 @@ export default function Home() {
                 Predictable Pricing for Any Hardware Scale
               </Heading>
               <p className="font-mono text-sm text-muted leading-relaxed">
-                From single edge devices to multi-node facility clusters. Simple monthly or annual subscriptions with 20% discount on yearly billing.
+                From single edge devices to multi-node facility clusters. Simple
+                monthly or annual subscriptions with 20% discount on yearly
+                billing.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
               <Link href="/pricing/">
-                <Button variant="primary" size="lg" className="flex items-center justify-center gap-2">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="flex items-center justify-center gap-2"
+                >
                   <span>View All Pricing Plans</span>
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -323,10 +348,11 @@ export default function Home() {
           <div className="max-w-3xl mb-12">
             <MonoTag className="mb-3">COMMON QUESTIONS</MonoTag>
             <Heading as="h2" className="text-3xl md:text-4xl mb-4">
-              Frequently Asked Questions
+              Questions Teams Ask Before They Deploy
             </Heading>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              Answers to common questions about deployment, hardware support, and architecture.
+              Straight answers about how Perceptras works, what it does, and
+              what it doesn't promise.
             </p>
           </div>
 
@@ -349,10 +375,13 @@ export default function Home() {
 
         <Container className="text-center relative z-10">
           <Display as="h2" className="text-3xl md:text-5xl lg:text-6xl mb-6">
-            Ready to Deploy Perceptras?
+            Turn Pixels Into Decisions Without Reinventing How
           </Display>
           <p className="font-mono text-sm text-muted max-w-lg mx-auto mb-10">
-            Start your free trial today or connect with our solutions engineers to size your custom camera deployment.
+            Every new site doesn't need to mean new infrastructure. Perceptras
+            gives your team a perception layer that's already built —
+            configurable, observable, and ready to extend across your next
+            deployment instead of starting from zero.
           </p>
           <div className="flex justify-center gap-4">
             <Link href="/auth/register/">

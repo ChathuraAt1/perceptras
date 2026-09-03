@@ -1,28 +1,28 @@
-import type { Metadata } from 'next';
-import { Syne } from 'next/font/google';
-import { GeistMono } from 'geist/font/mono';
-import { ThemeProvider } from '@/components/ui/theme-toggle';
-import { RecaptchaProvider } from '@/lib/recaptcha';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { Chatbot } from '@/components/ai/chatbot';
-import { CookieBanner } from '@/components/ui/cookie-banner';
-import './globals.css';
+import type { Metadata } from "next";
+import { Syne } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
+import { ThemeProvider } from "@/components/ui/theme-toggle";
+import { RecaptchaProvider } from "@/lib/recaptcha";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { Chatbot } from "@/components/ai/chatbot";
+import { CookieBanner } from "@/components/ui/cookie-banner";
+import "./globals.css";
 
 const syne = Syne({
-  subsets: ['latin'],
-  variable: '--syne',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--syne",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: 'Perceptras — Physical AI Perception Infrastructure',
+  title: "Perceptras Physical AI Perception Infrastructure",
   description:
-    'High-performance perception infrastructure for physical AI systems. Real-time sensor fusion, edge inference, and spatial intelligence.',
+    "High-performance perception infrastructure for physical AI systems. Real-time sensor fusion, edge inference, and spatial intelligence.",
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/images/branding/r_icon_light.webp',
-    apple: '/images/branding/r_icon_light.webp',
+    icon: "/favicon.ico",
+    shortcut: "/images/branding/r_icon_light.webp",
+    apple: "/images/branding/r_icon_light.webp",
   },
 };
 
@@ -32,7 +32,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${syne.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${syne.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <ThemeProvider>
           <RecaptchaProvider>

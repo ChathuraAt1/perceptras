@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   {
-    q: 'What types of cameras and video streams does Perceptras support?',
-    a: 'Perceptras supports all standard RTSP, RTP, and H.264/H.265/AV1 IP cameras, as well as industrial vision standards including GigE Vision, USB3 Vision, and MIPI CSI-2 sensor modules. No proprietary camera hardware is required.',
+    q: "We already have cameras and models do we need to replace them?",
+    a: "No. Perceptras is built to work with compatible models and existing visual streams, not to force a hardware or model swap. We integrate with the hardware and models you already have, and provide tools to optimize and scale them.",
   },
   {
-    q: 'Can Perceptras run 100% on-premise without internet connectivity?',
-    a: 'Yes. Perceptras is built for air-gapped industrial environments. You can deploy all modules (Flow, Accel, Zone, Grid) directly on local edge hardware or on-premise servers with zero external telemetry transmission.',
+    q: "Will Perceptras guarantee accurate detection for our site?",
+    a: "No platform can promise that. Accuracy depends on your models, camera placement, and site conditions Perceptras standardizes the pipeline around them. Our tools help you validate and tune performance, but ultimate responsibility for accuracy rests with your team.",
   },
   {
-    q: 'How does Perceptras achieve sub-2ms inference latency?',
-    a: 'We use a unified zero-copy memory architecture. Video frames are decoded directly into accelerator tensor memory, eliminating CPU-to-GPU memory copies, while neural execution graphs are pre-compiled and quantized.',
+    q: "Can we run this across multiple sites without managing each one separately?",
+    a: "Yes. The edge-to-core infrastructure manager gives you one view of deployment status and configuration across every connected site. From a single interface, you can monitor health, deploy pipeline updates, adjust zones, and review logs without logging into each device.",
   },
   {
-    q: 'Can we use our own custom AI models with Perceptras Accel?',
-    a: 'Yes. Perceptras Accel accepts standard PyTorch, ONNX, and JAX model exports. The compiler automatically optimizes layer operations and applies INT8/FP8 quantization without altering model accuracy.',
+    q: "How do we get perception data into our own operational systems?",
+    a: "Structured events and metadata are delivered through APIs, so your existing systems can consume them without custom integration work per site. Configure ingestion pipelines once in Perceptras, and all connected sites will automatically route perception events to your APIs no additional integration per site required.",
   },
   {
-    q: 'How does multi-camera 3D tracking work across blind spots?',
-    a: 'Perceptras Zone performs multi-camera extrinsic calibration to map all views to a single 3D metric coordinate system. Re-identification embeddings allow continuous tracking of entities even when they move across camera blind spots.',
+    q: "What exactly does Perceptras take on versus what stays with our team?",
+    a: "We handle the perception pipeline from camera ingestion, through AI model execution and multi-camera tracking, to event streaming and system health monitoring. Your team stays focused on defining detection requirements, placing cameras, validating model outputs, and managing site operations. We provide the reliable infrastructure; you provide the domain expertise and validation.",
   },
 ];
 
@@ -49,7 +49,7 @@ export function FAQSection() {
               </span>
               <ChevronDown
                 className={`h-4 w-4 text-muted shrink-0 transition-transform ${
-                  isOpen ? 'rotate-180 text-foreground' : ''
+                  isOpen ? "rotate-180 text-foreground" : ""
                 }`}
               />
             </button>

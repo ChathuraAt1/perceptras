@@ -1,73 +1,73 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { Section, Container } from '@/components/layout/section-container';
-import { Display, MonoTag } from '@/components/ui/typography';
-import { Button } from '@/components/ui/button';
-import { ExternalLink } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import { Section, Container } from "@/components/layout/section-container";
+import { Display, MonoTag } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 const VALUES = [
   {
-    num: '01',
-    title: 'Instant Reaction Time',
+    num: "01",
+    title: "Connect",
     description:
-      'We believe smart systems should respond immediately. By running AI directly where your cameras are located, we eliminate delays and keep your operations moving smoothly.',
+      "We onboard your authorized video and sensor streams, configuring sites, zones, and compatible models around your existing setup.",
   },
   {
-    num: '02',
-    title: 'Your Privacy Stays Intact',
+    num: "02",
+    title: "Configure",
     description:
-      'Your video feeds never leave your facility. Everything is processed on your local network, ensuring your proprietary data and privacy remain completely protected.',
+      "Detection, classification, and tracking pipelines are set up to match your environment, use case, and operational rules.",
   },
   {
-    num: '03',
-    title: 'Works with What You Have',
+    num: "03",
+    title: "Observe",
     description:
-      'You should not need to replace your existing setup. Our software connects with standard cameras and runs on widely available computers and devices.',
+      "Pipeline health, latency, and model behavior stay visible through the operations dashboard, so nothing runs as a black box.",
   },
   {
-    num: '04',
-    title: 'Clarity Over Complexity',
+    num: "04",
+    title: "Deliver",
     description:
-      'We focus on practical results that solve real operational problems, rather than making technology difficult to use or understand.',
+      "Structured events and metadata flow to your operational systems through APIs, ready for the teams that need them.",
   },
 ];
 
 const TEAM = [
   {
-    name: 'Dr. Alistair Vance',
-    role: 'Co-Founder & CEO',
-    initials: 'AV',
-    image: '/images/about/leaders (3).webp',
-    gradient: 'from-zinc-800 to-zinc-950',
+    name: "Nirosan Vaithilingam",
+    role: "Chief Technology Officer",
+    initials: "NV",
+    image: "/images/about/leaders (3).webp",
+    gradient: "from-zinc-800 to-zinc-950",
     background:
-      'Spent over a decade leading robotics and vision teams, helping automated warehouses and mobile robots navigate complex spaces safely.',
+      "Leads the core pipeline architecture, from stream ingestion to model runtime, with a focus on infrastructure that scales without breaking under real-world conditions.",
   },
   {
-    name: 'Mira Sorensen',
-    role: 'Co-Founder & Chief Architect',
-    initials: 'MS',
-    image: '/images/about/leaders.webp',
-    gradient: 'from-zinc-700 to-zinc-900',
+    name: "Kalaivani Sivanesan",
+    role: "Chief Operating Officer",
+    initials: "KS",
+    image: "/images/about/leaders.webp",
+    gradient: "from-zinc-700 to-zinc-900",
     background:
-      'Specialist in making artificial intelligence models run fast and efficiently on everyday hardware devices without expensive servers.',
+      "Oversees deployment operations and cross-site rollouts, making sure every new implementation runs on the same reliable, repeatable process.",
   },
   {
-    name: 'Tarek El-Masri',
-    role: 'Head of Engineering',
-    initials: 'TE',
-    image: '/images/about/leaders (4).webp',
-    gradient: 'from-zinc-800 to-zinc-900',
+    name: "Thiruvarasu Balasubramaniam",
+    role: "Lead Perception Engineer",
+    initials: "TB",
+    image: "/images/about/leaders (4).webp",
+    gradient: "from-zinc-800 to-zinc-900",
     background:
-      'Expert in building reliable, high-speed software systems that connect hundreds of cameras and sensors simultaneously without crashing.',
+      "Builds and refines the detection, tracking, and spatial event systems that turn raw visual streams into structured, usable data.",
   },
   {
-    name: 'Dr. Elena Rostova',
-    role: 'Head of Research',
-    initials: 'ER',
-    image: '/images/about/leaders (2).webp',
-    gradient: 'from-zinc-700 to-zinc-950',
+    name: "Priyadharshini Mahendran",
+    role: "Head of Infrastructure Engineering",
+    initials: "PM",
+    image: "/images/about/leaders (2).webp",
+    gradient: "from-zinc-700 to-zinc-950",
     background:
-      'Dedicated to helping systems understand 3D physical spaces and track objects smoothly across multiple camera angles.',
+      "Manages the edge-to-core deployment layer, keeping distributed sites connected, observable, and consistently configured at scale.",
   },
 ];
 
@@ -92,11 +92,16 @@ export default function AboutPage() {
             <MonoTag>ABOUT PERCEPTRAS</MonoTag>
 
             <Display className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-              Giving machines the ability to see and understand the physical world.
+              We Got Tired of Watching Teams Reinvent the Same Pipeline.
             </Display>
 
             <p className="font-mono text-base text-muted leading-relaxed pt-2 max-w-2xl mx-auto">
-              Perceptras is a software company that helps businesses connect their cameras to artificial intelligence. We make it easy for robots, factories, and smart facilities to understand movement, prevent accidents, and operate with precision in real time.
+              Every site had its own cameras, its own quirks, its own
+              from-scratch buildand the same infrastructure problem hiding
+              underneath all of it. Perceptras exist because that repetition
+              wasn't necessary. We built the perception layer once, so your team
+              can spend its time on what the data means, not on plumbing it into
+              existence.
             </p>
 
             {/* Company Profile Directory Links */}
@@ -128,24 +133,39 @@ export default function AboutPage() {
       </Section>
 
       {/* ── 2. What We Do & Our Mission ──────────────────────── */}
-      <Section borders={{ top: true, bottom: true }} className="bg-surface/30 py-20 md:py-28">
+      <Section
+        borders={{ top: true, bottom: true }}
+        className="bg-surface/30 py-20 md:py-28"
+      >
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
             <div className="md:col-span-5 space-y-3">
               <MonoTag>OUR PURPOSE</MonoTag>
               <h2 className="font-syne text-2xl md:text-4xl font-bold uppercase text-foreground leading-snug">
-                Why We Exist
+                The Reason We Started
               </h2>
             </div>
             <div className="md:col-span-7 space-y-6 font-mono text-sm text-muted leading-relaxed">
               <p className="text-foreground font-semibold text-base">
-                Cameras are everywhere, but most of them only record video for humans to watch later.
+                Cameras are everywhere, but most of them only record video for
+                humans to watch later.
               </p>
               <p>
-                We believe the physical world needs systems that understand what is happening right now. When a warehouse robot is moving, an assembly line is running, or people are navigating a busy space, waiting seconds for a cloud server to process video is simply too slow.
+                It started with a pattern we kept seeing repeat itself.
+                Different industries, different cameras, different sites but
+                underneath every one of them, the same unsolved problem: a
+                perception pipeline being engineered from scratch, again,
+                because nothing reusable existed to build on. Teams were
+                spending their best engineering hours on plumbing instead of on
+                the operational insight that plumbing was supposed to deliver.
               </p>
               <p>
-                Perceptras provides the software foundation that turns ordinary camera feeds into immediate understanding, helping teams automate workflows, protect workers, and build smarter physical spaces.
+                That's the gap Perceptras was built to close. Stream ingestion,
+                tracking, event generation, and observability don't change
+                fundamentally from one deployment to the nextonly the surface
+                does. So we standardized the layer underneath, once, so that the
+                surface could shift freelynew site, new camera, new use case
+                without dragging the entire pipeline back to zero every time.
               </p>
             </div>
           </div>
@@ -158,10 +178,11 @@ export default function AboutPage() {
           <div className="max-w-3xl space-y-4 mb-16">
             <MonoTag>WHAT INSPIRED US</MonoTag>
             <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-foreground">
-              The Story Behind Perceptras
+              The Gap We Kept Noticing
             </h2>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              Before starting Perceptras, our team spent years building vision systems for manufacturing plants and logistics hubs. We kept seeing the exact same three problems:
+              Before Perceptras existed, these were the same friction points
+              showing up on every deployment we touched.
             </p>
           </div>
 
@@ -171,10 +192,12 @@ export default function AboutPage() {
                 Problem 01
               </span>
               <h3 className="font-syne text-lg font-bold uppercase text-foreground">
-                Cloud Delays
+                Duplicated Infrastructure
               </h3>
               <p className="font-mono text-xs text-muted leading-relaxed">
-                Sending video to the cloud was too slow and consumed too much internet bandwidth, causing unacceptable delays for fast-moving equipment.
+                Every new site rebuilt ingestion, tracking, and event logic from
+                scratch, wasting engineering time on plumbing instead of
+                operational insight.
               </p>
             </div>
 
@@ -183,10 +206,12 @@ export default function AboutPage() {
                 Problem 02
               </span>
               <h3 className="font-syne text-lg font-bold uppercase text-foreground">
-                Privacy Concerns
+                Fragmented Environments
               </h3>
               <p className="font-mono text-xs text-muted leading-relaxed">
-                Many businesses could not risk streaming sensitive factory floor video or private facility feeds over external internet connections.
+                Camera placement, hardware, and site conditions varied so widely
+                that no two deployments shared a reusable, standardized
+                foundation.
               </p>
             </div>
 
@@ -195,42 +220,59 @@ export default function AboutPage() {
                 Problem 03
               </span>
               <h3 className="font-syne text-lg font-bold uppercase text-foreground">
-                Complicated Setup
+                Disconnected Metadata
               </h3>
               <p className="font-mono text-xs text-muted leading-relaxed">
-                Getting cameras to talk to AI models required months of custom software development and specialized engineering teams.
+                Perception outputs rarely matched what operational systems
+                expected, forcing teams to build custom integrations for every
+                single site.
               </p>
             </div>
           </div>
 
           <div className="mt-12 p-8 border border-border bg-surface">
             <h3 className="font-syne text-base font-bold uppercase text-foreground mb-2">
-              Our Solution
+              Solution
             </h3>
+            {/* bold sub heading line */}
+            <h4 className="font-syne text-sm font-bold text-foreground">
+              One Reusable Perception Layer
+            </h4>
             <p className="font-mono text-xs text-muted leading-relaxed">
-              We built Perceptras to remove all of that friction. We created a clean, fast software platform that runs right inside your building, connects to standard cameras in minutes, and gives you instant intelligence with total privacy.
+              We standardized the infrastructure underneath Physical AI once, so
+              teams configure and deploy pipelines instead of rebuilding them
+              repeatedly.
             </p>
           </div>
         </Container>
       </Section>
 
       {/* ── 4. Core Values ───────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="bg-surface/30 py-20 md:py-28">
+      <Section
+        borders={{ bottom: true }}
+        className="bg-surface/30 py-20 md:py-28"
+      >
         <Container>
           <div className="max-w-3xl space-y-4 mb-16">
             <MonoTag>HOW WE WORK</MonoTag>
             <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-foreground">
-              Our Guiding Values
+              From Raw Streams to Operational Reality
             </h2>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              These principles guide how we build our software and support our customers every day.
+              The same four-stage approach behind every Perceptras deployment,
+              regardless of site or industry.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
             {VALUES.map((v) => (
-              <div key={v.num} className="border-t border-border pt-6 space-y-3">
-                <span className="font-mono text-xs font-bold text-muted">{v.num}</span>
+              <div
+                key={v.num}
+                className="border-t border-border pt-6 space-y-3"
+              >
+                <span className="font-mono text-xs font-bold text-muted">
+                  {v.num}
+                </span>
                 <h3 className="font-syne text-xl font-bold uppercase text-foreground">
                   {v.title}
                 </h3>
@@ -249,10 +291,11 @@ export default function AboutPage() {
           <div className="max-w-3xl space-y-4 mb-16">
             <MonoTag>THE PEOPLE BEHIND PERCEPTRAS</MonoTag>
             <h2 className="font-syne text-3xl md:text-4xl font-bold uppercase text-foreground">
-              Our Leadership Team
+              The People Behind the Pipeline
             </h2>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              We are a team of engineers, researchers, and builders who are passionate about making physical perception simple and reliable.
+              A team built around one shared obsessionmaking perception
+              infrastructure that teams never have to think twice about.
             </p>
           </div>
 
@@ -313,7 +356,9 @@ export default function AboutPage() {
               Ready to work together?
             </Display>
             <p className="font-mono text-sm text-muted leading-relaxed">
-              Whether you are looking to deploy perception across your facilities or want to learn more about our platform, we are here to help.
+              Whether you are looking to deploy perception across your
+              facilities or want to learn more about our platform, we are here
+              to help.
             </p>
             <div className="flex justify-center gap-4 pt-4">
               <Link href="/contact/">

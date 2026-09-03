@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export function FeatureShowcase() {
   // Live dynamic telemetry simulation
   const [tick, setTick] = useState(0);
-  const [timeStr, setTimeStr] = useState('10:42:15.04');
-  const [latency, setLatency] = useState('1.2');
-  const [fps, setFps] = useState('240.0');
+  const [timeStr, setTimeStr] = useState("10:42:15.04");
+  const [latency, setLatency] = useState("1.2");
+  const [fps, setFps] = useState("240.0");
   const [tracks, setTracks] = useState(14);
-  const [amr1X, setAmr1X] = useState('12.4');
-  const [amr1Y, setAmr1Y] = useState('4.8');
-  const [amr1Conf, setAmr1Conf] = useState('99.4');
-  const [amr2X, setAmr2X] = useState('24.8');
-  const [amr2Y, setAmr2Y] = useState('9.1');
-  const [amr2Conf, setAmr2Conf] = useState('98.7');
+  const [amr1X, setAmr1X] = useState("12.4");
+  const [amr1Y, setAmr1Y] = useState("4.8");
+  const [amr1Conf, setAmr1Conf] = useState("99.4");
+  const [amr2X, setAmr2X] = useState("24.8");
+  const [amr2Y, setAmr2Y] = useState("9.1");
+  const [amr2Conf, setAmr2Conf] = useState("98.7");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,10 +26,13 @@ export function FeatureShowcase() {
 
       // Current live time
       const now = new Date();
-      const hh = String(now.getHours()).padStart(2, '0');
-      const mm = String(now.getMinutes()).padStart(2, '0');
-      const ss = String(now.getSeconds()).padStart(2, '0');
-      const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, "0");
+      const mm = String(now.getMinutes()).padStart(2, "0");
+      const ss = String(now.getSeconds()).padStart(2, "0");
+      const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(
+        2,
+        "0",
+      );
       setTimeStr(`${hh}:${mm}:${ss}.${ms}`);
 
       // Small realistic fluctuations
@@ -61,18 +64,24 @@ export function FeatureShowcase() {
         </div>
 
         <h2 className="font-syne text-3xl md:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
-          Looking to improve your physical perception workflows?
+          One perception layer. Every physical AI use case.
         </h2>
 
         <p className="font-mono text-sm text-muted leading-relaxed">
-          Transform fragmented, multi-angle camera feeds into synchronized 3D spatial intelligence. Whether you are guiding autonomous warehouse vehicles or monitoring high-density production lines, Perceptras processes vision streams directly at the edge with zero latency lag.
+          Perceptras standardizes the parts of the stack that keep getting
+          rebuilt stream onboarding, inference configuration, tracking, event
+          output, and observability so teams compose and deploy computer-vision
+          pipelines instead of reinventing them.
         </p>
 
         <div className="space-y-3 pt-2">
           {[
-            'Unified multi-camera tracking that tracks entities continuously across blind spots',
-            'Zero cloud bandwidth costs — runs 100% on-premise on standard edge hardware',
-            'Works seamlessly with your existing RTSP, USB3, and GigE Vision cameras',
+            "Visual-stream onboarding",
+            "Perception pipeline orchestration",
+            "Model inference and tracking",
+            "Structured event and metadata APIs",
+            "Edge-to-core deployment management",
+            "Pipeline observability and validation support",
           ].map((item, idx) => (
             <div key={idx} className="flex items-start gap-3">
               <CheckCircle2 className="h-4 w-4 text-foreground shrink-0 mt-0.5 stroke-[1.75]" />
@@ -85,7 +94,11 @@ export function FeatureShowcase() {
 
         <div className="pt-4 flex flex-wrap gap-4">
           <Link href="/contact?subject=Architecture%20Consultation">
-            <Button variant="primary" size="md" className="flex items-center gap-2">
+            <Button
+              variant="primary"
+              size="md"
+              className="flex items-center gap-2"
+            >
               <span>Schedule Technical Consultation</span>
               <ArrowRight className="h-4 w-4" />
             </Button>
@@ -122,7 +135,9 @@ export function FeatureShowcase() {
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-muted hidden sm:inline">64 STREAMS SYNCHRONIZED</span>
+              <span className="text-muted hidden sm:inline">
+                64 STREAMS SYNCHRONIZED
+              </span>
               <span className="text-emerald-500 font-bold border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[9px]">
                 ONLINE
               </span>
@@ -145,8 +160,9 @@ export function FeatureShowcase() {
             <div
               className="absolute inset-0 opacity-[0.08] pointer-events-none"
               style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, #000, #000 1px, transparent 1px, transparent 2px)',
-                backgroundSize: '100% 2px',
+                backgroundImage:
+                  "repeating-linear-gradient(0deg, #000, #000 1px, transparent 1px, transparent 2px)",
+                backgroundSize: "100% 2px",
               }}
             />
 
@@ -154,7 +170,7 @@ export function FeatureShowcase() {
             <div
               className="absolute left-0 right-0 h-24 bg-gradient-to-b from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 pointer-events-none transition-all duration-300"
               style={{
-                top: `${(tick * 3) % 110 - 10}%`,
+                top: `${((tick * 3) % 110) - 10}%`,
               }}
             />
 
@@ -163,10 +179,15 @@ export function FeatureShowcase() {
               <div className="bg-zinc-950/85 backdrop-blur-xs border border-zinc-700/80 px-2.5 py-1.5 space-y-0.5 shadow-lg">
                 <div className="flex items-center gap-2 pb-0.5 border-b border-zinc-800">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-zinc-200 font-bold text-[9px] tracking-wider">{timeStr}</span>
+                  <span className="text-zinc-200 font-bold text-[9px] tracking-wider">
+                    {timeStr}
+                  </span>
                 </div>
                 <p className="text-zinc-400 pt-0.5">
-                  LATENCY: <span className="text-emerald-400 font-bold">{latency} ms</span>
+                  LATENCY:{" "}
+                  <span className="text-emerald-400 font-bold">
+                    {latency} ms
+                  </span>
                 </p>
                 <p className="text-zinc-400">
                   FPS: <span className="text-zinc-100 font-bold">{fps}</span>
@@ -175,18 +196,25 @@ export function FeatureShowcase() {
 
               <div className="bg-zinc-950/85 backdrop-blur-xs border border-zinc-700/80 px-2.5 py-1.5 text-right space-y-0.5 shadow-lg">
                 <p className="text-zinc-400">
-                  PRECISION: <span className="text-zinc-100 font-bold">INT8 / FP8</span>
+                  PRECISION:{" "}
+                  <span className="text-zinc-100 font-bold">INT8 / FP8</span>
                 </p>
                 <p className="text-zinc-400">
-                  TRACKS: <span className="text-emerald-400 font-bold">{tracks} ACTIVE</span>
+                  TRACKS:{" "}
+                  <span className="text-emerald-400 font-bold">
+                    {tracks} ACTIVE
+                  </span>
                 </p>
                 <p className="text-zinc-400 text-[9px]">
-                  STREAM: <span className="text-zinc-300 font-semibold">1080p @ 60Hz</span>
+                  STREAM:{" "}
+                  <span className="text-zinc-300 font-semibold">
+                    1080p @ 60Hz
+                  </span>
                 </p>
               </div>
             </div>
 
-            {/* Visual Bounding Box 1 — Front Left Orange AMR */}
+            {/* Visual Bounding Box 1 Front Left Orange AMR */}
             <div className="absolute bottom-[8%] left-[23%] w-[22%] h-[24%] border-2 border-emerald-400 bg-emerald-500/15 pointer-events-none shadow-[0_0_15px_rgba(52,211,153,0.3)] transition-all duration-150">
               <div className="absolute -top-5 left-0 bg-emerald-500 text-zinc-950 text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wider whitespace-nowrap flex items-center gap-1 shadow">
                 <span>ID_04 // ROBOT_AMR [{amr1Conf}%]</span>
@@ -201,7 +229,7 @@ export function FeatureShowcase() {
               <div className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-emerald-400" />
             </div>
 
-            {/* Visual Bounding Box 2 — Front Right Blue AMR */}
+            {/* Visual Bounding Box 2 Front Right Blue AMR */}
             <div className="absolute bottom-[13%] left-[51%] w-[21%] h-[24%] border-2 border-sky-400 bg-sky-500/15 pointer-events-none shadow-[0_0_15px_rgba(56,189,248,0.3)] transition-all duration-150">
               <div className="absolute -top-5 left-0 bg-sky-400 text-zinc-950 text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wider whitespace-nowrap shadow">
                 ID_11 // ROBOT_AMR [{amr2Conf}%]
@@ -216,7 +244,7 @@ export function FeatureShowcase() {
               <div className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-sky-400" />
             </div>
 
-            {/* Visual Bounding Box 3 — High-bay Storage Racks Spatial Geofence */}
+            {/* Visual Bounding Box 3 High-bay Storage Racks Spatial Geofence */}
             <div className="absolute top-[48%] left-[64%] w-[16%] h-[18%] border border-dashed border-amber-400/80 bg-amber-500/10 pointer-events-none">
               <div className="absolute -top-4 left-0 bg-amber-500/90 text-zinc-950 text-[8px] font-bold px-1 py-0.2 uppercase">
                 ID_07 // AMR_TRANSFER
@@ -254,13 +282,17 @@ export function FeatureShowcase() {
               <div className="flex items-center justify-between text-[10px] bg-zinc-950/90 backdrop-blur-xs border border-zinc-700/80 px-3 py-1.5 shadow-lg">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <span className="text-zinc-400">PIPELINE:</span>
-                  <span className="text-zinc-100 font-bold">PERCEPTRAS FLOW &amp; ZONE</span>
+                  <span className="text-zinc-100 font-bold">
+                    PERCEPTRAS FLOW &amp; ZONE
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
                   </span>
-                  <span className="text-emerald-400 font-bold tracking-wider">ZERO-COPY STREAMING</span>
+                  <span className="text-emerald-400 font-bold tracking-wider">
+                    ZERO-COPY STREAMING
+                  </span>
                 </div>
               </div>
             </div>
@@ -268,8 +300,12 @@ export function FeatureShowcase() {
 
           {/* Bottom Caption */}
           <div className="p-3 bg-surface border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-mono text-[10px] text-muted">
-            <span>Spatial intelligence tracking across overlapping camera views</span>
-            <span className="text-foreground font-semibold">100% On-Premise</span>
+            <span>
+              Spatial intelligence tracking across overlapping camera views
+            </span>
+            <span className="text-foreground font-semibold">
+              100% On-Premise
+            </span>
           </div>
         </div>
       </div>
