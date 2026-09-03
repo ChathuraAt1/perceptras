@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Section, Container } from '@/components/layout/section-container';
 import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
 import { Display, Heading, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Video, Zap, Compass, Network, Check, Shield, Cpu, Layers } from 'lucide-react';
+import { ArrowRight, Video, Zap, Compass, Network, Check } from 'lucide-react';
 
 const PRODUCTS = [
   {
@@ -14,6 +15,7 @@ const PRODUCTS = [
     description:
       'High-throughput video decoding, sensor stream normalization, and zero-copy pipeline execution engineered for dense camera networks and real-time physical AI applications.',
     icon: Video,
+    image: '/images/products/icons.webp',
     highlights: [
       'Zero-copy unified memory architecture between decoder and inference engine',
       'Supports up to 128 concurrent RTSP/H.264/H.265/AV1 video feeds per node',
@@ -37,6 +39,7 @@ const PRODUCTS = [
     description:
       'Compiles PyTorch, ONNX, and JAX perception models into hardware-optimized execution graphs with automatic INT8/FP8 quantization, kernel auto-tuning, and dynamic tensor memory management.',
     icon: Zap,
+    image: '/images/products/icons (2).webp',
     highlights: [
       'Layer fusion, constant folding, and hardware kernel auto-tuning at compile time',
       'Post-training INT8 and FP8 quantization with automated calibration datasets',
@@ -60,6 +63,7 @@ const PRODUCTS = [
     description:
       'Transforms raw multi-angle detections into unified 3D spatial coordinate coordinates. Delivers continuous trajectory tracking, occlusion recovery, and zone boundary analytics for complex facilities.',
     icon: Compass,
+    image: '/images/products/icons (3).webp',
     highlights: [
       'Multi-camera extrinsic auto-calibration with automated ground plane alignment',
       'Cross-camera ReID and continuous trajectory matching across blind spots',
@@ -83,6 +87,7 @@ const PRODUCTS = [
     description:
       'Enterprise orchestration layer that manages model deployment, load balancing, fault tolerance, and event streaming across hybrid edge nodes and centralized GPU clusters.',
     icon: Network,
+    image: '/images/products/icons (4).webp',
     highlights: [
       'Dynamic model placement based on real-time GPU load, temperature, and latency SLAs',
       'Zero-downtime rolling model updates and A/B canary deployment capabilities',
@@ -104,8 +109,19 @@ export default function ProductsPage() {
   return (
     <>
       {/* ── Products Hero ────────────────────────────────────────────── */}
-      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-16 md:pb-24">
-        <Container className="text-center">
+      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-16 md:pb-24 relative overflow-hidden">
+        {/* Ambient 3D Grid Perception Lens Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.14] select-none flex items-center justify-center">
+          <Image
+            src="/images/products/hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <Container className="text-center relative z-10">
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <div className="mb-6">
               <MonoTag>INFRASTRUCTURE SUITE // 4 CORE MODULES</MonoTag>
@@ -141,18 +157,26 @@ export default function ProductsPage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-border">
             {[
-              { title: '1. Ingest', desc: 'Hardware-decoded multi-stream video and sensor ingest at line rate.', icon: Video, href: '/dashboard/flow/' },
-              { title: '2. Accelerate', desc: 'Compiled execution graphs with INT8/FP8 quantization.', icon: Zap, href: '/dashboard/accel/' },
-              { title: '3. Spatial Intel', desc: 'Multi-camera 3D coordinate tracking and zone analytics.', icon: Compass, href: '/dashboard/zone/' },
-              { title: '4. Orchestrate', desc: 'Distributed cluster load balancing and streaming telemetry.', icon: Network, href: '/dashboard/grid/' },
-            ].map(({ title, desc, icon: Icon, href }) => (
+              { title: '1. Ingest', desc: 'Hardware-decoded multi-stream video and sensor ingest at line rate.', image: '/images/products/icons.webp', href: '/dashboard/flow/' },
+              { title: '2. Accelerate', desc: 'Compiled execution graphs with INT8/FP8 quantization.', image: '/images/products/icons (2).webp', href: '/dashboard/accel/' },
+              { title: '3. Spatial Intel', desc: 'Multi-camera 3D coordinate tracking and zone analytics.', image: '/images/products/icons (3).webp', href: '/dashboard/zone/' },
+              { title: '4. Orchestrate', desc: 'Distributed cluster load balancing and streaming telemetry.', image: '/images/products/icons (4).webp', href: '/dashboard/grid/' },
+            ].map(({ title, desc, image, href }) => (
               <Link
                 key={title}
                 href={href}
                 className="bg-surface p-6 flex flex-col justify-between gap-4 hover:bg-foreground/5 transition-colors group cursor-pointer"
               >
                 <div>
-                  <Icon className="h-5 w-5 text-foreground mb-3 stroke-[1.5] group-hover:scale-110 transition-transform" />
+                  <div className="h-11 w-11 border border-border bg-surface/90 p-2 mb-3 flex items-center justify-center group-hover:border-foreground/40 transition-colors">
+                    <Image
+                      src={image}
+                      alt={title}
+                      width={36}
+                      height={36}
+                      className="h-full w-full object-contain dark:invert-0 invert transition-transform group-hover:scale-110"
+                    />
+                  </div>
                   <div className="flex items-center justify-between">
                     <p className="font-syne text-sm font-bold uppercase">{title}</p>
                     <ArrowRight className="h-3.5 w-3.5 text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -174,11 +198,24 @@ export default function ProductsPage() {
         {PRODUCTS.map((product) => (
           <Section key={product.id} id={product.id} className="scroll-mt-16 py-20 md:py-28">
             <Container>
-              <div className="mb-4 flex items-center gap-3">
-                <MonoTag>MODULE {product.number}</MonoTag>
-                <span className="font-mono text-xs text-muted uppercase tracking-widest">
-                  {product.tagline}
-                </span>
+              <div className="mb-6 flex items-center gap-3.5">
+                <div className="h-12 w-12 border border-border bg-surface p-2 flex items-center justify-center shrink-0">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={40}
+                    height={40}
+                    className="h-full w-full object-contain dark:invert-0 invert"
+                  />
+                </div>
+                <div className="space-y-0.5">
+                  <div className="flex items-center gap-2.5">
+                    <MonoTag>MODULE {product.number}</MonoTag>
+                    <span className="font-mono text-xs text-muted uppercase tracking-widest">
+                      {product.tagline}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <AsymmetricGrid ratio="60/40" divider>
@@ -265,22 +302,46 @@ export default function ProductsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Shield className="h-5 w-5 text-foreground stroke-[1.5]" />
+            <div className="border border-border p-6 bg-surface space-y-4 group hover:border-foreground/40 transition-colors">
+              <div className="h-12 w-12 border border-border bg-surface/90 p-2.5 flex items-center justify-center group-hover:border-foreground/50 transition-colors">
+                <Image
+                  src="/images/products/enterprise.webp"
+                  alt="Enterprise Security"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain dark:invert-0 invert transition-transform group-hover:scale-110"
+                />
+              </div>
               <p className="font-syne text-sm font-bold uppercase">Enterprise Security</p>
               <p className="font-mono text-xs text-muted leading-relaxed">
                 End-to-end mTLS stream encryption, SOC2 Type II compliance roadmap, and fine-grained RBAC credential management.
               </p>
             </div>
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Cpu className="h-5 w-5 text-foreground stroke-[1.5]" />
+            <div className="border border-border p-6 bg-surface space-y-4 group hover:border-foreground/40 transition-colors">
+              <div className="h-12 w-12 border border-border bg-surface/90 p-2.5 flex items-center justify-center group-hover:border-foreground/50 transition-colors">
+                <Image
+                  src="/images/products/enterprise (2).webp"
+                  alt="Hardware Agnostic"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain dark:invert-0 invert transition-transform group-hover:scale-110"
+                />
+              </div>
               <p className="font-syne text-sm font-bold uppercase">Hardware Agnostic</p>
               <p className="font-mono text-xs text-muted leading-relaxed">
                 Deploy uniformly across edge embedded systems, ruggedized factory computers, and multi-GPU cloud data centers.
               </p>
             </div>
-            <div className="border border-border p-6 bg-surface space-y-3">
-              <Layers className="h-5 w-5 text-foreground stroke-[1.5]" />
+            <div className="border border-border p-6 bg-surface space-y-4 group hover:border-foreground/40 transition-colors">
+              <div className="h-12 w-12 border border-border bg-surface/90 p-2.5 flex items-center justify-center group-hover:border-foreground/50 transition-colors">
+                <Image
+                  src="/images/products/enterprise (3).webp"
+                  alt="Modular Integration"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain dark:invert-0 invert transition-transform group-hover:scale-110"
+                />
+              </div>
               <p className="font-syne text-sm font-bold uppercase">Modular Integration</p>
               <p className="font-mono text-xs text-muted leading-relaxed">
                 Use each product module independently or deploy the entire Perceptras perception pipeline as an integrated cluster.
@@ -291,8 +352,18 @@ export default function ProductsPage() {
       </Section>
 
       {/* ── Call to Action ───────────────────────────────────────────── */}
-      <Section className="py-24 md:py-32">
-        <Container className="text-center">
+      <Section className="py-24 md:py-32 relative overflow-hidden">
+        {/* Atmospheric volumetric light ray background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+          <Image
+            src="/images/products/deploy.webp"
+            alt=""
+            fill
+            className="object-cover object-bottom"
+          />
+        </div>
+
+        <Container className="text-center relative z-10">
           <Display as="h2" className="text-3xl md:text-5xl lg:text-6xl mb-6">
             Deploy Perceptras
           </Display>

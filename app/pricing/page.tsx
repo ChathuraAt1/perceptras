@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Section, Container } from '@/components/layout/section-container';
 import { Display, Heading, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
@@ -9,8 +10,19 @@ export default function PricingPage() {
   return (
     <>
       {/* ── Pricing Hero ────────────────────────────────────────── */}
-      <Section className="pt-24 md:pt-36 pb-12">
-        <Container className="text-center max-w-4xl mx-auto space-y-6">
+      <Section className="pt-24 md:pt-36 pb-12 relative overflow-hidden">
+        {/* Ambient 3D Grid Perception Lens Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.14] select-none flex items-center justify-center">
+          <Image
+            src="/images/pricing/hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <Container className="text-center max-w-4xl mx-auto space-y-6 relative z-10">
           <MonoTag>TRANSPARENT SUBSCRIPTION TIERS</MonoTag>
           <Display className="text-4xl sm:text-6xl font-bold">
             Predictable Pricing for Physical Perception
@@ -84,8 +96,18 @@ export default function PricingPage() {
       </Section>
 
       {/* ── Enterprise Custom Sizing CTA ───────────────────────── */}
-      <Section className="py-24 md:py-32">
-        <Container className="text-center">
+      <Section className="py-24 md:py-32 relative overflow-hidden">
+        {/* Volumetric light ray atmospheric background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+          <Image
+            src="/images/pricing/need a custom.webp"
+            alt=""
+            fill
+            className="object-cover object-bottom"
+          />
+        </div>
+
+        <Container className="text-center relative z-10">
           <div className="max-w-2xl mx-auto space-y-6">
             <Display as="h2" className="text-3xl md:text-5xl font-bold">
               Need a Custom Cluster Setup?

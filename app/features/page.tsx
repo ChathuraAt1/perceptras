@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Section, Container } from '@/components/layout/section-container';
 import { Display, Heading, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ const CORE_PILLARS = [
     description:
       'Connect industrial and standard cameras across your facility. Hardware-accelerated decoding offloads CPU memory bottlenecks, keeping video pipelines stable during continuous operation.',
     icon: Video,
+    image: '/images/features/icons.webp',
     highlights: [
       { title: 'Standard Camera Support', desc: 'Native ingest for RTSP, GigE Vision, USB3 Vision, and MIPI CSI sensor feeds.' },
       { title: 'Hardware Decoding Offload', desc: 'Direct GPU decoding reduces host CPU utilization and memory copying.' },
@@ -35,6 +37,7 @@ const CORE_PILLARS = [
     description:
       'Run modern vision models on your own edge devices. Quantization and batching tools help maintain stable frame rates on NVIDIA Jetson units and workstation GPUs.',
     icon: Zap,
+    image: '/images/features/icons (2).webp',
     highlights: [
       { title: 'INT8 & FP16 Precision', desc: 'Quantize models to reduce memory and compute requirements with minimal accuracy loss.' },
       { title: 'Standard Framework Export', desc: 'Direct support for models exported from PyTorch, ONNX, and TensorRT pipelines.' },
@@ -50,6 +53,7 @@ const CORE_PILLARS = [
     description:
       'Calibrate multiple overlapping cameras to track objects across wider areas. Set up virtual safety zones and tripwires to notify your operations team when events occur.',
     icon: Compass,
+    image: '/images/features/icons (3).webp',
     highlights: [
       { title: 'Multi-Camera Calibration', desc: 'Guided extrinsic calibration routines to align overlapping viewpoints.' },
       { title: 'Cross-Camera Tracking', desc: 'Maintains object continuity as items or personnel move between camera fields of view.' },
@@ -65,6 +69,7 @@ const CORE_PILLARS = [
     description:
       'Process all video feeds entirely on your local facility network. Your video data never leaves your premises, avoiding cloud bandwidth fees and privacy risks.',
     icon: Network,
+    image: '/images/features/icons (4).webp',
     highlights: [
       { title: '100% On-Premise Execution', desc: 'No external cloud dependencies required for continuous day-to-day operations.' },
       { title: 'Zero Cloud Video Egress Costs', desc: 'Eliminates expensive monthly cloud bandwidth charges for multi-camera feeds.' },
@@ -111,8 +116,19 @@ export default function FeaturesPage() {
   return (
     <>
       {/* ── Features Hero ───────────────────────────────────────── */}
-      <Section className="pt-24 md:pt-36 pb-16">
-        <Container className="text-center max-w-4xl mx-auto space-y-6">
+      <Section className="pt-24 md:pt-36 pb-16 relative overflow-hidden">
+        {/* Ambient 3D Grid Perception Lens Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.14] select-none flex items-center justify-center">
+          <Image
+            src="/images/features/hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <Container className="text-center max-w-4xl mx-auto space-y-6 relative z-10">
           <MonoTag>PLATFORM ARCHITECTURE &amp; CAPABILITIES</MonoTag>
           <Display className="text-4xl sm:text-6xl font-bold">
             Dependable Physical AI for Real-World Systems
@@ -141,7 +157,6 @@ export default function FeaturesPage() {
       <Section borders={{ bottom: true }} className="pb-24">
         <Container className="space-y-16 max-w-6xl">
           {CORE_PILLARS.map((pillar, idx) => {
-            const Icon = pillar.icon;
             const isEven = idx % 2 === 1;
 
             return (
@@ -150,16 +165,24 @@ export default function FeaturesPage() {
                 id={pillar.id}
                 className={`border border-border bg-surface p-8 md:p-12 flex flex-col ${
                   isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'
-                } gap-10 items-stretch justify-between shadow-sm`}
+                } gap-10 items-stretch justify-between shadow-sm group hover:border-foreground/40 transition-colors`}
               >
                 {/* Left: Text Overview */}
                 <div className="space-y-6 lg:w-1/2 flex flex-col justify-between">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
+                      <div className="h-12 w-12 border border-border bg-surface/90 p-2.5 flex items-center justify-center shrink-0 group-hover:border-foreground/50 transition-colors">
+                        <Image
+                          src={pillar.image}
+                          alt={pillar.tagline}
+                          width={48}
+                          height={48}
+                          className="h-full w-full object-contain dark:invert-0 invert transition-transform group-hover:scale-110"
+                        />
+                      </div>
                       <span className="font-mono text-xs font-bold text-muted border border-border px-2.5 py-0.5">
                         {pillar.number} • {pillar.tagline}
                       </span>
-                      <Icon className="h-5 w-5 text-foreground" />
                     </div>
 
                     <h2 className="font-syne text-2xl sm:text-3xl font-bold uppercase text-foreground leading-tight">
@@ -250,8 +273,18 @@ export default function FeaturesPage() {
       </Section>
 
       {/* ── Call to Action ────────────────────────────────────── */}
-      <Section className="py-24 md:py-32">
-        <Container className="text-center max-w-3xl mx-auto space-y-6">
+      <Section className="py-24 md:py-32 relative overflow-hidden">
+        {/* Volumetric spotlight atmospheric background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+          <Image
+            src="/images/features/evaluate.webp"
+            alt=""
+            fill
+            className="object-cover object-bottom"
+          />
+        </div>
+
+        <Container className="text-center max-w-3xl mx-auto space-y-6 relative z-10">
           <Display as="h2" className="text-3xl md:text-5xl font-bold">
             Evaluate Perceptras on Your Hardware
           </Display>

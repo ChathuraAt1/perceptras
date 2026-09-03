@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Section, Container } from '@/components/layout/section-container';
 import { Display, MonoTag } from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,7 @@ const TEAM = [
     name: 'Dr. Alistair Vance',
     role: 'Co-Founder & CEO',
     initials: 'AV',
+    image: '/images/about/leaders (3).webp',
     gradient: 'from-zinc-800 to-zinc-950',
     background:
       'Spent over a decade leading robotics and vision teams, helping automated warehouses and mobile robots navigate complex spaces safely.',
@@ -44,6 +46,7 @@ const TEAM = [
     name: 'Mira Sorensen',
     role: 'Co-Founder & Chief Architect',
     initials: 'MS',
+    image: '/images/about/leaders.webp',
     gradient: 'from-zinc-700 to-zinc-900',
     background:
       'Specialist in making artificial intelligence models run fast and efficiently on everyday hardware devices without expensive servers.',
@@ -52,6 +55,7 @@ const TEAM = [
     name: 'Tarek El-Masri',
     role: 'Head of Engineering',
     initials: 'TE',
+    image: '/images/about/leaders (4).webp',
     gradient: 'from-zinc-800 to-zinc-900',
     background:
       'Expert in building reliable, high-speed software systems that connect hundreds of cameras and sensors simultaneously without crashing.',
@@ -60,6 +64,7 @@ const TEAM = [
     name: 'Dr. Elena Rostova',
     role: 'Head of Research',
     initials: 'ER',
+    image: '/images/about/leaders (2).webp',
     gradient: 'from-zinc-700 to-zinc-950',
     background:
       'Dedicated to helping systems understand 3D physical spaces and track objects smoothly across multiple camera angles.',
@@ -70,8 +75,19 @@ export default function AboutPage() {
   return (
     <div className="space-y-0">
       {/* ── 1. Hero & Company Overview ───────────────────────── */}
-      <Section className="pt-24 md:pt-36 pb-16 md:pb-24">
-        <Container>
+      <Section className="pt-24 md:pt-36 pb-16 md:pb-24 relative overflow-hidden">
+        {/* Subtle Ambient 3D Grid Perception Lens Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.06] dark:opacity-[0.14] select-none flex items-center justify-center">
+          <Image
+            src="/images/about/hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <Container className="relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-6 flex flex-col items-center">
             <MonoTag>ABOUT PERCEPTRAS</MonoTag>
 
@@ -248,17 +264,13 @@ export default function AboutPage() {
               >
                 {/* Left Square Avatar Container with Hover Effects */}
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 border border-border bg-surface overflow-hidden group-hover:border-foreground transition-all duration-300">
-                  {/* Subtle Monochrome Gradient / Portrait Canvas */}
-                  <div
-                    className={`w-full h-full bg-gradient-to-br ${member.gradient} flex flex-col items-center justify-center text-zinc-100 font-mono select-none group-hover:scale-110 transition-transform duration-500`}
-                  >
-                    <span className="font-syne text-xl sm:text-2xl font-bold tracking-wider">
-                      {member.initials}
-                    </span>
-                    <span className="text-[8px] text-zinc-400 uppercase tracking-widest mt-0.5">
-                      Team
-                    </span>
-                  </div>
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    width={500}
+                    height={500}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
 
                   {/* Corner crosshairs on hover */}
                   <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -284,8 +296,18 @@ export default function AboutPage() {
       </Section>
 
       {/* ── 6. Simple Call to Action ─────────────────────────── */}
-      <Section className="py-24 md:py-32">
-        <Container className="text-center">
+      <Section className="py-24 md:py-32 relative overflow-hidden">
+        {/* Volumetric light ray atmospheric background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+          <Image
+            src="/images/about/ready to work.webp"
+            alt=""
+            fill
+            className="object-cover object-bottom"
+          />
+        </div>
+
+        <Container className="text-center relative z-10">
           <div className="max-w-2xl mx-auto space-y-6">
             <Display as="h2" className="text-3xl md:text-5xl font-bold">
               Ready to work together?

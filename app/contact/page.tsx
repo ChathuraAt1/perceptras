@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Section, Container } from '@/components/layout/section-container';
 import { AsymmetricGrid } from '@/components/layout/asymmetric-grid';
 import { Display, Heading } from '@/components/ui/typography';
@@ -81,8 +82,19 @@ export default function ContactPage() {
 
   return (
     <>
-      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-12 md:pb-16">
-        <Container className="text-center">
+      <Section borders={{ bottom: true }} className="pt-20 md:pt-28 pb-12 md:pb-16 relative overflow-hidden">
+        {/* Ambient 3D Grid Perception Lens Background */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.16] select-none flex items-center justify-center">
+          <Image
+            src="/images/contact/hero.webp"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
+
+        <Container className="text-center relative z-10">
           <div className="max-w-2xl mx-auto flex flex-col items-center">
             <Display>
               Contact Us
