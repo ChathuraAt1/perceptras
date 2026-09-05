@@ -1,4 +1,4 @@
-import { ExternalLink, ShieldCheck, Globe } from 'lucide-react';
+import { ExternalLink, ShieldCheck, Globe } from "lucide-react";
 
 export function CredibilityStrip() {
   return (
@@ -14,7 +14,7 @@ export function CredibilityStrip() {
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8">
             {/* Crunchbase Link */}
             <a
-              href="https://www.crunchbase.com"
+              href="https://www.crunchbase.com/organization/perceptras"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs font-semibold text-foreground hover:text-muted inline-flex items-center gap-1.5 transition-colors"
@@ -25,7 +25,7 @@ export function CredibilityStrip() {
 
             {/* F6S Link */}
             <a
-              href="https://www.f6s.com"
+              href="https://www.f6s.com/perceptras"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-xs font-semibold text-foreground hover:text-muted inline-flex items-center gap-1.5 transition-colors"
@@ -43,7 +43,9 @@ export function CredibilityStrip() {
             {/* Edge & Cloud Ready */}
             <div className="flex items-center gap-1.5 font-mono text-xs text-muted">
               <Globe className="h-3.5 w-3.5 text-foreground stroke-[1.5]" />
-              <span className="text-foreground font-semibold">Edge &amp; Cloud Ready</span>
+              <span className="text-foreground font-semibold">
+                Edge &amp; Cloud Ready
+              </span>
             </div>
           </div>
         </div>

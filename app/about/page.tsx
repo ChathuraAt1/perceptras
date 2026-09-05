@@ -99,9 +99,9 @@ export default function AboutPage() {
               Every site had its own cameras, its own quirks, its own
               from-scratch buildand the same infrastructure problem hiding
               underneath all of it. Perceptras exist because that repetition
-              wasn&apos;t necessary. We built the perception layer once, so your team
-              can spend its time on what the data means, not on plumbing it into
-              existence.
+              wasn&apos;t necessary. We built the perception layer once, so your
+              team can spend its time on what the data means, not on plumbing it
+              into existence.
             </p>
 
             {/* Company Profile Directory Links */}
@@ -110,7 +110,7 @@ export default function AboutPage() {
                 Verified Company Profiles:
               </span>
               <a
-                href="https://www.crunchbase.com"
+                href="https://www.crunchbase.com/organization/perceptras"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-muted font-semibold inline-flex items-center gap-1.5 transition-colors"
@@ -119,12 +119,22 @@ export default function AboutPage() {
                 <ExternalLink className="h-3 w-3 text-muted" />
               </a>
               <a
-                href="https://www.f6s.com"
+                href="https://www.f6s.com/perceptras"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-muted font-semibold inline-flex items-center gap-1.5 transition-colors"
               >
                 <span>F6S Community</span>
+                <ExternalLink className="h-3 w-3 text-muted" />
+              </a>
+              {/* LinkedIn Profile */}
+              <a
+                href="https://www.linkedin.com/company/perceptras/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-muted font-semibold inline-flex items-center gap-1.5 transition-colors"
+              >
+                <span>LinkedIn</span>
                 <ExternalLink className="h-3 w-3 text-muted" />
               </a>
             </div>
@@ -160,12 +170,13 @@ export default function AboutPage() {
                 the operational insight that plumbing was supposed to deliver.
               </p>
               <p>
-                That&apos;s the gap Perceptras was built to close. Stream ingestion,
-                tracking, event generation, and observability don&apos;t change
-                fundamentally from one deployment to the nextonly the surface
-                does. So we standardized the layer underneath, once, so that the
-                surface could shift freelynew site, new camera, new use case
-                without dragging the entire pipeline back to zero every time.
+                That&apos;s the gap Perceptras was built to close. Stream
+                ingestion, tracking, event generation, and observability
+                don&apos;t change fundamentally from one deployment to the
+                nextonly the surface does. So we standardized the layer
+                underneath, once, so that the surface could shift freelynew
+                site, new camera, new use case without dragging the entire
+                pipeline back to zero every time.
               </p>
             </div>
           </div>
