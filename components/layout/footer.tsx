@@ -90,6 +90,17 @@ export function Footer() {
             >
               Cookie Policy
             </Link>
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('perceptras-open-cookie-banner'));
+                }
+              }}
+              className="hover:text-foreground underline transition-colors cursor-pointer"
+            >
+              Cookie Settings
+            </button>
           </div>
 
           {/* Social Channels */}
